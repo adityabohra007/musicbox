@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html class=" -moz-" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico">
+  <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111">
+  <title>CodePen - position of point in a plane (drag point)</title>
+  
+  
+  
+  
+      <style>
+      * {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  height: 100vh;
+}
+
+svg {
+  flex: 1;
+}
+
+line, circle, path {
+  stroke: currentColor;
+  vector-effect: non-scaling-stroke;
+}
+
+text {
+  fill: currentColor;
+  font: 700 italic 7rem serif;
+}
+
+code {
+  background: rgba(0, 0, 0, 0.875);
+  color: #fff;
+  font: 1.125em/1.5 courier, monospace;
+  text-align: center;
+}
+
+var {
+  font-family: times new roman, serif;
+}
+
+.drag {
+  -moz-user-select: none;
+}
+
+.c {
+  font: 700 7rem courier, monospace;
+}
+
+.dh1 {
+  text-anchor: end;
+}
+
+.dv0 {
+  dominant-baseline: hanging;
+}
+
+.dhm {
+  text-anchor: middle;
+}
+
+.dvm {
+  dominant-baseline: middle;
+}
+
+.arr {
+  marker-end: url(#arr1);
+}
+
+[id='arc'] {
+  fill: none;
+  color: #ef3491;
+  stroke-width: 2px;
+}
+
+[id='ta'] {
+  fill: #ef3491;
+}
+
+[id='coord-syst'], [id='arr0'], [id='orig'],
+[id='guides'] {
+  color: #ccd;
+}
+
+[id='arr0'] {
+  fill: currentcolor;
+}
+
+[id='arr1'] {
+  color: #ef3491;
+  fill: currentcolor;
+}
+
+[id='ax'] {
+  stroke-width: 2px;
+}
+
+[id='circ'] {
+  fill: none;
+  color: #800040;
+  stroke-width: 2px;
+}
+
+[id='projections'] {
+  color: #804000;
+}
+[id='projections'] line {
+  stroke-width: 3px;
+}
+
+[id='rotor'] {
+  cursor: pointer;
+  stroke-width: 2px;
+}
+
+[id='rl'] {
+  color: #ef9134;
+  stroke-width: 4px;
+}
+
+[id='tr'] {
+  fill: #000;
+  stroke: #eec7a0;
+  stroke-width: 2px;
+  font-size: 8rem;
+}
+
+[id='rp'] {
+  color: #9134ef;
+  fill: #c7a0ee;
+}
+[id='rp'] + use {
+  stroke-width: 25px;
+}
+
+[id='tr'] {
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+[id='tp'] {
+  color: #400080;
+  pointer-events: none;
+}
+
+    </style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+    <script src="../LpqEmJ_data/LpqEmJ_data/prefixfree.js"></script>
+
+  
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+
+
+</head>
+
+<body translate="no">
+
+  
+<svg viewBox="-2500 -2500 5000 5000" aria-labelledby="title descr" role="img">
+  <title id="title">interactive demo explaining position of point in a plane</title>
+  <descr id="descr">The position of a point in a plane is described by either its cartesian coordinates (x,y) or its polar coordinates (r,t)</descr>
+  <defs>
+    <marker id="arr0" viewBox="-50 -70 250 140" markerWidth="112.5" markerHeight="75" orient="auto" refX="100">
+      <path id="ap" d="M50,0L0-50L150,0L0,50z"></path>
+    </marker>
+    <marker id="arr1" viewBox="-50 -70 250 140" markerWidth="112.5" markerHeight="75" orient="auto" refX="105">
+      <use xlink:href="#ap" transform="scale(.7)"></use>
+    </marker>
+    <circle id="point" r="20"></circle>
+  </defs>
+  <g id="ang-meas">
+    <path class="arr" id="arc" d="M0,0h560A560,560,0,0,1,280,485" marker-end="none"></path>
+    <text class="c dvm dhm" id="ta" x="364" y="210">60°</text>
+  </g>
+  <g id="coord-syst">
+    <path id="ax" d="M-2250,0H2250" marker-end="url(#arr0)"></path>
+    <text class="dhm dvm" x="2375">x</text>
+    <use xlink:href="#ax" transform="rotate(90)"></use>
+    <text class="dhm dvm" y="2375">y</text>
+  </g>
+  <circle id="circ" r="1750"></circle>
+  <g id="guides">
+    <path id="gx" d="M875,0v1516"></path>
+    <path id="gy" d="M0,1516h875"></path>
+  </g>
+  <g id="projections">
+    <line id="px" x2="875"></line>
+    <use id="fx" xlink:href="#point" x="875"></use>
+    <text class="c dhm" id="tx" x="437.5" y="-20">88</text>
+    <line id="py" y2="1516"></line>
+    <use id="fy" xlink:href="#point" y="1516"></use>
+    <text class="c dvm dh1" id="ty" x="-20" y="758">152</text>
+  </g>
+  <g id="radius">
+    <text class="dv0" id="tp" x="895" y="1536">P<tspan class="c" id="coord">(88,152)</tspan></text>
+    <g id="rotor" transform="rotate(60)">
+      <line id="rl" x2="1750"></line>
+      <circle id="rp" r="30" cx="1750"></circle>
+      <use xlink:href="#rp" opacity="0"></use>
+    </g>
+    <text class="c" id="tr" x="437.5" y="758">175</text>
+  </g>
+  <g>
+    <use xlink:href="#point"></use>
+    <text class="dh1" id="orig" x="-20" y="-20">O<tspan class="c">(0,0)</tspan></text>
+  </g>
+</svg><code>
+  <div class="l"><var>x</var> = r·cos(θ) = <span id="cx">175·cos(60°) = 88</span></div>
+  <div class="l"><var>y</var> = r·sin(θ) = <span id="cy">175·sin(60°) = 152</span></div></code>
+    <script src="../LpqEmJ_data/LpqEmJ_data/stopExecutionOnTimeout-41c52890748cd7143004e05d3c5f786c66b199.js"></script>
+
+  <script src="KNxXZJ_data/wWMWqW.js"></script>
+
+  
+
+    <script>
+      var _SVG = $$('svg'),
+D = _SVG._attr('viewBox').split(' ')[2],
+O = -.5 * D,
+MIN_R = .125 * D,MAX_R = .365 * D,
+RP = $$('#point')._attr('r'),
+_VE = {},
+CF = 180 / PI;
+
+var f = void 0,ox = void 0,oy = void 0,drag = false;
+
+var size = function size() {
+	var dh = void 0,r = _SVG.getBoundingClientRect();
+
+	f = D / min(r.width, r.height);
+	dh = .5 * abs(r.width - r.height);
+	ox = r.width > r.height ? dh : 0;
+	oy = r.width > r.height ? 0 : dh;
+};
+
+var getE = function getE(ev) {
+	return ev.touches ? ev.touches[0] : ev;
+};
+
+var lock = function lock(ev) {
+	var e = getE(ev),
+	t = e.target.correspondingUseElement ||
+	e.target;
+
+	if (t.parentNode === _VE.rotor) {
+		drag = true;
+		$.body.classList.add('drag');
+	}
+};
+
+var act = function act(ev) {
+	if (drag) {
+		var e = getE(ev),
+		x = O + f * (e.clientX - ox),
+		y = O + f * (e.clientY - oy),
+		ρ = min(MAX_R,
+		max(MIN_R, hypot(x, y))),
+		θ = atan2(y, x),t = CF * θ,
+		xs = void 0,ys = void 0,rs = void 0,ts = void 0,tx = void 0,ty = void 0,
+		mr = max(.32 * ρ, .2 * MIN_R),
+		s = sign(θ),s1 = sign(cos(θ)),
+		c = .5 * (1 + s),
+		mx = mr * cos(θ),my = mr * sin(θ),
+		ar = .65 * mr,ax = void 0,ay = void 0,
+		aa = s * .5 * min(.5 * PI, abs(θ));
+
+
+		x = ρ * cos(θ);
+		y = ρ * sin(θ);
+		xs = round(.1 * x);
+		ys = round(.1 * y);
+		rs = round(.1 * ρ);
+		ts = round(t);
+		tx = s1 * max(.5 * abs(x), .025 * D);
+		ty = s * max(.5 * abs(y), .025 * D);
+
+		if (abs(ty) < mr && s1 < 0) ar = 1.35 * mr;
+		if (abs(x) < mr && s1 > 0 ||
+		ρ < .2 * D ||
+		abs(ts) < 15 && abs(ts) > 5)
+		ar = ρ + .35 * MIN_R;
+
+		ax = ar * cos(aa);
+		ay = ar * sin(aa);
+
+		if (abs(ts) <= 5) {
+			ay = -s * RP;
+
+			if (_VE.ta.classList.contains('dvm')) {
+				_VE.ta.classList.remove('dvm');
+			}
+
+			if (s < 0)
+			_VE.ta.classList.add('dv0');else
+
+			_VE.ta.classList.remove('dv0');
+		} else
+		if (!_VE.ta.classList.contains('dvm')) {
+			_VE.ta.classList.add('dvm');
+		}
+
+		if (abs(t) > 90 &&
+		_VE.orig.classList.contains('dh1')) {
+			_VE.orig.classList.remove('dh1');
+			_VE.orig._attr({ 'x': RP });
+			_VE.tp.classList.add('dh1');
+			_VE.ty.classList.remove('dh1');
+			_VE.ty._attr({ 'x': RP });
+		} else if (abs(t) <= 90 &&
+		!_VE.orig.classList.contains('dh1')) {
+			_VE.orig.classList.add('dh1');
+			_VE.orig._attr({ 'x': -RP });
+			_VE.tp.classList.remove('dh1');
+			_VE.ty.classList.add('dh1');
+			_VE.ty._attr({ 'x': -RP });
+		}
+
+		if (s < 0 &&
+		!_VE.orig.classList.contains('dv0')) {
+			_VE.orig.classList.add('dv0');
+			_VE.orig._attr({ 'y': RP });
+			_VE.tp.classList.remove('dv0');
+			_VE.tx.classList.add('dv0');
+			_VE.tx._attr({ 'y': RP });
+		} else if (s > 0 &&
+		_VE.orig.classList.contains('dv0')) {
+			_VE.orig.classList.remove('dv0');
+			_VE.orig._attr({ 'y': -RP });
+			_VE.tp.classList.add('dv0');
+			_VE.tx.classList.remove('dv0');
+			_VE.tx._attr({ 'y': -RP });
+		}
+
+		_VE.circ._attr({ 'r': ρ });
+
+		_VE.arc._attr({
+			'd':
+			t ? 'M0,0h' +
+			mr + 'A' + [mr, mr, 0, 0, c, mx, my] :
+			'M0,0' });
+
+
+		if (_VE.arc.getTotalLength() < .14 * D &&
+		ts < 30) {
+			_VE.arc.classList.remove('arr');
+		} else _VE.arc.classList.add('arr');
+
+		if (ts) {
+			_VE.ta._attr({ 'x': ax, 'y': ay });
+			_VE.ta.textContent = ts + '\xB0';
+		} else _VE.ta.textContent = '';
+
+		_VE.rotor._attr({
+			'transform': 'rotate(' + round(t) + ')' });
+
+
+		_VE.rl._attr({ 'x2': ρ });
+		_VE.rp._attr({ 'cx': ρ });
+
+		_VE.tp._attr({
+			'x': x + (s1 || 1) * RP,
+			'y': y + (s || 1) * RP });
+
+
+		_VE.coord.textContent = '(' + xs + ',' + ys + ')';
+
+		if (abs(xs) > 20 && abs(ys) > 10) {
+			_VE.tr._attr({ 'x': .5 * x, 'y': .5 * y });
+			_VE.tr.textContent = rs;
+		} else _VE.tr.textContent = '';
+
+		_VE.px._attr({ 'x2': x });
+		_VE.fx._attr({ 'x': x });
+
+		if (xs) {
+			_VE.tx._attr({ 'x': tx });
+			_VE.tx.textContent = xs;
+		} else
+		_VE.tx.textContent = '';
+
+		_VE.gx._attr({ 'd': 'M' + x + ',0v' + y });
+
+		_VE.cx.textContent =
+		rs + '\xB7cos(' + ts + '\xB0) = ' + xs;
+
+		_VE.py._attr({ 'y2': y });
+		_VE.fy._attr({ 'y': y });
+
+		if (ys) {
+			_VE.ty._attr({ 'y': ty });
+			_VE.ty.textContent = ys;
+		} else
+		_VE.ty.textContent = '';
+
+		_VE.gy._attr({ 'd': 'M0,' + y + 'h' + x });
+
+		_VE.cy.textContent =
+		rs + '\xB7sin(' + ts + '\xB0) = ' + ys;
+	}
+};
+
+var release = function release(e) {
+	if (drag) {
+		drag = false;
+		$.body.classList.remove('drag');
+	}
+};
+
+(function init() {
+	var ids = ['orig', 'circ', 'arc', 'ta',
+	'rotor', 'rl', 'rp',
+	'tp', 'coord', 'tr',
+	'px', 'fx', 'tx', 'gx', 'cx',
+	'py', 'fy', 'ty', 'gy', 'cy'],
+	nids = ids.length;
+
+	for (var i = 0; i < nids; i++) {if (window.CP.shouldStopExecution(0)) break;
+		_VE[ids[i]] = $$('#' + ids[i]);}window.CP.exitedLoop(0);
+
+	size();
+})();
+
+addEventListener('resize', size, false);
+
+addEventListener('mousedown', lock, false);
+addEventListener('touchstart', lock, false);
+
+addEventListener('mousemove', act, false);
+addEventListener('touchmove', act, false);
+
+addEventListener('mouseup', release, false);
+addEventListener('touchend', release, false);
+      //# sourceURL=pen.js
+    </script>
+
+
+
+  
+  
+
+
+
+
+ </body></html>

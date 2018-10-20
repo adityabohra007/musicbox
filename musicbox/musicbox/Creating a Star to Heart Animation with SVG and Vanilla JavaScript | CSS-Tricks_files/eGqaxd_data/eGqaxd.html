@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html class=" -moz-" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico">
+  <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111">
+  <title>CodePen - star-heart alignment for various f factors</title>
+  
+  
+  
+  
+      <style>
+      * {
+  margin: 0;
+  font: inherit;
+}
+
+body {
+  display: flex;
+  overflow: hidden;
+  height: 100vh;
+  font: 1.25em/ 1.25 trebuchet ms, tahoma sans-serif;
+}
+@media (max-aspect-ratio: 5 / 4) {
+  body {
+    flex-direction: column;
+  }
+  body form {
+    border: solid 0 #262626;
+    border-width: 0 calc(50vw - 20em);
+    width: auto;
+    max-width: 40em;
+  }
+}
+@media (max-aspect-ratio: 5 / 4) and (max-width: 570px) {
+  body form {
+    flex-direction: column;
+  }
+  body form section {
+    width: calc(100% - 0.5em);
+  }
+}
+@media (max-aspect-ratio: 5 / 4) {
+  body section {
+    width: calc(50% - 0.5em);
+  }
+}
+@media (max-aspect-ratio: 5 / 4) and (max-width: 380px) {
+  body section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  body section input {
+    width: 100%;
+  }
+  body section label {
+    text-align: left;
+  }
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  border: solid 0 #262626;
+  border-width: calc(50vh - 4em) 0;
+  padding: 0.5em;
+  width: 25%;
+  max-width: 20em;
+  max-height: 8em;
+  background: #262626;
+  color: #d9d9d9;
+}
+
+section {
+  --range: calc(var(--max) - var(--min));
+  --pos: calc((var(--val) - var(--min))*(100% - 1.25em)/var(--range));
+  display: flex;
+  align-items: center;
+  width: calc(100% - 1em);
+}
+
+label {
+  width: 4em;
+  padding-right: .5em;
+  text-align: right;
+}
+label:after {
+  content: ":";
+}
+
+[type='range'] {
+  flex: 1;
+  order: 1;
+  min-width: 5em;
+  height: 1.875em;
+  background: transparent;
+  cursor: pointer;
+}
+[type='range']::-webkit-slider-runnable-track, [type='range']::-webkit-slider-thumb, [type='range'] {
+  -webkit-appearance: none;
+}
+[type='range']::-webkit-slider-runnable-track {
+  border: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #555;
+}
+[type='range']::-moz-range-track {
+  border: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #555;
+}
+[type='range']::-ms-track {
+  border: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #555;
+  background: #555;
+  color: transparent;
+}
+[type='range']::-ms-fill-lower {
+  display: none;
+}
+[type='range']::-webkit-slider-thumb {
+  margin-top: calc(3px - 0.625em);
+  box-sizing: border-box;
+  border: solid 0.3125em #262626;
+  width: 1.25em;
+  height: 1.25em;
+  border-radius: 50%;
+  background: #555 content-box;
+  transition: 0.3s;
+  transition-property: border-width, background-color;
+}
+[type='range']::-moz-range-thumb {
+  box-sizing: border-box;
+  border: solid 0.3125em #262626;
+  width: 1.25em;
+  height: 1.25em;
+  border-radius: 50%;
+  background: #555 content-box;
+  transition: 0.3s;
+  transition-property: border-width, background-color;
+}
+[type='range']::-ms-thumb {
+  margin-top: 0;
+  box-sizing: border-box;
+  border: solid 0.3125em #262626;
+  width: 1.25em;
+  height: 1.25em;
+  border-radius: 50%;
+  background: #555 content-box;
+  transition: 0.3s;
+  transition-property: border-width, background-color;
+  border-color: #262626;
+}
+[type='range']:focus {
+  outline: none;
+}
+[type='range']:focus::-webkit-slider-thumb {
+  border-width: 0;
+  background: #f90;
+}
+[type='range']:focus::-moz-range-thumb {
+  border-width: 0;
+  background: #f90;
+}
+[type='range']:focus::-ms-thumb {
+  border-width: 0;
+  background: #f90;
+}
+
+svg {
+  flex: 1;
+}
+
+path {
+  fill: none;
+  stroke-width: 5;
+}
+
+#sg {
+  stroke: #f90;
+}
+
+#hg {
+  stroke: #b53;
+}
+
+    </style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+    <script src="../LpqEmJ_data/LpqEmJ_data/prefixfree.js"></script>
+
+  
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+
+
+</head>
+
+<body translate="no">
+
+  
+<form>
+  <section class="wrap" style="--min:0.1;--max:0.57;--val:0.5;">
+    <input id="sf" type="range" min="0.1" max="0.57" value="0.5" step="0.01">
+    <label for="sf">star</label>
+  </section>
+  <section class="wrap" style="--min:0.05;--max:0.27;--val:0.25;">
+    <input id="hf" type="range" min="0.05" max="0.27" value="0.25" step="0.01">
+    <label for="hf">heart</label>
+  </section>
+</form>
+<svg viewBox="-500 -500 1000 1000">
+  <path id="sg" d="M112,155C0,500 0,500 -112,155C-476,155 -476,155 -182,-59C-294,-405 -294,-405 0,-191C294,-405 294,-405 182,-59C476,155 476,155 112,155"></path>
+  <path id="hg" d="M354,154.5C0,508.5 0,508.5 -354,154.5C-452,56.5 -452,-101.5 -354,-199.5C-256,-297.5 -98,-297.5 0,-199.5C98,-297.5 256,-297.5 354,-199.5C452,-101.5 452,56.5 354,154.5"></path>
+</svg>
+    <script src="../LpqEmJ_data/LpqEmJ_data/stopExecutionOnTimeout-41c52890748cd7143004e05d3c5f786c66b199.js"></script>
+
+  
+  
+
+    <script>
+      var _slicedToArray = function () {function sliceIterator(arr, i) {var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"]) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}return function (arr, i) {if (Array.isArray(arr)) {return arr;} else if (Symbol.iterator in Object(arr)) {return sliceIterator(arr, i);} else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _SVG = document.querySelector('svg'),
+_SHAPES = {
+	s: { el: document.getElementById('sg') },
+	h: { el: document.getElementById('hg') } },
+
+D = 1000 /* viewBox size */,
+O = {} /* data object */,
+/* number of cubic curves/ polygon vertices */
+P = 5;
+
+function getStarPoints() {var f = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : .5;
+	var RCO = f * D /* outer (pentagram) circumradius*/,
+	BAS = 2 * (2 * Math.PI / P) /* base angle for star poly */,
+	BAC = 2 * Math.PI / P /* base angle for convex poly */,
+	RI = RCO * Math.cos(.5 * BAS) /*pentagram/ inner pentagon inradius */,
+	RCI = RI / Math.cos(.5 * BAC) /* inner pentagon circumradius */,
+	ND = 2 * P /* total number of distinct points we need to get */,
+	BAD = 2 * Math.PI / ND /* base angle for point distribution */,
+	PTS = [] /* array we fill with point coordinates */;
+
+	for (var i = 0; i < ND; i++) {if (window.CP.shouldStopExecution(0)) break;
+		var /* radius at end point (inner)/ control point (outer) */
+		cr = i % 2 ? RCI : RCO,
+		/* angle of radial segment from origin to current point */
+		ca = i * BAD + .5 * Math.PI,
+		x = Math.round(cr * Math.cos(ca)),
+		y = Math.round(cr * Math.sin(ca));
+
+		PTS.push([x, y]);
+		/* for even indices double it, control points coincide here */
+		if (!(i % 2)) PTS.push([x, y]);
+	}window.CP.exitedLoop(0);
+
+	return PTS;
+};
+
+function getHeartPoints() {var f = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : .25;
+	var R = f * D /* helper circle radius  */,
+	RC = Math.round(R / Math.SQRT2) /* circumradius of square of edge R */,
+	XT = 0,YT = -RC /* coords of point T */,
+	XA = 2 * RC,YA = -RC /* coords of A points (x in abs value) */,
+	XB = 2 * RC,YB = RC /* coords of B points (x in abs value) */,
+	XC = 0,YC = 3 * RC /* coords of point C */,
+	XD = RC,YD = -2 * RC /* coords of D points (x in abs value) */,
+	XE = 3 * RC,YE = 0 /* coords of E points (x in abs value) */,
+	/* const for cubic curve approx of quarter circle */
+	C = .551915,
+	CC = 1 - C,
+	/* coords of ctrl points on TD segs */
+	XTD = Math.round(CC * XT + C * XD),YTD = Math.round(CC * YT + C * YD),
+	/* coords of ctrl points on AD segs */
+	XAD = Math.round(CC * XA + C * XD),YAD = Math.round(CC * YA + C * YD),
+	/* coords of ctrl points on AE segs */
+	XAE = Math.round(CC * XA + C * XE),YAE = Math.round(CC * YA + C * YE),
+	/* coords of ctrl points on BE segs */
+	XBE = Math.round(CC * XB + C * XE),YBE = Math.round(CC * YB + C * YE);
+
+	return [
+	[XC, YC], [XC, YC], [-XB, YB],
+	[-XBE, YBE], [-XAE, YAE], [-XA, YA],
+	[-XAD, YAD], [-XTD, YTD], [XT, YT],
+	[XTD, YTD], [XAD, YAD], [XA, YA],
+	[XAE, YAE], [XBE, YBE], [XB, YB]].
+	map(function (_ref) {var _ref2 = _slicedToArray(_ref, 2),x = _ref2[0],y = _ref2[1];return [x, y - .09 * R];});
+};
+
+function fnStr(fname, farg) {return fname + '(' + farg + ')';}
+
+function update(e) {
+	var _T = e.target,IDN = _T.id.charAt(0),VAL = +_T.value;
+
+	_SHAPES[IDN].wrap.style.setProperty('--val', VAL);
+	_SHAPES[IDN].el.setAttribute('transform', 'scale(' + VAL / _SHAPES[IDN].def + ')');
+};
+
+(function init() {
+	_SVG.setAttribute('viewBox', [-.5 * D, -.5 * D, D, D].join(' '));
+
+	for (var p in _SHAPES) {
+		_SHAPES[p].wrap = _SHAPES[p].el.parentNode;
+		_SHAPES[p].f = document.getElementById(p + 'f');
+		_SHAPES[p].def = +_SHAPES[p].f.value;
+
+		_SHAPES[p].f.addEventListener('input', update, false);
+		_SHAPES[p].f.addEventListener('change', update, false);
+	}
+
+	O.d = {
+		s: getStarPoints(),
+		h: getHeartPoints(),
+		afn: function afn(pts) {
+			return pts.reduce(function (a, c, i) {
+				return a + (i % 3 ? ' ' : 'C') + c;
+			}, 'M' + pts[pts.length - 1]);
+		} };
+
+
+	for (var _p in O) {
+		_SHAPES.s.el.setAttribute(_p, O[_p].afn(O[_p].s));
+		_SHAPES.h.el.setAttribute(_p, O[_p].afn(O[_p].h));
+	}
+})();
+      //# sourceURL=pen.js
+    </script>
+
+
+
+  
+  
+
+
+
+
+ </body></html>

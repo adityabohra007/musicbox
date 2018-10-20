@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html class=" -moz-" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico">
+  <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111">
+  <title>CodePen - #CodeVember #15 - no library star or heart this?</title>
+  
+  
+  
+  
+      <style>
+      html {
+  text-align: center;
+}
+
+body {
+  background: #000;
+  color: #fff;
+}
+
+svg {
+  width: 65vmin;
+  hight: 65vmin;
+}
+
+path {
+  cursor: pointer;
+}
+
+h1, p {
+  font: 2em trebuchet ms, verdana, sans-serif;
+}
+
+p {
+  font-size: 1em;
+}
+
+a {
+  color: greenyellow;
+}
+
+    </style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+    <script src="LpqEmJ_data/prefixfree.js"></script>
+
+  
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+
+
+</head>
+
+<body translate="no">
+
+  <p><a href="https://codepen.io/thebabydino/pen/RWvaZW" target="_blank">see also the pure CSS (no IE/ Edge) version</a></p>
+<svg viewBox="-500 -500 1000 1000">
+  <path id="shape" d="M112,155C0,500 0,500 -112,155C-476,155 -476,155 -182,-59C-294,-405 -294,-405 0,-191C294,-405 294,-405 182,-59C476,155 476,155 112,155" transform="rotate(-180)" fill="rgb(255,215,0)"></path>
+</svg>
+<h1>click it, you know you want to!</h1>
+    <script src="LpqEmJ_data/stopExecutionOnTimeout-41c52890748cd7143004e05d3c5f786c66b199.js"></script>
+
+  
+  
+
+    <script>
+      var _slicedToArray = function () {function sliceIterator(arr, i) {var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"]) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}return function (arr, i) {if (Array.isArray(arr)) {return arr;} else if (Symbol.iterator in Object(arr)) {return sliceIterator(arr, i);} else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _SVG = document.querySelector('svg'),
+_SHAPE = document.getElementById('shape'),
+D = 1000 /* viewBox size */,
+O = {} /* data object */,
+/* number of cubic curves/ polygon vertices */
+P = 5,
+NF = 50 /* total number of frames for transition */,
+TFN = { /* timing functions */
+	'ease-out': function easeOut(k) {
+		return 1 - Math.pow(1 - k, 1.675);
+	},
+	'ease-in-out': function easeInOut(k) {
+		return .5 * (Math.sin((k - .5) * Math.PI) + 1);
+	},
+	'bounce-ini-fin': function bounceIniFin(k) {var s = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -.65 * Math.PI;var e = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : -s;
+		return (Math.sin(k * (e - s) + s) - Math.sin(s)) / (Math.sin(e) - Math.sin(s));
+	} };
+
+
+var dir = -1,rID = null,cf = 0,m = void 0;
+
+function getStarPoints() {var f = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : .5;
+	var RCO = f * D /* outer (pentagram) circumradius*/,
+	BAS = 2 * (2 * Math.PI / P) /* base angle for star poly */,
+	BAC = 2 * Math.PI / P /* base angle for convex poly */,
+	RI = RCO * Math.cos(.5 * BAS) /*pentagram/ inner pentagon inradius */,
+	RCI = RI / Math.cos(.5 * BAC) /* inner pentagon circumradius */,
+	ND = 2 * P /* total number of distinct points we need to get */,
+	BAD = 2 * Math.PI / ND /* base angle for point distribution */,
+	PTS = [] /* array we fill with point coordinates */;
+
+	for (var i = 0; i < ND; i++) {
+		var /* radius at end point (inner)/ control point (outer) */
+		cr = i % 2 ? RCI : RCO,
+		/* angle of radial segment from origin to current point */
+		ca = i * BAD + .5 * Math.PI,
+		x = Math.round(cr * Math.cos(ca)),
+		y = Math.round(cr * Math.sin(ca));
+
+		PTS.push([x, y]);
+		/* for even indices double it, control points coincide here */
+		if (!(i % 2)) PTS.push([x, y]);
+	}
+
+	return PTS;
+};
+
+function getHeartPoints() {var f = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : .25;
+	var R = f * D /* helper circle radius  */,
+	RC = Math.round(R / Math.SQRT2) /* circumradius of square of edge R */,
+	XT = 0,YT = -RC /* coords of point T */,
+	XA = 2 * RC,YA = -RC /* coords of A points (x in abs value) */,
+	XB = 2 * RC,YB = RC /* coords of B points (x in abs value) */,
+	XC = 0,YC = 3 * RC /* coords of point C */,
+	XD = RC,YD = -2 * RC /* coords of D points (x in abs value) */,
+	XE = 3 * RC,YE = 0 /* coords of E points (x in abs value) */,
+	/* const for cubic curve approx of quarter circle */
+	C = .551915,
+	CC = 1 - C,
+	/* coords of ctrl points on TD segs */
+	XTD = Math.round(CC * XT + C * XD),YTD = Math.round(CC * YT + C * YD),
+	/* coords of ctrl points on AD segs */
+	XAD = Math.round(CC * XA + C * XD),YAD = Math.round(CC * YA + C * YD),
+	/* coords of ctrl points on AE segs */
+	XAE = Math.round(CC * XA + C * XE),YAE = Math.round(CC * YA + C * YE),
+	/* coords of ctrl points on BE segs */
+	XBE = Math.round(CC * XB + C * XE),YBE = Math.round(CC * YB + C * YE);
+
+	return [
+	[XC, YC], [XC, YC], [-XB, YB],
+	[-XBE, YBE], [-XAE, YAE], [-XA, YA],
+	[-XAD, YAD], [-XTD, YTD], [XT, YT],
+	[XTD, YTD], [XAD, YAD], [XA, YA],
+	[XAE, YAE], [XBE, YBE], [XB, YB]].
+	map(function (_ref) {var _ref2 = _slicedToArray(_ref, 2),x = _ref2[0],y = _ref2[1];return [x, y - .09 * R];});
+};
+
+function fnStr(fname, farg) {return fname + '(' + farg + ')';};
+
+function range(ini, fin) {
+	return typeof ini == 'number' ?
+	fin - ini :
+	ini.map(function (c, i) {return range(ini[i], fin[i]);});
+};
+
+function int(ini, rng, tfn, k, cnt) {
+	return typeof ini == 'number' ?
+	Math.round(ini + cnt * (m + dir * tfn(m + dir * k)) * rng) :
+	ini.map(function (c, i) {return int(ini[i], rng[i], tfn, k, cnt);});
+};
+
+function stopAni() {
+	cancelAnimationFrame(rID);
+	rID = null;
+};
+
+function update() {
+	cf += dir;
+
+	var k = cf / NF;
+
+	for (var p in O) {
+		var c = O[p];
+
+		_SHAPE.setAttribute.apply(_SHAPE, [
+		p,
+		c.afn(int(c.ini, c.rng, TFN[c.tfn], k, c.cnt ? dir : 1))]);
+
+	}
+
+	if (!(cf % NF)) {
+		stopAni();
+		return;
+	}
+
+	rID = requestAnimationFrame(update);
+};
+
+(function init() {
+	_SVG.setAttribute('viewBox', [-.5 * D, -.5 * D, D, D].join(' '));
+
+	O.d = {
+		ini: getStarPoints(),
+		fin: getHeartPoints(),
+		afn: function afn(pts) {
+			return pts.reduce(function (a, c, i) {
+				return a + (i % 3 ? ' ' : 'C') + c;
+			}, 'M' + pts[pts.length - 1]);
+		},
+		tfn: 'ease-in-out' };
+
+
+	O.transform = {
+		ini: -180,
+		fin: 0,
+		afn: function afn(ang) {return fnStr('rotate', ang);},
+		tfn: 'bounce-ini-fin',
+		cnt: 1 };
+
+
+	O.fill = {
+		ini: [255, 215, 0],
+		fin: [220, 20, 60],
+		afn: function afn(rgb) {return fnStr('rgb', rgb);},
+		tfn: 'ease-out' };
+
+
+	for (var p in O) {
+		O[p].rng = range(O[p].ini, O[p].fin);
+		_SHAPE.setAttribute(p, O[p].afn(O[p].ini));
+	}
+
+	_SHAPE.addEventListener('click', function (e) {
+		if (rID) stopAni();
+		dir *= -1;
+		m = .5 * (1 - dir);
+		update();
+	}, false);
+})();
+      //# sourceURL=pen.js
+    </script>
+
+
+
+  
+  
+
+
+
+
+ </body></html>

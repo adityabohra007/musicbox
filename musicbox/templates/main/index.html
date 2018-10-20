@@ -1,0 +1,66 @@
+{%load staticfiles%}
+
+<!--Add Catergory of audio from podcast,story and songs-->
+
+
+<!DOCTYPE html5>
+<html style="font-family:sans;">
+<head>
+	<title>Musicbox</title>
+	<link rel=stylesheet href="{%static "main/zero.css"%}">
+	<link rel=stylesheet href="{%static "main/main.css"%}">
+	
+
+	<style>
+
+
+</style>
+</head>
+	<body>
+	<div class="player" style='width:100%;height:95px;position:fixed;bottom:0px;background-image:linear-gradient(rgb(22,43,100),rgb(43,122,55));'><!--background-color:#1c1447;'-->		
+		<h4 style="margin-left:5em;margin-top:0.4em;color: hsl(200,65%,80%);padding-top:10px;padding-bottom:10px">Song Name</h4>
+		<audio controls style='width:90%;margin-left:40px;background-image:linear-gradient(rgb(22,43,100),rgb(43,122,55));'><!--background-color:hsl(250,100%,50%);'-->
+		<source src=""></audio>
+	</div>
+	<header>
+		<div class="logo-div">
+			<h2>MusicBox</h2>
+		</div>
+	</header>
+			<nav class="left-nav">
+				<ul>
+				<li><a href="#">Genre</a></li>
+				<li><a href="#">Artist</a></li>
+				<li><a href="#">Albums</a></li>
+				</ul>
+			</nav>
+		<section>
+	{%for song in songs%}
+		<div class="song-details" style="padding-bottom:20px;">
+			<img src="" width=80px height=80px alt="song" >
+			<div style="display:flex;flex-direction:column;">
+			<a href="{{song.id}}"><h3 style="margin-top:1.1em">{{song.title}}</h3></a>
+			<h4>artist</h4>
+			<!--<audio controls style="border-radius:20px;background-color:hsl(302.9, 100%, 55.7%);width:300px"><source src="{{song.files.url}}" ></audio>-->
+			</div>
+		</div>
+	{%endfor%}
+		</section>
+		<nav class="right-nav">
+				<ul>
+				<li style="text-align:center;">Sort By</li>
+				<select>
+				<option value="popular">Popularity</option>
+				<option value="newest">Newest</option>			
+				</select>
+				</ul>
+			</nav>
+		<footer>
+		</footer>
+		<script src="{%static "main/jquery-2.1.4.js"%}"></script>
+		<script>
+			//$("a").slideUp();
+			$("")
+		</script>
+		</body>
+	</html>

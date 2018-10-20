@@ -1,0 +1,218 @@
+*{
+	margin:0px;
+	padding:0px;
+	outline:none;
+}
+body{
+	/*font-family:sans;*/
+	/*font-family: 'Mali', cursive ;*/
+	font-family: 'Maven Pro', sans-serif;
+	background-color:#363237;
+}
+#container{
+	font-size:1em;
+}
+
+.clearfix{
+	clear:both;
+}
+/*input[type=range]{
+	position:relative;
+	left:90%;
+	width:auto;
+}*/
+
+
+input[type=range]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	border: 1px solid #000000;
+	height: 36px;
+	width: 16px;
+	border-radius: 3px;
+	background: #ffffff;
+	cursor: pointer;
+	margin-top: -14px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+	box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; /* Add cool effects to your sliders! */
+}
+input[type=range]::-moz-range-thumb {
+	box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+	border: 1px solid #000000;
+	height: 15px;
+	width: 16px;
+	border-radius: 50%;
+	/* border:orange 2px solid;*/
+	background: #ffffff;
+	cursor: pointer;
+}
+
+input[type=range]::-moz-range-track {
+	width: 100%;
+	height: 8.4px;
+	cursor: pointer;
+	box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+	background: #3071a9;
+	border-radius: 1.3px;
+	border: 0.2px solid #010101;
+}
+#play{
+	background:url(dotted_play_last.png) no-repeat;
+	width:52px;	
+	height:52px;
+	background-color:white
+}
+#pause{
+	background:url(dotted_pause_last.png) no-repeat;
+	width:52px;	
+	height:52px;
+	background-color:white
+}
+#prev{
+	background:url(dotted_prev_last.png) no-repeat;
+	width:52px;	
+	height:52px;
+	background-color:white
+}
+#next{
+	background:url(dotted_next_last.png) no-repeat;
+	width:52px;	
+	height:52px;
+	background-color:white
+}
+
+
+#playlist{
+	margin-left:40px;
+	margin-top:2%;
+	list-style:none;
+	width:60%;
+	margin-left:10%;
+	
+
+}
+#playlist li{
+	width:93%;
+	border-left:red 1px solid;
+	padding:10px 0px 15px 30px;
+	background-color:#D09683;/*hsl(200,90%,70%);*/
+	opacity:.8
+	}
+.liHover{
+	background-color: hsl(200,90%,90%);
+	font-size:17px;	
+	border-left:red 1.5px solid;
+}
+.active{
+	font-weight:bold;
+	background-color:yellow;
+	}
+#audio-player{
+	position:fixed;
+	bottom:0px;
+	width:100%;
+	background:#2D4262;/*#F1F1F2;*/
+	height:65px;
+	z-index:1000;
+	box-shadow: #000 20px 20px 20px 10px;
+	color:white;
+}
+#audio-img{
+	position:absolute;
+	height:65px;
+	width:69px;
+	background:#7d8da7;
+
+
+}
+#audio-img div{
+	background:url("playlist-art.jpg");
+	width:100%;
+	height:90%;
+	background-size:100% 100%;
+}
+
+
+#audio-buttons {
+	width:30%;
+	position:absolute;
+	left:31%;
+	height:50px;
+	bottom:10px;
+
+}
+#audio-buttons button{
+	border-radius:25px;
+
+}
+span.title{
+	font-size:20px;
+	position:relative;
+	top:0.7em;
+}
+div#volume{
+	position:relative;
+	left:51%;
+	top:5px;
+}
+
+.heart{
+	height:20px;
+	width:20px;
+	background:white;
+	transform:rotate(-45deg);
+	position:absolute;
+	left:80%;
+	top:40%;
+}
+.heart:before,.heart:after{
+	height:20px;
+	width:20px;
+	content:"";
+	border-radius:50%;
+	background-color:white;
+	position:absolute;
+}
+.heart:before{
+	top:-10px;
+}
+.heart:after{
+        top:0px;
+	left:10px;
+}
+.heart:hover:before,.heart:hover:after{
+	background-color:"blue";
+}
+.owl-carousel{
+position:relative;
+left:150px;
+
+
+}
+.owl-carousel{
+	background:blue;
+}
+.owl-stage,.owl-dots{
+	background:#363237;
+}
+                .card{
+		background-color:white;
+		border-radius:20px;
+                width:150px;
+                }
+                .card:hover
+                {
+               
+                }
+button.owl-next{
+	background-color:#2d4262;
+	position:absolute;
+	top:50px;
+	right:-50px;
+}
+button.owl-prev{
+	position:absolute;
+	top:50px;
+	left:-50px;
+}
+.active{
+background:white;
+}

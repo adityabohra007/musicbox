@@ -1,0 +1,1634 @@
+<!doctype html>
+<html lang="en">
+
+
+<head>
+
+  <meta charset="utf-8">
+
+  <meta name="viewport" content="width=device-width">
+
+  
+  <title>Creating a Star to Heart Animation with SVG and Vanilla JavaScript | CSS-Tricks</title>
+
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <meta name="msapplication-TileColor" content="#00aba9">
+  <meta name="msapplication-TileImage" content="/mstile-144x144.png">
+
+  <meta property="fb:pages" content="124436167285">
+
+  <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="CSS-Tricks Search">
+
+  <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://feeds.feedburner.com/CssTricks">
+
+  <link rel="stylesheet" href="https://cloud.typography.com/610186/6645572/css/fonts.css">
+  <!--[if !IE]><!-->
+  <link rel="stylesheet" href="https://css-tricks.com/wp-content/themes/CSS-Tricks-16/style.css?v=16.8">
+  <!--<![endif]-->
+  <!--[if lt IE 9]>
+  <link rel="stylesheet" href="https://css-tricks.com/wp-content/themes/CSS-Tricks-16/css/oldie.css">
+  <![endif]-->
+  <!--[if IE 9]>
+  <link rel="stylesheet" href="https://css-tricks.com/wp-content/themes/CSS-Tricks-16/style.css?v=16.8>
+  <![endif]-->
+
+    
+  
+<!-- This site is optimized with the Yoast SEO plugin v8.3 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="In my previous article, I&#039;ve shown how to smoothly transition from one state to another using vanilla JavaScript. Make sure you check that one out first"/>
+<link rel="canonical" href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Creating a Star to Heart Animation with SVG and Vanilla JavaScript | CSS-Tricks" />
+<meta property="og:description" content="In my previous article, I&#039;ve shown how to smoothly transition from one state to another using vanilla JavaScript. Make sure you check that one out first" />
+<meta property="og:url" content="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/" />
+<meta property="og:site_name" content="CSS-Tricks" />
+<meta property="article:publisher" content="https://www.facebook.com/CSSTricks" />
+<meta property="article:tag" content="JavaScript" />
+<meta property="article:tag" content="shape morphing" />
+<meta property="article:tag" content="SVG" />
+<meta property="article:section" content="Article" />
+<meta property="article:published_time" content="2017-11-06T15:50:38+00:00" />
+<meta property="article:modified_time" content="2018-08-30T02:27:14+00:00" />
+<meta property="og:updated_time" content="2018-08-30T02:27:14+00:00" />
+<meta property="og:image" content="https://css-tricks.com/wp-content/uploads/2017/10/star_to_heart.gif" />
+<meta property="og:image:secure_url" content="https://css-tricks.com/wp-content/uploads/2017/10/star_to_heart.gif" />
+<meta property="og:image:width" content="1115" />
+<meta property="og:image:height" content="470" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:description" content="In my previous article, I&#039;ve shown how to smoothly transition from one state to another using vanilla JavaScript. Make sure you check that one out first" />
+<meta name="twitter:title" content="Creating a Star to Heart Animation with SVG and Vanilla JavaScript | CSS-Tricks" />
+<meta name="twitter:site" content="@Real_CSS_Tricks" />
+<meta name="twitter:image" content="https://css-tricks.com/wp-content/uploads/2017/10/star_to_heart.gif" />
+<meta name="twitter:creator" content="@anatudor" />
+<script type='application/ld+json'>{"@context":"https:\/\/schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/css-tricks.com\/","name":"Home"}},{"@type":"ListItem","position":2,"item":{"@id":"https:\/\/css-tricks.com\/creating-star-heart-animation-svg-vanilla-javascript\/","name":"Creating a Star to Heart Animation with SVG and Vanilla JavaScript"}}]}</script>
+<!-- / Yoast SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="CSS-Tricks &raquo; Creating a Star to Heart Animation with SVG and Vanilla JavaScript Comments Feed" href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/feed/" />
+<link rel='stylesheet' id='dashicons-css'  href='https://css-tricks.com/wp-includes/css/dashicons.min.css?ver=4.9.8' type='text/css' media='all' />
+<link rel='stylesheet' id='jetpack-search-widget-css'  href='https://css-tricks.com/wp-content/plugins/jetpack/modules/widgets/search/css/search-widget-frontend.css?ver=4.9.8' type='text/css' media='all' />
+<link rel='stylesheet' id='jetpack-widget-social-icons-styles-css'  href='https://css-tricks.com/wp-content/plugins/jetpack/modules/widgets/social-icons/social-icons.css?ver=20170506' type='text/css' media='all' />
+<link rel='stylesheet' id='social-logos-css'  href='https://css-tricks.com/wp-content/plugins/jetpack/_inc/social-logos/social-logos.min.css?ver=1' type='text/css' media='all' />
+<script  src='https://css-tricks.com/wp-content/themes/CSS-Tricks-16/js/libs/jquery-3.2.1.min.js'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var related_posts_js_options = {"post_heading":"h4"};
+/* ]]> */
+</script>
+<script  src='https://css-tricks.com/wp-content/plugins/jetpack/_inc/build/related-posts/related-posts.min.js?ver=20150408'></script>
+<link rel='https://api.w.org/' href='https://css-tricks.com/wp-json/' />
+<link rel='shortlink' href='https://wp.me/p354tK-1639' />
+<link rel="alternate" type="application/json+oembed" href="https://css-tricks.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fcss-tricks.com%2Fcreating-star-heart-animation-svg-vanilla-javascript%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://css-tricks.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fcss-tricks.com%2Fcreating-star-heart-animation-svg-vanilla-javascript%2F&#038;format=xml" />
+<!-- Better Art Direction Styles -->
+
+
+
+<link rel='dns-prefetch' href='//v0.wordpress.com'/>
+<link rel='dns-prefetch' href='//jetpack.wordpress.com'/>
+<link rel='dns-prefetch' href='//s0.wp.com'/>
+<link rel='dns-prefetch' href='//s1.wp.com'/>
+<link rel='dns-prefetch' href='//s2.wp.com'/>
+<link rel='dns-prefetch' href='//public-api.wordpress.com'/>
+<link rel='dns-prefetch' href='//0.gravatar.com'/>
+<link rel='dns-prefetch' href='//1.gravatar.com'/>
+<link rel='dns-prefetch' href='//2.gravatar.com'/>
+<style type='text/css'>img#wpstats{display:none}</style>
+</head>
+
+<body class="post-template-default single single-post postid-261587 single-format-standard category-article">
+
+  <header class="site-header">
+
+  <div class="menu-toggle-area">
+    <button id="mobile-menu-toggle" class="button button-header mobile-menu-toggle">
+      <svg class="icon-menu" width="26px" height="26px">
+        <use xlink:href="#icon-menu"></use>
+      </svg>
+    </button>
+  </div>
+
+  <div class="logo">
+    <a href="/">
+      <svg class="icon-logo-star" width="26px" height="26px">
+        <use xlink:href="#icon-logo-star"></use>
+      </svg>
+    </a>
+  </div>
+
+  <div class="header-middle-area">
+
+    <a href="/" class="logo-link">
+      CSS-Tricks
+    </a>
+
+  </div>
+
+  <button id="search-opener" class="button button-header search-opener-button">
+    <svg class="icon-search" width="26px" height="26px">
+      <use xlink:href="#icon-search"></use>
+    </svg>
+    <svg class="icon-close" width="26px" height="26px">
+      <use xlink:href="#icon-close"></use>
+    </svg>
+  </button>
+
+  <div class="search" role="search" id="search-area">
+                  <div class="chw-widget"><form role="search" method="get" id="searchform" class="search-form" action="https://css-tricks.com/">
+
+  <label class="screen-reader-text" id="search-label" for="s">Search for:</label>
+
+  <input type="search" value="" required name="s" id="s" aria-labelledby="search-label" class="search-field" placeholder="flexbox" value="">
+
+    <input type="hidden" name="orderby" value="relevance">
+  <input type="hidden" name="post_type" value="post,page,guide">
+
+  <button type="submit" class="button button-header search-button">
+    <svg class="icon-search" width="26px" height="26px">
+      <use xlink:href="#icon-search"></use>
+    </svg>
+  </button>
+
+</form></div>            </div>
+
+</header>
+
+    <div class="all-site-wrap">
+  
+    <nav class="main-nav" id="main-nav">
+
+  <ul>
+    <li class="home">
+      <a href="/">
+        <svg class="icon-nav-home" width="26px" height="26px">
+          <use xlink:href="#icon-nav-home"></use>
+        </svg>
+        <span>Home</span>
+      </a>
+    </li>
+    <li class="videos">
+      <a href="/video-screencasts/">
+        <svg class="icon-nav-video" width="26px" height="26px">
+          <use xlink:href="#icon-nav-video"></use>
+        </svg>
+        <span>Videos</span>
+      </a>
+    </li>
+    <li class="almanac">
+      <a href="/almanac/">
+        <svg class="icon-nav-almanac" width="26px" height="26px">
+          <use xlink:href="#icon-nav-almanac"></use>
+        </svg>
+        <span>Almanac</span>
+      </a>
+    </li>
+    <li class="gallery">
+      <a href="/gallery/">
+        <svg class="icon-nav-gallery" width="26px" height="26px">
+          <use xlink:href="#icon-nav-gallery"></use>
+        </svg>
+        <span>Gallery</span>
+      </a>
+    </li>
+    <li class="snippets">
+      <a href="/snippets/">
+        <svg class="icon-nav-snippets" width="26px" height="26px">
+          <use xlink:href="#icon-nav-snippets"></use>
+        </svg>
+        <span>Snippets</span>
+      </a>
+    </li>
+    <li class="forums">
+      <a href="/forums/">
+        <svg class="icon-nav-forums" width="26px" height="26px">
+          <use xlink:href="#icon-nav-forums"></use>
+        </svg>
+        <span>Forums</span>
+      </a>
+    </li>
+    <li class="newsletter">
+      <a href="/newsletters/">
+        <svg class="icon-nav-newsletter" width="26px" height="26px">
+          <use xlink:href="#icon-nav-newsletter"></use>
+        </svg>
+        <span>Newsletter</span>
+      </a>
+    </li>
+    <li class="jobs">
+      <a href="/jobs/">
+        <svg class="icon-nav-jobs" width="26px" height="26px">
+          <use xlink:href="#icon-nav-jobs"></use>
+        </svg>
+        <span>Jobs</span>
+      </a>
+    </li>
+    <li class="guides">
+      <a href="/guides/">
+        <svg class="icon-nav-guide" width="26px" height="26px">
+          <use xlink:href="#icon-nav-guide"></use>
+        </svg>
+        <span>Guides</span>
+      </a>
+    </li>
+    <!-- 
+    <li class="shop">
+      <a href="/shop/">
+        <svg class="icon-nav-shop" width="26px" height="26px">
+          <use xlink:href="#icon-nav-shop"></use>
+        </svg>
+        <span>Shop</span>
+      </a>
+    </li>
+    -->
+  </ul>
+
+</nav>
+<div class="page-wrap">
+
+  <article id="post-261587" role="main" class="instapaper_body h-entry e-content">
+
+    <header class="mega-header">
+
+      <h1 class="p-name">
+                Creating a Star to Heart Animation with SVG and Vanilla&nbsp;JavaScript              </h1>
+
+    </header>
+
+    <p class="author-byline">
+
+      <span class="author-and-date">
+                By
+        <a href="https://css-tricks.com/author/thebabydino/">
+                    <span class="p-author">
+            Ana Tudor          </span>
+        </a>
+                <span class="slashes">On</span>
+        <time datetime="2017-11-06" class="dt-published">
+          November 6, 2017        </time>
+      </span>
+
+              <span class="byline-tags">
+          <svg class="icon-tag" width="12px" height="12px"><use xlink:href="#icon-tag"></use></svg><a href="https://css-tricks.com/tag/javascript/" rel="tag">JavaScript</a>, <a href="https://css-tricks.com/tag/shape-morphing/" rel="tag">shape morphing</a>, <a href="https://css-tricks.com/tag/svg/" rel="tag">SVG</a>        </span>
+      
+    </p>
+
+    <div class="article-content">
+
+      
+      <p>In <a href="https://css-tricks.com/emulating-css-timing-functions-javascript/">my previous article</a>, I've shown how to smoothly transition from one state to another using vanilla JavaScript. Make sure you check that one out first because I'll be referencing some things I explained there in a lot of detail, like demos given as examples, formulas for various timing functions or how not to reverse the timing function when going back from the final state of a transition to the initial one.</p>
+<p><span id="more-261587"></span></p>
+<p>The last example showcased making the shape of a mouth to go from sad to glad by changing the <code>d</code> attribute of the <code>path</code> we used to draw this mouth.</p>
+<p>Manipulating the path data can be taken to the next level to give us more interesting results, like a star morphing into a heart.</p>
+<figure><img src="https://css-tricks.com/wp-content/uploads/2017/10/star_to_heart.gif" alt="Gif recording of a star to heart animation. We start with a five-point golden star. All of its tips are rounded and one of them points up. On a first click, the golden star shape morphs into a crimson heart shape and it rotates clockwise by half a circle. On a second clip, the crimson heart shape morphs back into a golden star shape and rotates by another half a circle, completing thus a full turn."/><figcaption>The star to heart animation we'll be coding.</figcaption></figure>
+<h3 id='concept'>The idea</h3>
+<p>Both are made out of five <a href="https://codepen.io/thebabydino/pen/EKLNvZ">cubic Bézier curves</a>. The interactive demo below shows the individual curves and the points where these curves are connected. Clicking any curve or point highlights it, as well as its corresponding curve/point from the other shape.</p>
+<p data-height="530" data-theme-id="1" data-slug-hash="NayELo" data-default-tab="result" data-user="thebabydino" data-embed-version="2" data-pen-title="star vs. heart: highlight corresponding cubic Bézier curves on click" class="codepen">See the <a href="http://codepen.io/thebabydino/pen/NayELo/">Pen</a> by thebabydino (<a href="http://codepen.io/thebabydino">@thebabydino</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<p>Note that all of these curves are created as cubic ones, even if, for some of them, the two control points coincide.</p>
+<p>The shapes for both the star and the heart are pretty simplistic and unrealistic ones, but they'll do.</p>
+<h3 id='starting-code'>The starting code</h3>
+<p>As seen in the <a href="https://codepen.io/thebabydino/pen/bryQGJ">face animation example</a>, I often choose to generate such shapes with Pug, but here, since this path data we generate will also need to be manipulated with JavaScript for the transition, going all JavaScript, including computing the coordinates and putting them into the <code>d</code> attribute seems like the best option.</p>
+<p>This means we don't need to write much in terms of markup:</p>
+<pre rel="HTML"><code class="language-html">&lt;svg&gt;
+  &lt;path id='shape'/&gt;
+&lt;/svg&gt;</code></pre>
+<p>In terms of JavaScript, we start by getting the SVG element and the <code>path</code> element - this is the shape that morphs from a star into a heart and back. We also set a <code>viewBox</code> attribute on the SVG element such that its dimensions along the two axes are equal and the <code>(0,0)</code> point is dead in the middle. This means the coordinates of the top left corner are <code>(-.5*D,-.5*D)</code>, where <code>D</code> is the value for the <code>viewBox</code> dimensions. And last, but not least, we create an object to store info about the initial and final states of the transition and about how to go from the interpolated values to the actual attribute values we need to set on our SVG shape.</p>
+<pre rel="JavaScript"><code class="language-javascript">const _SVG = document.querySelector('svg'), 
+      _SHAPE = document.getElementById('shape'), 
+      D = 1000, 
+      O = { ini: {}, fin: {}, afn: {} };
+
+(function init() {
+  _SVG.setAttribute('viewBox', [-.5*D, -.5*D, D, D].join(' '));
+})();</code></pre>
+<p>Now that we got this out of the way, we can move on to the more interesting part!</p>
+<h3 id='shape-geometry'>The geometry of the shapes</h3>
+<p>The initial coordinates of the end points and control points are those for which we get the star and the final ones are the ones for which we get the heart. The range for each coordinate is the difference between its final value and its initial one. Here, we also rotate the shape as we morph it because we want the star to point up and we change the <code>fill</code> to go from the golden star to the crimson heart.</p>
+<p>Alright, but how do we get the coordinates of the end and control points in the two cases?</p>
+<h4 id='star-geometry'>Star</h4>
+<p>In the case of the star, we start with a regular pentagram. The end points of our curves are at the intersection between the pentagram edges and we use the pentagram vertices as control points.</p>
+<figure><img src="https://css-tricks.com/wp-content/uploads/2017/10/star_round_tips_pentagram_frame.svg" alt="Illustration showing the five cubic Bézier curves forming our star and the regular pentagram created by the support lines of the segments connecting the end points and the control points of these curves. The two control points for each curve coincide and represent the vertices of a regular pentagram. In a cyclical manner, the start point of any curve is the end point of the previous one and these points are where the pentagram edges cross each other."/><figcaption>Regular pentagram with vertex and edge crossing points highlighted as control points and end points of five cubic Bézier curves (<a href="https://codepen.io/thebabydino/pen/YrebKb?editors=1000">live</a>).</figcaption></figure>
+<p>Getting the vertices of our regular pentagram is <a href="https://codepen.io/thebabydino/pen/ybVEzP/?editors=1100">pretty straightforward given the radius</a> (or diameter) of its circumcircle, which we take to be a fraction of the <code>viewBox </code>size of our SVG (considered here square for simplicity, we're not going for tight packing in this case). But how do we get their intersections?</p>
+<p>First of all, let's consider the small pentagon highlighted inside the pentagram in the illustration below. Since the pentagram is regular, the small pentagon whose vertices coincide with the edge intersections of the pentagram is also regular. It also has the same <a href="http://mathworld.wolfram.com/Incircle.html">incircle</a> as the pentagram and, therefore, the same inradius.</p>
+<figure><img src="https://css-tricks.com/wp-content/uploads/2017/10/star_pentagram_inner_pentagon_incircle.svg" alt="Illustration showing a regular pentagram. The five intersection points of its edges are the vertices of a small regular pentagon whose edges are on the same support lines as the edges of the pentagram. Furthermore, the regular pentagram and its inner regular pentagon have the same incircle (and thus the same inradius)."/><figcaption>Regular pentagram and inner regular pentagon share the same incircle (<a href="https://codepen.io/thebabydino/pen/wrmKxY?editors=1000">live</a>).</figcaption></figure>
+<p>So if we compute the pentagram inradius, then we also have the inradius of the inner pentagon, which, together with the <a href="http://mathworld.wolfram.com/CentralAngle.html">central angle</a> corresponding to an edge of a regular pentagon, allows us to get the <a href="http://mathworld.wolfram.com/Circumcircle.html">circumradius</a> of this pentagon, which in turn allows us to compute its vertex coordinates and these are exactly the edge intersections of the pentagram and the endpoints of our cubic Bézier curves.</p>
+<p>Our regular pentagram is represented by the <a href="https://en.wikipedia.org/wiki/Schl%C3%A4fli_symbol#Regular_polygons_.28plane.29">Schläfli symbol</a> <code>{5/2}</code>, meaning that it has <code>5</code> vertices, and, given these <code>5</code> vertex points equally distributed on its circumcircle, <code>360°/5 = 72°</code> apart, we start from the first, skip the next point on the circle and connect to the second one (this is the meaning of the <code>2</code> in the symbol; <code>1</code> would describe a pentagon as we don't skip any points, we connect to the first). And so on - we keep skipping the point right after.</p>
+<p>In the interactive demo below, select either pentagon or pentagram to see how they get constructed.</p>
+<p data-height="610" data-theme-id="1" data-slug-hash="veRKMd" data-default-tab="result" data-user="thebabydino" data-embed-version="2" data-pen-title="construct regular pentagon vs. pentagram" class="codepen">See the <a href="http://codepen.io/thebabydino/pen/veRKMd/">Pen</a> by thebabydino (<a href="http://codepen.io/thebabydino">@thebabydino</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<p>This way, we get that the central angle corresponding to an edge of the regular pentagram is twice of that corresponding to the regular pentagon with the same vertices. We have <code>1·(360°/5) = 1·72° = 72°</code> (or <code>1·(2·π/5)</code> in radians) for the pentagon versus <code>2·(360°/5) = 2·72° = 144°</code> (<code>2·(2·π/5)</code> in radians) for the pentagram. In general, given a regular polygon (whether it's a convex or a star polygon doesn't matter) with the Schläfli symbol <code>{p,q}</code>, the central angle corresponding to one of its edges is <code>q·(360°/p)</code> (<code>q·(2·π/p)</code> in radians).</p>
+<figure><img src="https://css-tricks.com/wp-content/uploads/2017/10/star_pentagram_vs_pentagon_central_ang.svg" alt="Illustration showing the central angle corresponding to an edge of a regular polygon: pentagram vs. pentagon. This angle is twice as big in the pentagram case as, having five points equally spaced around the circle, edges connect from one of these points to the next in the pentagon case, but always skip the first one right near and connect to the second in the pentagram case. This makes the edges and the corresponding central angles bigger."/><figcaption>Central angle corresponding to an edge of a regular polygon: pentagram (left, <code>144°</code>) vs. pentagon (right, <code>72°</code>) (<a href="https://codepen.io/thebabydino/pen/KXeqzy?editors=1000">live</a>).</figcaption></figure>
+<p>We also know the pentagram circumradius, which we said we take as a fraction of the square <code>viewBox</code> size. This means we can get the pentagram inradius (which is equal to that of the small pentagon) from a right triangle where we know the hypotenuse (it's the pentagram circumradius) and an acute angle (half the central angle corresponding to the pentagram edge).</p>
+<figure><img src="https://css-tricks.com/wp-content/uploads/2017/10/star_pentagram_inradius.svg" alt="Illustration highlighting a right triangle from where we can compute a regular pentagram's inradius. The hypotenuse of this triangle is the pentagram circumradius and the acute angle between the two is half the central angle corresponding to the pentagram edge."/><figcaption>Computing the inradius of a regular pentagram from a right triangle where the hypotenuse is the pentagram circumradius and the acute angle between the two is half the central angle corresponding to a pentagram edge (<a href="https://codepen.io/thebabydino/pen/QqBBQg?editors=1000">live</a>).</figcaption></figure>
+<p>The cosine of half the central angle is the inradius over the circumradius, which gives us that the inradius is the circumradius multiplied with this cosine value.</p>
+<p>Now that we have the inradius of the small regular pentagon inside our pentagram, we can compute its circumradius from a similar right triangle having the circumradius as hypotenuse, half the central angle as one of the acute angles and the inradius as the cathetus adjacent to this acute angle.</p>
+<p>The illustration below highlights a right triangle formed from a circumradius of a regular pentagon, its inradius and half an edge. From this triangle, we can compute the circumradius if we know the inradius and the central angle corresponding to a pentagon edge as the acute angle between these two radii is half this central angle.</p>
+<figure><img src="https://css-tricks.com/wp-content/uploads/2017/10/star_pentagon_circumradius.svg" alt="Illustration highlighting a right triangle from where we compute a regular pentagon's circumradius. The hypotenuse of this triangle is the desired circumradius, while the catheti are the pentagon inradius and half the pentagon edge. The acute angle between the two radii is half the central angle corresponding to the pentagon edge."/><figcaption>Computing the circumradius of a regular pentagon from a right triangle where it's the hypotenuse, while the catheti are the inradius and half the pentagon edge and the acute angle between the two radii is half the central angle corresponding to a pentagon edge (<a href="https://codepen.io/thebabydino/pen/eGPOOq?editors=1000">live</a>).</figcaption></figure>
+<p>Remember that, in this case, the central angle is not the same as for the pentagram, it's half of it (<code>360°/5 = 72°</code>).</p>
+<p>Good, now that we have this radius, we can get all the coordinates we want. They're the coordinates of points distributed at equal angles on two circles. We have <code>5</code> points on the outer circle (the circumcircle of our pentagram) and <code>5</code> on the inner one (the circumcircle of the small pentagon). That's <code>10</code> points in total, with angles of <code>360°/10 = 36°</code> in between the radial lines they're on.</p>
+<figure><img src="https://css-tricks.com/wp-content/uploads/2017/10/star_points_distr.svg" alt="Illustration showing the end and control points of the cubic curves making up our rounded tip star being distributed on two circles - the control points on an outer circle which is the circumcircle of the pentagram and the end points on an inner circle which is the circumcircle of the inner pentagon whose vertices are the points where the pentagram edges cross each other."/><figcaption>The end and control points are distributed on the circumradius of the inner pentagon and on that of the pentagram respectively (<a href="https://codepen.io/thebabydino/pen/oGawmm?editors=1000">live</a>).</figcaption></figure>
+<p>We know the radii of both these circles. The radius of the outer one is the regular pentagram circumradius, which we take to be some arbitrary fraction of the <code>viewBox</code> dimension (<code>.5</code> or <code>.25</code> or <code>.32</code> or whatever value we feel would work best). The radius of the inner one is the circumradius of the small regular pentagon formed inside the pentagram, which we can compute as a function of the central angle corresponding to one of its edges and its inradius, which is equal to that of the pentagram and therefore we can compute from the pentagram circumradius and the central angle corresponding to a pentagram edge.</p>
+<p>So, at this point, we can generate the path data that draws our star, it doesn't depend on anything that's still unknown.</p>
+<p>So let's do that and put all of the above into code!</p>
+<p>We start by creating a <code>getStarPoints(f)</code> function which depends on an arbitrary factor (<code>f</code>) that's going to help us get the pentagram circumradius from the <code>viewBox</code> size. This function returns an array of coordinates we later use for interpolation.</p>
+<p>Within this function, we first compute the constant stuff that won't change as we progress through it - the pentagram circumradius (radius of the outer circle), the central (base) angles corresponding to one edge of a regular pentagram and polygon, the inradius shared by the pentagram and the inner pentagon whose vertices are the points where the pentagram edges cross each other, the circumradius of this inner pentagon and, finally, the total number of distinct points whose coordinates we need to compute and the base angle for this distribution.</p>
+<p>After that, within a loop, we compute the coordinates of the points we want and we push them into the array of coordinates.</p>
+<pre rel="JavaScript"><code class="language-javascript">const P = 5; /* number of cubic curves/ polygon vertices */
+
+function getStarPoints(f = .5) {
+  const RCO = f*D /* outer (pentagram) circumradius  */, 
+        BAS = 2*(2*Math.PI/P) /* base angle for star poly */, 
+        BAC = 2*Math.PI/P /* base angle for convex poly */, 
+        RI = RCO*Math.cos(.5*BAS) /*pentagram/ inner pentagon inradius */, 
+        RCI = RI/Math.cos(.5*BAC) /* inner pentagon circumradius */, 
+        ND = 2*P /* total number of distinct points we need to get */, 
+        BAD = 2*Math.PI/ND /* base angle for point distribution */, 
+        PTS = [] /* array we fill with point coordinates */;
+
+  for(let i = 0; i &lt; ND; i++) {}
+
+  return PTS;
+}</code></pre>
+<p>To compute the coordinates of our points, we use the radius of the circle they're on and the angle of the radial line connecting them to the origin with respect to the horizontal axis, as illustrated by the interactive demo below (drag the point to see how its Cartesian coordinates change):</p>
+<p data-height="610" data-theme-id="1" data-slug-hash="KNxXZJ" data-default-tab="result" data-user="thebabydino" data-embed-version="2" data-pen-title="position of point in a plane (drag point)" class="codepen">See the <a href="http://codepen.io/thebabydino/pen/KNxXZJ/">Pen</a> by thebabydino (<a href="http://codepen.io/thebabydino">@thebabydino</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<p>In our case, the current radius is the radius of the outer circle (pentagram circumradius <code>RCO</code>) for even index points (<code>0</code>, <code>2</code>, ...) and the radius of the inner circle (inner pentagon circumradius <code>RCI</code>) for odd index points (<code>1</code>, <code>3</code>, ...), while the angle of the radial line connecting the current point to the origin is the point index (<code>i</code>) multiplied with the base angle for point distribution (<code>BAD</code>, which happens to be <code>36°</code> or <code>π/10</code> in our particular case).</p>
+<p>So within the loop we have:</p>
+<pre rel="JavaScript"><code class="language-javascript">for(let i = 0; i &lt; ND; i++) {
+  let cr = i%2 ? RCI : RCO, 
+      ca = i*BAD, 
+      x = Math.round(cr*Math.cos(ca)), 
+      y = Math.round(cr*Math.sin(ca));
+}</code></pre>
+<p>Since we've chosen a pretty big value for the <code>viewBox</code> size, we can safely round the coordinate values so that our code looks cleaner, without decimals.</p>
+<p>As for pushing these coordinates into the points array, we do this twice when we're on the outer circle (the even indices case) because that's where we actually have two control points overlapping, but only for the star, so we'll need to move each of these overlapping points into different positions to get the heart.</p>
+<pre rel="JavaScript"><code class="language-javascript">for(let i = 0; i &lt; ND; i++) {
+  /* same as before */
+  
+  PTS.push([x, y]);
+  if(!(i%2)) PTS.push([x, y]);
+}</code></pre>
+<p>Next, we put data into our object <code>O</code>. For the path data (<code>d</code>) attribute, we store the array of points we get when calling the above function as the initial value. We also create a function for generating the actual attribute value (the path data string in this case - inserting commands in between the pairs of coordinates, so that the browser knows what to do with those coordinates). Finally, we take every attribute we have stored data for and we set its value to the value returned by the previously mentioned function:</p>
+<pre rel="JavaScript"><code class="language-javascript">(function init() {
+  /* same as before */
+  
+  O.d = {
+    ini: getStarPoints(), 
+    afn: function(pts) {
+      return pts.reduce((a, c, i) =&gt; {
+        return a + (i%3 ? ' ' : 'C') + c
+      }, `M${pts[pts.length - 1]}`)
+    }
+  };
+	
+  for(let p in O) _SHAPE.setAttribute(p, O[p].afn(O[p].ini))
+})();</code></pre>
+<p>The result can be seen in the Pen below:</p>
+<p data-height="310" data-theme-id="1" data-slug-hash="YrdwmX" data-default-tab="result" data-user="thebabydino" data-embed-version="2" data-pen-title="make SVG star shape" class="codepen">See the <a href="http://codepen.io/thebabydino/pen/YrdwmX/">Pen</a> by thebabydino (<a href="http://codepen.io/thebabydino">@thebabydino</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<p>This is a promising start. However, we want the first tip of the generating pentagram to point down and the first tip of the resulting star to point up. Currently, they're both pointing right. This is because we start from <code>0°</code> (3 o'clock). So in order to start from 6 o'clock, we add <code>90°</code> (<code>π/2</code> in radians) to every current angle in the <code>getStarPoints()</code> function.</p>
+<pre rel="JavaScript"><code class="language-javascript">ca = i*BAD + .5*Math.PI</code></pre>
+<p>This makes the first tip of the generating pentagram and resulting star to point down. To rotate the star, we need to set its <code>transform</code> attribute to a half circle rotation. In order to do so, we first set an initial rotation angle to <code>-180</code>. Afterwards, we set the function that generates the actual attribute value to a function that generates a string from a function name and an argument:</p>
+<pre rel="JavaScript"><code class="language-javascript">function fnStr(fname, farg) { return `${fname}(${farg})` };
+
+(function init() {
+  /* same as before */
+  
+  O.transform = { ini: -180,  afn: (ang) =&gt; fnStr('rotate', ang) };
+	
+  /* same as before */
+})();</code></pre>
+<p>We also give our star a golden <code>fill</code> in a similar fashion. We set an RGB array to the initial value in the <code>fill</code> case and we use a similar function to generate the actual attribute value:</p>
+<pre rel="JavaScript"><code class="language-javascript">(function init() {
+  /* same as before */
+  
+  O.fill = { ini: [255, 215, 0],  afn: (rgb) =&gt; fnStr('rgb', rgb) };
+	
+  /* same as before */
+})();</code></pre>
+<p>We now have a nice golden SVG star, made up of five cubic Bézier curves:</p>
+<p data-height="310" data-theme-id="1" data-slug-hash="wrRWJN" data-default-tab="result" data-user="thebabydino" data-embed-version="2" data-pen-title="make SVG star shape #2" class="codepen">See the <a href="http://codepen.io/thebabydino/pen/wrRWJN/">Pen</a> by thebabydino (<a href="http://codepen.io/thebabydino">@thebabydino</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<h4 id='heart-geometry'>Heart</h4>
+<p>Since we have the star, let's next see how we can get the heart!</p>
+<p>We start with two intersecting circles of equal radii, both a fraction (let's say <code>.25</code> for the time being) of the <code>viewBox</code> size. These circles intersect in such a way that the segment connecting their central points is on the <var>x</var> axis and the segment connecting their intersection points is on the <var>y</var> axis. We also take these two segments to be equal.</p>
+<figure><img src="https://css-tricks.com/wp-content/uploads/2017/10/heart_helper_circ.svg" alt="Illustration showing the helper circles we start with, their radii and the segments connecting their central points and their intersection points."/><figcaption>We start with two circles of equal radius whose central points are on the horizontal axis and which intersect on the vertical axis (<a href="https://codepen.io/thebabydino/pen/aLPYQy?editors=1000">live</a>).</figcaption></figure>
+<p>Next, we draw diameters through the upper intersection point and then tangents through the opposite points of these diameters. These tangents intersect on the <var>y</var> axis.</p>
+<figure><img src="https://css-tricks.com/wp-content/uploads/2017/10/heart_helper_circ_tan.svg" alt="Illustration showing the helper circles we start with, their passing through their upper intersection point, the tangents at the diametrically opposite points and their intersection."/><figcaption>Constructing diameters through the upper intersection point and tangents to the circle at the opposite ends of these diameters, tangents which intersect on the vertical axis (<a href="https://codepen.io/thebabydino/pen/qPLvbq?editors=1000">live</a>).</figcaption></figure>
+<p>The upper intersection point and the diametrically opposite points make up three of the five end points we need. The other two end points split the outer half circle arcs into two equal parts, thus giving us four quarter circle arcs.</p>
+<figure><img src="https://css-tricks.com/wp-content/uploads/2017/10/heart_hl_end_low_ctrl_pts.svg" alt="Illustration highlighting the end points of the cubic Bézier curves that make up the heart and the coinciding control points of the bottom one of these curves."/><figcaption>Highlighting the end points of the cubic Bézier curves that make up the heart and the coinciding control points of the bottom one of these curves (<a href="https://codepen.io/thebabydino/pen/wrRZBw?editors=1000">live</a>).</figcaption></figure>
+<p>Both control points for the curve at the bottom coincide with the intersection of the the two tangents drawn previously. But what about the other four curves? How can we go from circular arcs to cubic Bézier curves?</p>
+<p>We don't have a cubic Bézier curve equivalent for a quarter circle arc, but we can find a very good approximation, as explained in <a href="http://spencermortensen.com/articles/bezier-circle/">this article</a>.</p>
+<p>The gist of it is that we start from a quarter circle arc of radius <code>R</code> and draw tangents to the end points of this arc (<var>N</var> and <var>Q</var>). These tangents intersect at <var>P</var>. The quadrilateral <var>ONPQ</var> has all angles equal to <code>90°</code> (or <code>π/2</code>), three of them by construction (<var>O</var> corresponds to a <code>90°</code> arc and the tangent to a point of that circle is always perpendicular onto the radial line to the same point) and the final one by computation (the sum of angles in a quadrilateral is always <code>360°</code> and the other three angles add up to <code>270°</code>). This makes <var>ONPQ</var> a rectangle. But <var>ONPQ</var> also has two consecutive edges equal (<var>OQ</var> and <var>ON</var> are both radial lines, equal to <code>R</code> in length), which makes it a square of edge <code>R</code>. So the lengths of <var>NP</var> and <var>QP</var> are also equal to <code>R</code>.</p>
+<figure><img src="https://css-tricks.com/wp-content/uploads/2017/10/arc_cubic_curve_approxim.svg" alt="Illustration showing the control points we need to approximate a quarter circle arc with a cubic Bézier curve."/><figcaption>Approximating a quarter circle arc with a cubic Bézier curve (<a href="https://codepen.io/thebabydino/pen/jGXoWY?editors=1000">live</a>).</figcaption></figure>
+<p>The control points of the cubic curve approximating our arc are on the tangent lines <var>NP</var> and <var>QP</var>, at <code>C·R</code> away from the end points, where <code>C</code> is the constant the previously linked article computes to be <code>.551915</code>.</p>
+<p>Given all of this, we can now start computing the coordinates of the end points and control points of the cubic curves making up our star.</p>
+<p>Due to the way we've chosen to construct this heart, <var>TO<sub>0</sub>SO<sub>1</sub></var> (see figure below) is <a href="https://en.wikipedia.org/wiki/Square#Characterizations">a square</a> since it has all edges equal (all are radii of one of our two equal circles) and its diagonals are equal by construction (we said the distance between the central points equals that between the intersection points). Here, <var>O</var> is the intersection of the diagonals and <var>OT</var> is half the <var>ST</var> diagonal. <var>T</var> and <var>S</var> are on the <var>y</var> axis, so their <var>x</var> coordinate is <code>0</code>. Their <var>y</var> coordinate in absolute value equals the <var>OT</var> segment, which is half the diagonal (as is the <var>OS</var> segment).</p>
+<figure><img src="https://css-tricks.com/wp-content/uploads/2017/10/heart_square_in.svg" alt="Illustration showing how the central points and the intersection points of the two helper circles form a square."/><figcaption>The <var>TO<sub>0</sub>SO<sub>1</sub></var> square (<a href="https://codepen.io/thebabydino/pen/PJVmzG?editors=1000">live</a>).</figcaption></figure>
+<p>We can split any square of edge length <code>l</code> into two equal right isosceles triangles where the catheti coincide with the square edges and the hypotenuse coincides with a diagonal.</p>
+<figure><img src="https://css-tricks.com/wp-content/uploads/2017/10/square_diag.svg" alt="Illustration showing how a square can be split into two congruent right isosceles triangles."/><figcaption>Any square can be split into two congruent right isosceles triangles (<a href="https://codepen.io/thebabydino/pen/aLXjrJ?editors=1000">live</a>).</figcaption></figure>
+<p>Using one of these right triangles, we can compute the hypotenuse (and therefore the square diagonal) using Pythagora's theorem: <code>d² = l² + l²</code>. This gives us the square diagonal as a function of the edge <code>d = √(2∙l) = l∙√2</code> (conversely, the edge as a function of the diagonal is <code>l = d/√2</code>). It also means that half the diagonal is <code>d/2 = (l∙√2)/2 = l/√2</code>.</p>
+<p>Applying this to our <var>TO<sub>0</sub>SO<sub>1</sub></var> square of edge length <code>R</code>, we get that the <var>y</var> coordinate of <var>T</var> (which, in absolute value, equals half this square's diagonal) is <code>-R/√2</code> and the <var>y</var> coordinate of <var>S</var> is <code>R/√2</code>.</p>
+<figure><img src="https://css-tricks.com/wp-content/uploads/2017/10/heart_square_in_coord.svg" alt="Illustration showing the coordinates of the vertices of the TO₀SO₁ square."/><figcaption>The coordinates of the vertices of the <var>TO<sub>0</sub>SO<sub>1</sub></var> square (<a href="https://codepen.io/thebabydino/pen/qPgJbv?editors=1000">live</a>).</figcaption></figure>
+<p>Similarly, the <var>O<sub>k</sub></var> points are on the <var>x</var> axis, so their <var>y</var> coordinates are <code>0</code>, while their <var>x</var> coordinates are given by the half diagonal <var>OO<sub>k</sub></var>: <code>±R/√2</code>.</p>
+<p><var>TO<sub>0</sub>SO<sub>1</sub></var> being a square also means all of its angles are <code>90°</code> (<code>π/2</code> in radians) angles.</p>
+<figure><img src="https://css-tricks.com/wp-content/uploads/2017/10/heart_square_lat.svg" alt="Illustration showing TAₖBₖS quadrilaterals."/><figcaption>The <var>TA<sub>k</sub>B<sub>k</sub>S</var> quadrilaterals (<a href="https://codepen.io/thebabydino/pen/qPgwRx?editors=1000">live</a>).</figcaption></figure>
+<p>In the illustration above, the <var>TB<sub>k</sub></var> segments are diameter segments, meaning that the <var>TB<sub>k</sub></var> arcs are half circle, or <code>180°</code> arcs and we've split them into two equal halves with the <var>A<sub>k</sub></var> points, getting two equal <code>90°</code> arcs - <var>TA<sub>k</sub></var> and <var>A<sub>k</sub>B<sub>k</sub></var>, which correspond to two equal <code>90°</code> angles, <var>∠TO<sub>k</sub>A<sub>k</sub></var> and <var>∠A<sub>k</sub>O<sub>k</sub>B<sub>k</sub></var>.</p>
+<p>Given that <var>∠TO<sub>k</sub>S</var> are <code>90°</code> angles and <var>∠TO<sub>k</sub>A<sub>k</sub></var> are also <code>90°</code> angles by construction, it results that the <var>SA<sub>k</sub></var> segments are also diameter segments. This gives us that in the <var>TA<sub>k</sub>B<sub>k</sub>S</var> quadrilaterals, the diagonals <var>TB<sub>k</sub></var> and <var>SA<sub>k</sub></var> are perpendicular, equal and cross each other in the middle (<var>TO<sub>k</sub></var>, <var>O<sub>k</sub>B<sub>k</sub></var>, <var>SO<sub>k</sub></var> and <var>O<sub>k</sub>A<sub>k</sub></var> are all equal to the initial circle radius <code>R</code>). This means the <var>TA<sub>k</sub>B<sub>k</sub>S</var> quadrilaterals are squares whose diagonals are <code>2∙R</code>.</p>
+<p>From here we can get that the edge length of the <var>TA<sub>k</sub>B<sub>k</sub>S</var> quadrilaterals is <code>2∙R/√2 = R∙√2</code>. Since all angles of a square are <code>90°</code> ones and the <var>TS</var> edge coincides with the vertical axis, this means the <var>TA<sub>k</sub></var> and <var>SB<sub>k</sub></var> edges are horizontal, parallel to the <var>x</var> axis and their length gives us the <var>x</var> coordinates of the <var>A<sub>k</sub></var> and <var>B<sub>k</sub></var> points: <code>±R∙√2</code>.</p>
+<p>Since <var>TA<sub>k</sub></var> and <var>SB<sub>k</sub></var> are horizontal segments, the <var>y</var> coordinates of the <var>A<sub>k</sub></var> and <var>B<sub>k</sub></var> points equal those of the <var>T</var> (<code>-R/√2</code>) and <var>S</var> (<code>R/√2</code>) points respectively.</p>
+<figure><img src="https://css-tricks.com/wp-content/uploads/2017/10/heart_square_lat_coord.svg" alt="Illustration showing the coordinates of the vertices of the TAₖBₖS squares."/><figcaption>The coordinates of the vertices of the <var>TA<sub>k</sub>B<sub>k</sub>S</var> squares (<a href="https://codepen.io/thebabydino/pen/Oxqbzb?editors=1000">live</a>).</figcaption></figure>
+<p>Another thing we get from here is that, since <var>TA<sub>k</sub>B<sub>k</sub>S</var> are squares, <var>A<sub>k</sub>B<sub>k</sub></var> are parallel with <var>TS</var>, which is on the <var>y</var> (vertical) axis, therefore the <var>A<sub>k</sub>B<sub>k</sub></var> segments are vertical. Additionally, since the <var>x</var> axis is parallel to the <var>TA<sub>k</sub></var> and <var>SB<sub>k</sub></var> segments and it cuts the <var>TS</var>, it results that it also cuts the <var>A<sub>k</sub>B<sub>k</sub></var> segments in half.</p>
+<p>Now let's move on to the control points.</p>
+<p>We start with the overlapping control points for the bottom curve.</p>
+<figure><img src="https://css-tricks.com/wp-content/uploads/2017/10/heart_square_low.svg" alt="Illustration showing the TB₀CB₁ quadrilateral."/><figcaption>The <var>TB<sub>0</sub>CB<sub>1</sub></var> quadrilateral (<a href="https://codepen.io/thebabydino/pen/GMerwx?editors=1000">live</a>).</figcaption></figure>
+<p>The <var>TB<sub>0</sub>CB<sub>1</sub></var> quadrilateral has all angles equal to <code>90°</code> (<var>∠T</var> since <var>TO<sub>0</sub>SO<sub>1</sub></var> is a square, <var>∠B<sub>k</sub></var> by construction since the <var>B<sub>k</sub>C</var> segments are tangent to the circle at <var>B<sub>k</sub></var> and therefore perpendicular onto the radial lines <var>O<sub>k</sub>B<sub>k</sub></var> at that point; and finally, <var>∠C</var> can only be <code>90°</code> since the sum of angles in a quadrilateral is <code>360°</code> and the other three angles add up to <code>270°</code>), which makes it a rectangle. It also has two consecutive edges equal - <var>TB<sub>0</sub></var> and <var>TB<sub>1</sub></var> are both diameters of the initial squares and therefore both equal to <code>2∙R</code>. All of this makes it a square of edge <code>2∙R</code>.</p>
+<p>From here, we can get its diagonal <var>TC</var> - it's <code>2∙R∙√2</code>. Since <var>C</var> is on the <var>y</var> axis, its <var>x</var> coordinate is <code>0</code>. Its <var>y</var> coordinate is the length of the <var>OC</var> segment. The <var>OC</var> segment is the <var>TC</var> segment minus the <var>OT</var> segment: <code>2∙R∙√2 - R/√2 = 4∙R/√2 - R/√2 = 3∙R/√2</code>.</p>
+<figure><img src="https://css-tricks.com/wp-content/uploads/2017/10/heart_square_low_coord.svg" alt="Illustration showing the coordinates of the vertices of the TB₀CB₁ square."/><figcaption>The coordinates of the vertices of the <var>TB<sub>0</sub>CB<sub>1</sub></var> square (<a href="https://codepen.io/thebabydino/pen/WZmjgZ?editors=1000">live</a>).</figcaption></figure>
+<p>So we now have the coordinates of the two coinciding control points for the bottom curve are <code>(0,3∙R/√2)</code>.</p>
+<p>In order to get the coordinates of the control points for the other curves, we draw tangents through their endpoints and we get the intersections of these tangents at <var>D<sub>k</sub></var> and <var>E<sub>k</sub></var>.</p>
+<figure><img src="https://css-tricks.com/wp-content/uploads/2017/10/heart_square_out.svg" alt="Illustration showing the TOₖAₖDₖ and AₖOₖBₖEₖ quadrilaterals."/><figcaption>The <var>TO<sub>k</sub>A<sub>k</sub>D<sub>k</sub></var> and <var>A<sub>k</sub>O<sub>k</sub>B<sub>k</sub>E<sub>k</sub></var> quadrilaterals (<a href="https://codepen.io/thebabydino/pen/XeGVdj?editors=1000">live</a>).</figcaption></figure>
+<p>In the <var>TO<sub>k</sub>A<sub>k</sub>D<sub>k</sub></var> quadrilaterals, we have that all angles are <code>90°</code> (right) angles, three of them by construction (<var>∠D<sub>k</sub>TO<sub>k</sub></var> and <var>∠D<sub>k</sub>A<sub>k</sub>O<sub>k</sub></var> are the angles between the radial and tangent lines at <var>T</var> and <var>A<sub>k</sub></var> respectively, while <var>∠TO<sub>k</sub>A<sub>k</sub></var> are the angles corresponding to the quarter circle arcs <var>TA<sub>k</sub></var>) and the fourth by computation (the sum of angles in a quadrilateral is <code>360°</code> and the other three add up to <code>270°</code>). This makes <var>TO<sub>k</sub>A<sub>k</sub>D<sub>k</sub></var> rectangles. Since they have two consecutive edges equal (<var>O<sub>k</sub>T</var> and <var>O<sub>k</sub>A<sub>k</sub></var> are radial segments of length <code>R</code>), they are also squares.</p>
+<p>This means the diagonals <var>TA<sub>k</sub></var> and <var>O<sub>k</sub>D<sub>k</sub></var> are <code>R∙√2</code>. We already know that <var>TA<sub>k</sub></var> are horizontal and, since the diagonals of a square are perpendicular, it results the <var>O<sub>k</sub>D<sub>k</sub></var> segments are vertical. This means the <var>O<sub>k</sub></var> and <var>D<sub>k</sub></var> points have the same <var>x</var> coordinate, which we've already computed for <var>O<sub>k</sub></var> to be <code>±R/√2</code>. Since we know the length of <var>O<sub>k</sub>D<sub>k</sub></var>, we can also get the <var>y</var> coordinates - they're the diagonal length (<code>R∙√2</code>) with minus in front.</p>
+<p>Similarly, in the <var>A<sub>k</sub>O<sub>k</sub>B<sub>k</sub>E<sub>k</sub></var> quadrilaterals, we have that all angles are <code>90°</code> (right) angles, three of them by construction (<var>∠E<sub>k</sub>A<sub>k</sub>O<sub>k</sub></var> and <var>∠E<sub>k</sub>B<sub>k</sub>O<sub>k</sub></var> are the angles between the radial and tangent lines at <var>A<sub>k</sub></var> and <var>B<sub>k</sub></var> respectively, while <var>∠A<sub>k</sub>O<sub>k</sub>B<sub>k</sub></var> are the angles corresponding to the quarter circle arcs <var>A<sub>k</sub>B<sub>k</sub></var>) and the fourth by computation (the sum of angles in a quadrilateral is <code>360°</code> and the other three add up to <code>270°</code>). This makes <var>A<sub>k</sub>O<sub>k</sub>B<sub>k</sub>E<sub>k</sub></var> rectangles. Since they have two consecutive edges equal (<var>O<sub>k</sub>A<sub>k</sub></var> and <var>O<sub>k</sub>B<sub>k</sub></var> are radial segments of length <code>R</code>), they are also squares.</p>
+<p>From here, we get the diagonals <var>A<sub>k</sub>B<sub>k</sub></var> and <var>O<sub>k</sub>E<sub>k</sub></var> are <code>R∙√2</code>. We know the <var>A<sub>k</sub>B<sub>k</sub></var> segments are vertical and split into half by the horizontal axis, which means the <var>O<sub>k</sub>E<sub>k</sub></var> segments are on this axis and the <var>y</var> coordinates of the <var>E<sub>k</sub></var> points are <code>0</code>. Since the <var>x</var> coordinates of the <var>O<sub>k</sub></var> points are <code>±R/√2</code> and the <var>O<sub>k</sub>E<sub>k</sub></var> segments are <code>R∙√2</code>, we can compute those of the <var>E<sub>k</sub></var> points as well - they're <code>±3∙R/√2</code>.</p>
+<figure><img src="https://css-tricks.com/wp-content/uploads/2017/10/heart_square_out_coord.svg" alt="Illustration showing the coordinates of the newly computed vertices of the TOₖAₖDₖ and AₖOₖBₖEₖ squares."/><figcaption>The coordinates of the newly computed vertices of the TOₖAₖDₖ and AₖOₖBₖEₖ squares (<a href="https://codepen.io/thebabydino/pen/xXorRQ?editors=1000">live</a>).</figcaption></figure>
+<p>Alright, but these intersection points for the tangents are not the control points we need to get the circular arc approximations. The control points we want are on the <var>TD<sub>k</sub></var>, <var>A<sub>k</sub>D<sub>k</sub></var>, <var>A<sub>k</sub>E<sub>k</sub></var> and <var>B<sub>k</sub>E<sub>k</sub></var> segments at about <code>55%</code> (this value is given by the constant <code>C</code> computed in the previously mentioned article) away from the curve end points (<var>T</var>, <var>A<sub>k</sub></var>, <var>B<sub>k</sub></var>). This means the segments from the endpoints to the control points are <code>C∙R</code>.</p>
+<p>In this situation, the coordinates of our control points are <code>1 - C</code> of those of the end points (<var>T</var>, <var>A<sub>k</sub></var> and <var>B<sub>k</sub></var>) plus <code>C</code> of those of the points where the tangents at the end points intersect (<var>D<sub>k</sub></var> and <var>E<sub>k</sub></var>).</p>
+<p>So let's put all of this into JavaScript code!</p>
+<p>Just like in the star case, we start with a <code>getStarPoints(f)</code> function which depends on an arbitrary factor (<code>f</code>) that's going to help us get the radius of the helper circles from the <code>viewBox</code> size. This function also returns an array of coordinates we later use for interpolation.</p>
+<p>Inside, we compute the stuff that doesn't change throughout the function. First off, the radius of the helper circles. From that, the half diagonal of the small squares whose edge equals this helper circle radius, half diagonal which is also the circumradius of these squares. Afterwards, the coordinates of the end points of our cubic curves (the <var>T</var>, <var>A<sub>k</sub></var>, <var>B<sub>k</sub></var> points), in absolute value for the ones along the horizontal axis. Then we move on to the coordinates of the points where the tangents through the end points intersect (the <var>C</var>, <var>D<sub>k</sub></var>, <var>E<sub>k</sub></var> points). These either coincide with the control points (<var>C</var>) or can help us get the control points (this is the case for <var>D<sub>k</sub></var> and <var>E<sub>k</sub></var>).</p>
+<pre rel="JavaScript"><code class="language-javascript">function getHeartPoints(f = .25) {
+  const R = f*D /* helper circle radius  */, 
+        RC = Math.round(R/Math.SQRT2) /* circumradius of square of edge R */, 
+        XT = 0, YT = -RC /* coords of point T */, 
+        XA = 2*RC, YA = -RC /* coords of A points (x in abs value) */, 
+        XB = 2*RC, YB = RC /* coords of B points (x in abs value) */, 
+        XC = 0, YC = 3*RC /* coords of point C */, 
+        XD = RC, YD = -2*RC /* coords of D points (x in abs value) */, 
+        XE = 3*RC, YE = 0 /* coords of E points (x in abs value) */;
+}</code></pre>
+<p>The interactive demo below shows the coordinates of these points on click:</p>
+<p data-height="470" data-theme-id="1" data-slug-hash="bYGrjR" data-default-tab="result" data-user="thebabydino" data-embed-version="2" data-pen-title="heart structure - end and intersection points" class="codepen">See the <a href="http://codepen.io/thebabydino/pen/bYGrjR/">Pen</a> by thebabydino (<a href="http://codepen.io/thebabydino">@thebabydino</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<p>Now we can also get the control points from the end points and the points where the tangents through the end points intersect:</p>
+<pre rel="JavaScript"><code class="language-javascript">function getHeartPoints(f = .25) {
+  /* same as before */
+  const /* const for cubic curve approx of quarter circle */
+        C = .551915, 
+        CC = 1 - C, 
+        /* coords of ctrl points on TD segs */
+        XTD = Math.round(CC*XT + C*XD), YTD = Math.round(CC*YT + C*YD), 
+        /* coords of ctrl points on AD segs */
+        XAD = Math.round(CC*XA + C*XD), YAD = Math.round(CC*YA + C*YD), 
+        /* coords of ctrl points on AE segs */
+        XAE = Math.round(CC*XA + C*XE), YAE = Math.round(CC*YA + C*YE), 
+        /* coords of ctrl points on BE segs */
+        XBE = Math.round(CC*XB + C*XE), YBE = Math.round(CC*YB + C*YE);
+
+  /* same as before */
+}</code></pre>
+<p>Next, we need to put the relevant coordinates into an array and return this array. In the case of the star, we started with the bottom curve and then went clockwise, so we do the same here. For every curve, we push two sets of coordinates for the control points and then one set for the point where the current curve ends.</p>
+<p data-height="470" data-theme-id="1" data-slug-hash="WXeVRO" data-default-tab="result" data-user="thebabydino" data-embed-version="2" data-pen-title="star vs. heart: corresponding cubic Bézier curves (annotated, highlight on click)" class="codepen">See the <a href="http://codepen.io/thebabydino/pen/WXeVRO/">Pen</a> by thebabydino (<a href="http://codepen.io/thebabydino">@thebabydino</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<p>Note that in the case of the first (bottom) curve, the two control points coincide, so we push the same pair of coordinates twice. The code doesn't look anywhere near as nice as in the case of the star, but it will have to suffice:</p>
+<pre rel="JavaScript"><code class="language-javascript">return [
+  [XC, YC], [XC, YC], [-XB, YB], 
+  [-XBE, YBE], [-XAE, YAE], [-XA, YA], 
+  [-XAD, YAD], [-XTD, YTD], [XT, YT], 
+  [XTD, YTD], [XAD, YAD], [XA, YA], 
+  [XAE, YAE], [XBE, YBE], [XB, YB]
+];</code></pre>
+<p>We can now take our star demo and use the <code>getHeartPoints()</code> function for the final state, no rotation and a crimson <code>fill</code> instead. Then, we set the current state to the final shape, just so that we can see the heart:</p>
+<pre rel="JavaScript"><code class="language-javascript">function fnStr(fname, farg) { return `${fname}(${farg})` };
+
+(function init() {	
+  _SVG.setAttribute('viewBox', [-.5*D, -.5*D, D, D].join(' '));
+	
+  O.d = {
+    ini: getStarPoints(), 
+    fin: getHeartPoints(), 
+    afn: function(pts) {
+      return pts.reduce((a, c, i) =&gt; {
+        return a + (i%3 ? ' ' : 'C') + c
+      }, `M${pts[pts.length - 1]}`)
+    }
+  };
+	
+  O.transform = {
+    ini: -180, 
+    fin: 0, 
+    afn: (ang) =&gt; fnStr('rotate', ang)
+  };
+	
+  O.fill = {
+    ini: [255, 215, 0], 
+    fin: [220, 20, 60], 
+    afn: (rgb) =&gt; fnStr('rgb', rgb)
+  };
+	
+  for(let p in O) _SHAPE.setAttribute(p, O[p].afn(O[p].fin))
+})();</code></pre>
+<p>This gives us a nice looking heart:</p>
+<p data-height="310" data-theme-id="1" data-slug-hash="veqbrV" data-default-tab="result" data-user="thebabydino" data-embed-version="2" data-pen-title="make SVG heart shape" class="codepen">See the <a href="http://codepen.io/thebabydino/pen/veqbrV/">Pen</a> by thebabydino (<a href="http://codepen.io/thebabydino">@thebabydino</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<h3 id='consistent-shape-alignment'>Ensuring consistent shape alignment</h3>
+<p>However, if we place the two shapes one on top of the other with no <code>fill</code> or <code>transform</code>, just a <code>stroke</code>, we see the alignment looks pretty bad:</p>
+<p data-height="310" data-theme-id="1" data-slug-hash="PJrLMp" data-default-tab="result" data-user="thebabydino" data-embed-version="2" data-pen-title="SVG star vs. heart alignment" class="codepen">See the <a href="http://codepen.io/thebabydino/pen/PJrLMp/">Pen</a> by thebabydino (<a href="http://codepen.io/thebabydino">@thebabydino</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<p>The easiest way to solve this issue is to shift the heart up by an amount depending on the radius of the helper circles:</p>
+<pre rel="JavaScript"><code class="language-javascript">return [ /* same coords */ ].map(([x, y]) =&gt; [x, y - .09*R])</code></pre>
+<p>We now have much better alignment, regardless of how we tweak the <code>f</code> factor in either case. This is the factor that determines the pentagram circumradius relative to the <code>viewBox</code> size in the star case (when the default is <code>.5</code>) and the radius of the helper circles relative to the same <code>viewBox</code> size in the heart case (when the default is <code>.25</code>).</p>
+<p data-height="430" data-theme-id="1" data-slug-hash="eGqaxd" data-default-tab="result" data-user="thebabydino" data-embed-version="2" data-pen-title="star-heart alignment for various f factors" class="codepen">See the <a href="http://codepen.io/thebabydino/pen/eGqaxd/">Pen</a> by thebabydino (<a href="http://codepen.io/thebabydino">@thebabydino</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<h3 id='shape-switching'>Switching between the two shapes</h3>
+<p>We want to go from one shape to the other on click. In order to do this, we set a direction <code>dir</code> variable which is <code>1</code> when we go from star to heart and <code>-1</code> when we go from heart to star. Initially, it's <code>-1</code>, as if we've just switched from heart to star.</p>
+<p>Then we add a <code>'click'</code> event listener on the <code>_SHAPE</code> element and code what happens in this situation - we change the sign of the direction (<code>dir</code>) variable and we change the shape's attributes so that we go from a golden star to a crimson heart or the other way around:</p>
+<pre rel="JavaScript"><code class="language-javascript">let dir = -1;
+
+(function init() {	
+  /* same as before */
+	
+  _SHAPE.addEventListener('click', e =&gt; {
+    dir *= -1;
+		
+    for(let p in O)
+      _SHAPE.setAttribute(p, O[p].afn(O[p][dir &gt; 0 ? 'fin' : 'ini']));
+  }, false);
+})();</code></pre>
+<p>And we're now switching between the two shapes on click:</p>
+<p data-height="310" data-theme-id="1" data-slug-hash="wPwKMw" data-default-tab="result" data-user="thebabydino" data-embed-version="2" data-pen-title="toggle between star and heart on click" class="codepen">See the <a href="http://codepen.io/thebabydino/pen/wPwKMw/">Pen</a> by thebabydino (<a href="http://codepen.io/thebabydino">@thebabydino</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<h3 id='shape-morphing'>Morphing from one shape to another</h3>
+<p>What we really want however is not an abrupt change from one shape to another, but a gradual one. So we use the interpolation techniques explained in the previous article to achieve this.</p>
+<p>We first decide on a total number of frames for our transition (<code>NF</code>) and choose the kind of timing functions we want to use - an <code>ease-in-out</code> type of function for transitioning the <code>path</code> shape from star to heart, a <code>bounce-ini-fin</code> type of function for the rotation angle and an <code>ease-out</code> one for the <code>fill</code>. We only include these, though we could later add others in case we change our mind and want to explore other options as well.</p>
+<pre rel="JavaScript"><code class="language-javascript">/* same as before */
+const NF = 50, 
+      TFN = {
+        'ease-out': function(k) {
+          return 1 - Math.pow(1 - k, 1.675)
+        }, 
+        'ease-in-out': function(k) {
+          return .5*(Math.sin((k - .5)*Math.PI) + 1)
+        },
+        'bounce-ini-fin': function(k, s = -.65*Math.PI, e = -s) {
+          return (Math.sin(k*(e - s) + s) - Math.sin(s))/(Math.sin(e) - Math.sin(s))
+        }
+      };</code></pre>
+<p>We then specify which of these timing functions we use for each property we transition:</p>
+<pre rel="JavaScript"><code class="language-javascript">(function init() {	
+  /* same as before */
+	
+  O.d = {
+    /* same as before */
+    tfn: 'ease-in-out'
+  };
+	
+  O.transform = {
+    /* same as before */
+    tfn: 'bounce-ini-fin'
+  };
+  	
+  O.fill = {
+    /* same as before */
+    tfn: 'ease-out'
+  };
+
+  /* same as before */
+})();</code></pre>
+<p>We move on to adding request ID (<code>rID</code>) and current frame (<code>cf</code>) variables, an <code>update()</code> function we first call on click, then on every refresh of the display until the transition finishes and we call a <code>stopAni()</code> function to exit this animation loop. Within the <code>update()</code> function, we... well, update the current frame <code>cf</code>, compute a progress <code>k</code> and decide whether we've reached the end of the transition and we need to exit the animation loop or we carry on.</p>
+<p>We also add a multiplier <code>m</code> variable which we use so that we don't reverse the timing functions when we go from the final state (heart) back to the initial one (star).</p>
+<pre rel="JavaScript"><code class="language-javascript">let rID = null, cf = 0, m;
+
+function stopAni() {
+  cancelAnimationFrame(rID);
+  rID = null;  
+};
+
+function update() {
+  cf += dir;
+	
+  let k = cf/NF;
+  
+  if(!(cf%NF)) {
+    stopAni();
+    return
+  }
+  
+  rID = requestAnimationFrame(update)
+};</code></pre>
+<p>Then we need to change what we do on click:</p>
+<pre rel="JavaScript"><code class="language-javascript">addEventListener('click', e =&gt; {
+  if(rID) stopAni();
+  dir *= -1;
+  m = .5*(1 - dir);
+  update();
+}, false);</code></pre>
+<p>Within the <code>update()</code> function, we want to set the attributes we transition to some intermediate values (depending on the progress <code>k</code>). As seen in the previous article, it's good to have the ranges between the final and initial values precomputed at the beginning, before even setting the listener, so that's our next step: creating a function that computes the range between numbers, whether as such or in arrays, no matter how deep and then using this function to set the ranges for the properties we want to transition.</p>
+<pre rel="JavaScript"><code class="language-javascript">function range(ini, fin) {
+  return typeof ini == 'number' ? 
+         fin - ini : 
+         ini.map((c, i) =&gt; range(ini[i], fin[i]))
+};
+
+(function init() {	
+  /* same as before */
+	
+  for(let p in O) {
+    O[p].rng = range(O[p].ini, O[p].fin);
+    _SHAPE.setAttribute(p, O[p].afn(O[p].ini));
+  }
+	
+  /* same as before */
+})();</code></pre>
+<p>Now all that's left to do is the interpolation part in the update() function. Using a loop, we go through all the attributes we want to smoothly change from one end state to the other. Within this loop, we set their current value to the one we get as the result of an interpolation function which depends on the initial value(s), range(s) of the current attribute (<code>ini</code> and <code>rng</code>), on the timing function we use (<code>tfn</code>) and on the progress (<code>k</code>):</p>
+<pre rel="JavaScript"><code class="language-javascript">function update() {	
+  /* same as before */
+	
+  for(let p in O) {
+    let c = O[p];
+
+    _SHAPE.setAttribute(p, c.afn(int(c.ini, c.rng, TFN[c.tfn], k)));
+  }
+	
+  /* same as before */
+};</code></pre>
+<p>The last step is to write this interpolation function. It's pretty similar to the one that gives us the range values:</p>
+<pre rel="JavaScript"><code class="language-javascript">function int(ini, rng, tfn, k) {
+  return typeof ini == 'number' ? 
+         Math.round(ini + (m + dir*tfn(m + dir*k))*rng) : 
+         ini.map((c, i) =&gt; int(ini[i], rng[i], tfn, k))
+};</code></pre>
+<p>This finally gives us a shape that morphs from star to heart on click and goes back to star on a second click!</p>
+<p data-height="310" data-theme-id="1" data-slug-hash="LOPpBM" data-default-tab="result" data-user="thebabydino" data-embed-version="2" data-pen-title="SVG + plain JS: star to heart & back (click)" class="codepen">See the <a href="http://codepen.io/thebabydino/pen/LOPpBM/">Pen</a> by thebabydino (<a href="http://codepen.io/thebabydino">@thebabydino</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<p>It's <strong><em>almost</em></strong> what we wanted - there's still one tiny issue. For cyclic values like angle values, we don't want to go back by half a circle on the second click. Instead, we want to continue going in the same direction for another half circle. Adding this half circle from after the second click with the one traveled after the first click, we get a full circle so we're right back where we started.</p>
+<p>We put this into code by adding an optional continuity property and tweaking the updating and interpolating functions a bit:</p>
+<pre rel="JavaScript"><code class="language-javascript">function int(ini, rng, tfn, k, cnt) {
+  return typeof ini == 'number' ? 
+         Math.round(ini + cnt*(m + dir*tfn(m + dir*k))*rng) : 
+         ini.map((c, i) =&gt; int(ini[i], rng[i], tfn, k, cnt))
+};
+
+function update() {	
+  /* same as before */
+	
+  for(let p in O) {
+    let c = O[p];
+
+    _SHAPE.setAttribute(p, c.afn(int(c.ini, c.rng, TFN[c.tfn], k, c.cnt ? dir : 1)));
+  }
+	
+  /* same as before */
+};
+
+(function init() {	
+  /* same as before */
+	
+  O.transform = {
+    ini: -180, 
+    fin: 0, 
+    afn: (ang) =&gt; fnStr('rotate', ang),
+    tfn: 'bounce-ini-fin',
+    cnt: 1
+  };
+	
+  /* same as before */
+})();</code></pre>
+<p>We now have the result we've been after: a shape that morphs from a golden star into a crimson heart and rotates clockwise by half a circle every time it goes from one state to the other:</p>
+<p data-height="430" data-theme-id="1" data-slug-hash="LpqEmJ" data-default-tab="result" data-user="thebabydino" data-embed-version="2" data-pen-title="#CodeVember #15 - no library star or heart this?" class="codepen">See the <a href="http://codepen.io/thebabydino/pen/LpqEmJ/">Pen</a> by thebabydino (<a href="http://codepen.io/thebabydino">@thebabydino</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-facebook"><a rel="nofollow noopener noreferrer" data-shared="sharing-facebook-261587" class="share-facebook sd-button no-icon" href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/?share=facebook" target="_blank" title="Click to share on Facebook"><span>Facebook</span></a></li><li class="share-twitter"><a rel="nofollow noopener noreferrer" data-shared="sharing-twitter-261587" class="share-twitter sd-button no-icon" href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/?share=twitter" target="_blank" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-linkedin"><a rel="nofollow noopener noreferrer" data-shared="sharing-linkedin-261587" class="share-linkedin sd-button no-icon" href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/?share=linkedin" target="_blank" title="Click to share on LinkedIn"><span>LinkedIn</span></a></li><li class="share-end"></li></ul></div></div></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div>
+    </div>
+
+  </article>
+
+  <div class="end-of-article-ads">
+
+      <div class="bsap-doubles side-by-side">
+
+      <div id="bsap_1250418" class="bsarocks bsap_3469a2a501a9e18091036aa0c89f9dcb"></div>
+
+    </div>
+  
+</div>
+
+<div class="comments-col">
+      <div class="module-comments">
+      <section id="comments">
+
+
+
+  <h2 class="comments-title">
+    Comments
+  </h2>
+
+  <p class="center hide" id="show-comments-wrap">
+    <button id="show-comments-button" class="button">Show Comments</button>
+  </p>
+
+  <ol class="commentlist group" id="commentlist">
+    
+    <li class="comment even thread-even depth-1" id="li-comment-1612868">
+
+      <div class="grid group comment-wrap" id="comment-1612868">
+
+        <div class="comment-avatar grid-1-5">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="50" height="50" class="lazyload-gravatar" alt="User Avatar" data-src="https://secure.gravatar.com/avatar/1cdbe3edfdb984fc361baf36fe1319a9?s=160&d=retro&r=pg">
+        </div>
+
+        <div class="comment-body group grid-4-5">
+
+          <div class="comment-author-wrap vcard">
+            <div class="comment-author">Hagabaka</div> <div class="comment-time"><a href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/#comment-1612868"><span class="screen-reader">Permalink to comment</span>#</a> <time datetime="2017-11-06T15:36:04+00:00">November 6, 2017</time></div>
+            
+          </div>
+          
+          <div class="comment-content">
+
+            <p>Very cool animation. Almost worth learning the geometry and performing the demonic ritual</p>
+
+            <div class="reply">
+                          </div><!-- .reply -->
+
+          </div>
+        </div>
+      </div>
+    
+  </li><!-- #comment-## -->
+
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-1612891">
+
+      <div class="grid group comment-wrap" id="comment-1612891">
+
+        <div class="comment-avatar grid-1-5">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="50" height="50" class="lazyload-gravatar" alt="User Avatar" data-src="https://secure.gravatar.com/avatar/f1a6af5f30183c85876ff120974e2900?s=160&d=retro&r=pg">
+        </div>
+
+        <div class="comment-body group grid-4-5">
+
+          <div class="comment-author-wrap vcard">
+            <div class="comment-author">James Krill</div> <div class="comment-time"><a href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/#comment-1612891"><span class="screen-reader">Permalink to comment</span>#</a> <time datetime="2017-11-07T12:25:47+00:00">November 7, 2017</time></div>
+            
+          </div>
+          
+          <div class="comment-content">
+
+            <p>The animation is cool&#8230; but I am most impressed with the geometric diagrams in this article. Wowza. Well done.</p>
+
+            <div class="reply">
+                          </div><!-- .reply -->
+
+          </div>
+        </div>
+      </div>
+    
+  </li><!-- #comment-## -->
+
+    <li class="comment even thread-even depth-1" id="li-comment-1612924">
+
+      <div class="grid group comment-wrap" id="comment-1612924">
+
+        <div class="comment-avatar grid-1-5">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="50" height="50" class="lazyload-gravatar" alt="User Avatar" data-src="https://secure.gravatar.com/avatar/399d2116798a50b9574713d8f728e7c6?s=160&d=retro&r=pg">
+        </div>
+
+        <div class="comment-body group grid-4-5">
+
+          <div class="comment-author-wrap vcard">
+            <div class="comment-author">Brent</div> <div class="comment-time"><a href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/#comment-1612924"><span class="screen-reader">Permalink to comment</span>#</a> <time datetime="2017-11-08T10:06:10+00:00">November 8, 2017</time></div>
+            
+          </div>
+          
+          <div class="comment-content">
+
+            <p>I was told there would be no math.… :)</p>
+
+            <div class="reply">
+                          </div><!-- .reply -->
+
+          </div>
+        </div>
+      </div>
+    
+  </li><!-- #comment-## -->
+
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-1612926">
+
+      <div class="grid group comment-wrap" id="comment-1612926">
+
+        <div class="comment-avatar grid-1-5">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="50" height="50" class="lazyload-gravatar" alt="User Avatar" data-src="https://secure.gravatar.com/avatar/ce02847b026a9ae78539335dc86ac93e?s=160&d=retro&r=pg">
+        </div>
+
+        <div class="comment-body group grid-4-5">
+
+          <div class="comment-author-wrap vcard">
+            <div class="comment-author">Justin Wilaby</div> <div class="comment-time"><a href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/#comment-1612926"><span class="screen-reader">Permalink to comment</span>#</a> <time datetime="2017-11-08T11:16:21+00:00">November 8, 2017</time></div>
+            
+          </div>
+          
+          <div class="comment-content">
+
+            <p>Great article! Finally an article that isn&#8217;t a jquery or an angular how-to. These days it seems so much of the focus is on abstraction and tooling that we are rarely challenged.</p>
+
+            <div class="reply">
+                          </div><!-- .reply -->
+
+          </div>
+        </div>
+      </div>
+    
+  <ul class="children">
+
+    <li class="comment even depth-2" id="li-comment-1613053">
+
+      <div class="grid group comment-wrap" id="comment-1613053">
+
+        <div class="comment-avatar grid-1-5">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="50" height="50" class="lazyload-gravatar" alt="User Avatar" data-src="https://secure.gravatar.com/avatar/516745b31ae3c19884400a2f612e2f60?s=160&d=retro&r=pg">
+        </div>
+
+        <div class="comment-body group grid-4-5">
+
+          <div class="comment-author-wrap vcard">
+            <div class="comment-author">Sheila T.</div> <div class="comment-time"><a href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/#comment-1613053"><span class="screen-reader">Permalink to comment</span>#</a> <time datetime="2017-11-14T14:17:10+00:00">November 14, 2017</time></div>
+            
+          </div>
+          
+          <div class="comment-content">
+
+            <p>Absolutely!  While AngularJS and jQuery are useful in some situations, it&#8217;s best to create this sort of thing with VanillaJS or no JS at all.  I know I&#8217;d hate to add a call to an entire framework or library if this were the only thing I needed a script for.</p>
+<p>Nice work, Ana Tudor!</p>
+
+            <div class="reply">
+                          </div><!-- .reply -->
+
+          </div>
+        </div>
+      </div>
+    
+  </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+
+    <li class="comment odd alt thread-even depth-1 buried" id="li-comment-1612929">
+
+      <div class="grid group comment-wrap" id="comment-1612929">
+
+        <div class="comment-avatar grid-1-5">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="50" height="50" class="lazyload-gravatar" alt="User Avatar" data-src="https://secure.gravatar.com/avatar/9eb63dd14d7e3d9d40d541272d70262f?s=160&d=retro&r=pg">
+        </div>
+
+        <div class="comment-body group grid-4-5">
+
+          <div class="comment-author-wrap vcard">
+            <div class="comment-author">Harsh</div> <div class="comment-time"><a href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/#comment-1612929"><span class="screen-reader">Permalink to comment</span>#</a> <time datetime="2017-11-08T12:05:51+00:00">November 8, 2017</time></div>
+            
+          </div>
+          
+          <div class="comment-content">
+
+            <p>This is really cool.</p>
+
+            <div class="reply">
+                          </div><!-- .reply -->
+
+          </div>
+        </div>
+      </div>
+    
+  </li><!-- #comment-## -->
+
+    <li class="comment even thread-odd thread-alt depth-1" id="li-comment-1612935">
+
+      <div class="grid group comment-wrap" id="comment-1612935">
+
+        <div class="comment-avatar grid-1-5">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="50" height="50" class="lazyload-gravatar" alt="User Avatar" data-src="https://secure.gravatar.com/avatar/52268514b6521c06edea91d5bdcdec12?s=160&d=retro&r=pg">
+        </div>
+
+        <div class="comment-body group grid-4-5">
+
+          <div class="comment-author-wrap vcard">
+            <div class="comment-author">Taylor</div> <div class="comment-time"><a href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/#comment-1612935"><span class="screen-reader">Permalink to comment</span>#</a> <time datetime="2017-11-08T15:33:47+00:00">November 8, 2017</time></div>
+            
+          </div>
+          
+          <div class="comment-content">
+
+            <p>Or just use Greensock and condense it down to 2 lines&#8230;</p>
+
+            <div class="reply">
+                          </div><!-- .reply -->
+
+          </div>
+        </div>
+      </div>
+    
+  <ul class="children">
+
+    <li class="comment odd alt depth-2" id="li-comment-1612977">
+
+      <div class="grid group comment-wrap" id="comment-1612977">
+
+        <div class="comment-avatar grid-1-5">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="50" height="50" class="lazyload-gravatar" alt="User Avatar" data-src="https://secure.gravatar.com/avatar/faf2d64943cca673a5de3a565966e8bf?s=160&d=retro&r=pg">
+        </div>
+
+        <div class="comment-body group grid-4-5">
+
+          <div class="comment-author-wrap vcard">
+            <div class="comment-author">Ben Frain</div> <div class="comment-time"><a href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/#comment-1612977"><span class="screen-reader">Permalink to comment</span>#</a> <time datetime="2017-11-10T10:26:33+00:00">November 10, 2017</time></div>
+            
+          </div>
+          
+          <div class="comment-content">
+
+            <p>Demo link or I&#8217;m calling shenanigans! :)</p>
+
+            <div class="reply">
+                          </div><!-- .reply -->
+
+          </div>
+        </div>
+      </div>
+    
+  </li><!-- #comment-## -->
+
+    <li class="comment even depth-2" id="li-comment-1612978">
+
+      <div class="grid group comment-wrap" id="comment-1612978">
+
+        <div class="comment-avatar grid-1-5">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="50" height="50" class="lazyload-gravatar" alt="User Avatar" data-src="https://secure.gravatar.com/avatar/df41bb3ed253be196f9019dfdd239a35?s=160&d=retro&r=pg">
+        </div>
+
+        <div class="comment-body group grid-4-5">
+
+          <div class="comment-author-wrap vcard">
+            <div class="comment-author">AG</div> <div class="comment-time"><a href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/#comment-1612978"><span class="screen-reader">Permalink to comment</span>#</a> <time datetime="2017-11-10T11:06:43+00:00">November 10, 2017</time></div>
+            
+          </div>
+          
+          <div class="comment-content">
+
+            <p>Do you have a greensock example? I&#8217;m interested.</p>
+
+            <div class="reply">
+                          </div><!-- .reply -->
+
+          </div>
+        </div>
+      </div>
+    
+  </li><!-- #comment-## -->
+
+    <li class="comment odd alt depth-2" id="li-comment-1613017">
+
+      <div class="grid group comment-wrap" id="comment-1613017">
+
+        <div class="comment-avatar grid-1-5">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="50" height="50" class="lazyload-gravatar" alt="User Avatar" data-src="https://secure.gravatar.com/avatar/b9399e697b90f7c34e08c6a1d6a812d6?s=160&d=retro&r=pg">
+        </div>
+
+        <div class="comment-body group grid-4-5">
+
+          <div class="comment-author-wrap vcard">
+            <div class="comment-author">Fatih</div> <div class="comment-time"><a href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/#comment-1613017"><span class="screen-reader">Permalink to comment</span>#</a> <time datetime="2017-11-13T06:41:25+00:00">November 13, 2017</time></div>
+            
+          </div>
+          
+          <div class="comment-content">
+
+            <p>Take a look</p>
+<p><a href="https://greensock.com/morphSVG" rel="nofollow">https://greensock.com/morphSVG</a></p>
+
+            <div class="reply">
+                          </div><!-- .reply -->
+
+          </div>
+        </div>
+      </div>
+    
+  </li><!-- #comment-## -->
+
+    <li class="comment byuser comment-author-thebabydino bypostauthor even depth-2" id="li-comment-1613034">
+
+      <div class="grid group comment-wrap" id="comment-1613034">
+
+        <div class="comment-avatar grid-1-5">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="50" height="50" class="lazyload-gravatar" alt="User Avatar" data-src="https://secure.gravatar.com/avatar/bee436794e066a5423040cf673c7506f?s=160&d=retro&r=pg">
+        </div>
+
+        <div class="comment-body group grid-4-5">
+
+          <div class="comment-author-wrap vcard">
+            <div class="comment-author">Ana Tudor</div> <div class="comment-time"><a href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/#comment-1613034"><span class="screen-reader">Permalink to comment</span>#</a> <time datetime="2017-11-14T01:40:15+00:00">November 14, 2017</time></div>
+            
+          </div>
+          
+          <div class="comment-content">
+
+            <p>If you&#8217;d rather do this, fine, your choice, but I wrote the last couple of articles<sup>(1)</sup> for people who would rather use a brain and understand what&#8217;s going on in the back instead of making 5 HTTP requests and include over 450KB worth of JS libraries (because that&#8217;s exactly what the first example in the link above does) in order to achieve an effect they could have achieved with under 1% of that amount of code.</p>
+<p>Especially in the current landscape, where everyone is complaining about how bloated pages are.</p>
+<p><sup>(1)</sup> Because at the end of the day, the previous article was the one that was actually about how to do the transition part, while this one in particular is primarily about how to get the geometry of the start and end shapes, which is something a morph plugin doesn&#8217;t help with. The morph plugin still needs to be fed that start and end path data.</p>
+
+            <div class="reply">
+                          </div><!-- .reply -->
+
+          </div>
+        </div>
+      </div>
+    
+  </li><!-- #comment-## -->
+
+    <li class="comment odd alt depth-2" id="li-comment-1613054">
+
+      <div class="grid group comment-wrap" id="comment-1613054">
+
+        <div class="comment-avatar grid-1-5">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="50" height="50" class="lazyload-gravatar" alt="User Avatar" data-src="https://secure.gravatar.com/avatar/516745b31ae3c19884400a2f612e2f60?s=160&d=retro&r=pg">
+        </div>
+
+        <div class="comment-body group grid-4-5">
+
+          <div class="comment-author-wrap vcard">
+            <div class="comment-author">Sheila T.</div> <div class="comment-time"><a href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/#comment-1613054"><span class="screen-reader">Permalink to comment</span>#</a> <time datetime="2017-11-14T14:29:23+00:00">November 14, 2017</time></div>
+            
+          </div>
+          
+          <div class="comment-content">
+
+            <p>I&#8217;d just like to say that I appreciate Ana&#8217;s shorter version a great deal more than I would a Greensock example.  For one, I don&#8217;t have to pay anyone to use the same method Ana did, and for two, Ana&#8217;s version is indeed shorter.</p>
+<p>While <em>you</em> may only use two lines of code <em>on your end</em> in a Greensock version, overall, the Greensock version uses far more lines of code than the VanillaJS version due to the inclusion of an entire Greensock plug-in by way of HTTP requests for a sizable chunk of additional libraries.</p>
+<p>If coding a longer and slower version (on your end) saves time for each individual viewing that version, the longer, slower VanillaJS version is absolutely worth it.</p>
+
+            <div class="reply">
+                          </div><!-- .reply -->
+
+          </div>
+        </div>
+      </div>
+    
+  </li><!-- #comment-## -->
+
+    <li class="comment even depth-2" id="li-comment-1613105">
+
+      <div class="grid group comment-wrap" id="comment-1613105">
+
+        <div class="comment-avatar grid-1-5">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="50" height="50" class="lazyload-gravatar" alt="User Avatar" data-src="https://secure.gravatar.com/avatar/3a66051c5a3383379a53942f7abb472d?s=160&d=retro&r=pg">
+        </div>
+
+        <div class="comment-body group grid-4-5">
+
+          <div class="comment-author-wrap vcard">
+            <div class="comment-author">Tony Brix</div> <div class="comment-time"><a href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/#comment-1613105"><span class="screen-reader">Permalink to comment</span>#</a> <time datetime="2017-11-16T08:23:21+00:00">November 16, 2017</time></div>
+            
+          </div>
+          
+          <div class="comment-content">
+
+            <p>Great article (I ♥ the geometry), but please don&#8217;t use this in production. Using a library like Greensock is the correct solution, unless you have lots of time to waste.</p>
+<p>If you are including Greensock just for this animation, you probably don&#8217;t need this animation. If your site has lots of animations you are already using Greensock (or some other library) so there will be no additional cost to using it.<br />
+Even if you enjoy all the math and have time to waste now, you should still not use it in production because at some point in the future you (or whoever is maintaining your code (chances are that they won&#8217;t like math as much as you)) will have a million things to get done and some $%#* wad from marketing will come up with the idea that they should A/B test the curvature of the shapes in this animation to see if it can drive up revenue and you will have to do the math multiple times and have it done by the end of the hour because it is &#8220;just changing a little bit&#8221;</p>
+<p>Again great article and the concept is definitely worth learning but unless you want to ruin someone&#8217;s day in the future, use a library in production.</p>
+
+            <div class="reply">
+                          </div><!-- .reply -->
+
+          </div>
+        </div>
+      </div>
+    
+  </li><!-- #comment-## -->
+
+    <li class="comment byuser comment-author-chriscoyier odd alt depth-2" id="li-comment-1613106">
+
+      <div class="grid group comment-wrap" id="comment-1613106">
+
+        <div class="comment-avatar grid-1-5">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="50" height="50" class="lazyload-gravatar" alt="User Avatar" data-src="https://secure.gravatar.com/avatar/8081b26e05bb4354f7d65ffc34cbbd67?s=160&d=retro&r=pg">
+        </div>
+
+        <div class="comment-body group grid-4-5">
+
+          <div class="comment-author-wrap vcard">
+            <div class="comment-author">Chris Coyier</div> <div class="comment-time"><a href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/#comment-1613106"><span class="screen-reader">Permalink to comment</span>#</a> <time datetime="2017-11-16T08:26:35+00:00">November 16, 2017</time></div>
+            
+          </div>
+          
+          <div class="comment-content">
+
+            <blockquote><p>
+  Using a library like Greensock is the correct solution, unless you have lots of time to waste.
+</p></blockquote>
+<p>Careful.</p>
+<p><img src="https://res.cloudinary.com/css-tricks/image/fetch/q_auto,f_auto/https://cdn.css-tricks.com/wp-content/uploads/2016/11/dogma.jpg" alt="img" /></p>
+
+            <div class="reply">
+                          </div><!-- .reply -->
+
+          </div>
+        </div>
+      </div>
+    
+  </li><!-- #comment-## -->
+
+    <li class="comment even depth-2" id="li-comment-1613116">
+
+      <div class="grid group comment-wrap" id="comment-1613116">
+
+        <div class="comment-avatar grid-1-5">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="50" height="50" class="lazyload-gravatar" alt="User Avatar" data-src="https://secure.gravatar.com/avatar/96b578581849b39fce940850b1816cf2?s=160&d=retro&r=pg">
+        </div>
+
+        <div class="comment-body group grid-4-5">
+
+          <div class="comment-author-wrap vcard">
+            <div class="comment-author">Edwin</div> <div class="comment-time"><a href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/#comment-1613116"><span class="screen-reader">Permalink to comment</span>#</a> <time datetime="2017-11-16T13:34:12+00:00">November 16, 2017</time></div>
+            
+          </div>
+          
+          <div class="comment-content">
+
+            <p>I really hate comments like this, this is a place for learning, I loved the article, I don&#8217;t care if you can do it with X library in 3 characters, the great value in this article is the learning, the effort put into explaining every detail. Great article.</p>
+
+            <div class="reply">
+                          </div><!-- .reply -->
+
+          </div>
+        </div>
+      </div>
+    
+  </li><!-- #comment-## -->
+
+    <li class="comment odd alt depth-2" id="li-comment-1613152">
+
+      <div class="grid group comment-wrap" id="comment-1613152">
+
+        <div class="comment-avatar grid-1-5">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="50" height="50" class="lazyload-gravatar" alt="User Avatar" data-src="https://secure.gravatar.com/avatar/516745b31ae3c19884400a2f612e2f60?s=160&d=retro&r=pg">
+        </div>
+
+        <div class="comment-body group grid-4-5">
+
+          <div class="comment-author-wrap vcard">
+            <div class="comment-author">Sheila T.</div> <div class="comment-time"><a href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/#comment-1613152"><span class="screen-reader">Permalink to comment</span>#</a> <time datetime="2017-11-17T20:53:06+00:00">November 17, 2017</time></div>
+            
+          </div>
+          
+          <div class="comment-content">
+
+            <p>Having a ton of the most whiz-bang, high-end, plug-in animations might make for a gorgeous website, but if people are annoyed that the site is taking too long to load, chances are they will just close their browser tab and make a mental note to never go back to that site.</p>
+<p>Animations are great, but like anything, they should be used in moderation.  If you can do a simple animation using HTML/CSS/VanillaJS and it loads blazing fast, and it serves a purpose, make that animation.  Better yet, do it with HTML/CSS only.  The less JS you use, the easier it is to avoid issues with conflicting scripts.</p>
+<p>I&#8217;m not saying Greensock should never be used, but I honestly don&#8217;t see a point in using it purely to avoid writing long code (which can be commented) and math (which should be easy enough for anyone to tweak if it&#8217;s documented out separately, like Ana&#8217;s post).</p>
+<p>I see Greensock as something that should be used for apps or sites that are set up purely for the sake of animation as content or possibly for sites like CodePen, where large numbers of users may need Greensock functionality for the snippets they post.  But there&#8217;s a whole lot out there that does not fit either situation.</p>
+<p>Personally, I pride myself on sticking to an absolute minimum of HTTP requests, streamlined and minified code, and using as few languages as possible to create minimal designs that load in 10ms or less, when possible.  My users seem to appreciate my extra work put into making sites load as fast as possible, and I absolutely appreciate people like Ana who can put together a thorough tutorial on how to do things without relying on bulky libraries and frameworks for every little piece of functionality, which, in turn, makes fast load times possible.</p>
+
+            <div class="reply">
+                          </div><!-- .reply -->
+
+          </div>
+        </div>
+      </div>
+    
+  </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+
+    <li class="comment even thread-even depth-1" id="li-comment-1612943">
+
+      <div class="grid group comment-wrap" id="comment-1612943">
+
+        <div class="comment-avatar grid-1-5">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="50" height="50" class="lazyload-gravatar" alt="User Avatar" data-src="https://secure.gravatar.com/avatar/a52eacdd76b30f2ced3b91ecf5ad9e79?s=160&d=retro&r=pg">
+        </div>
+
+        <div class="comment-body group grid-4-5">
+
+          <div class="comment-author-wrap vcard">
+            <div class="comment-author">François Georgy</div> <div class="comment-time"><a href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/#comment-1612943"><span class="screen-reader">Permalink to comment</span>#</a> <time datetime="2017-11-09T01:23:06+00:00">November 9, 2017</time></div>
+            
+          </div>
+          
+          <div class="comment-content">
+
+            <p>Great article. Thanks for sharing all the details through your wonderful drawings.<br />
+Thank you!</p>
+
+            <div class="reply">
+                          </div><!-- .reply -->
+
+          </div>
+        </div>
+      </div>
+    
+  </li><!-- #comment-## -->
+
+    <li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-1612991">
+
+      <div class="grid group comment-wrap" id="comment-1612991">
+
+        <div class="comment-avatar grid-1-5">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="50" height="50" class="lazyload-gravatar" alt="User Avatar" data-src="https://secure.gravatar.com/avatar/4f4cc88cc2ebd747240c7bc53af99261?s=160&d=retro&r=pg">
+        </div>
+
+        <div class="comment-body group grid-4-5">
+
+          <div class="comment-author-wrap vcard">
+            <div class="comment-author">Tony</div> <div class="comment-time"><a href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/#comment-1612991"><span class="screen-reader">Permalink to comment</span>#</a> <time datetime="2017-11-12T07:30:04+00:00">November 12, 2017</time></div>
+            
+          </div>
+          
+          <div class="comment-content">
+
+            <p>Well done, I agree, the geometry in the diagrams are amazing. I might start learning maths again.</p>
+
+            <div class="reply">
+                          </div><!-- .reply -->
+
+          </div>
+        </div>
+      </div>
+    
+  </li><!-- #comment-## -->
+
+    <li class="comment byuser comment-author-thebabydino bypostauthor even thread-even depth-1" id="li-comment-1613111">
+
+      <div class="grid group comment-wrap" id="comment-1613111">
+
+        <div class="comment-avatar grid-1-5">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="50" height="50" class="lazyload-gravatar" alt="User Avatar" data-src="https://secure.gravatar.com/avatar/bee436794e066a5423040cf673c7506f?s=160&d=retro&r=pg">
+        </div>
+
+        <div class="comment-body group grid-4-5">
+
+          <div class="comment-author-wrap vcard">
+            <div class="comment-author">Ana Tudor</div> <div class="comment-time"><a href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/#comment-1613111"><span class="screen-reader">Permalink to comment</span>#</a> <time datetime="2017-11-16T11:20:46+00:00">November 16, 2017</time></div>
+            
+          </div>
+          
+          <div class="comment-content">
+
+            <blockquote><p>
+  some $%#* wad from marketing will come up with the idea that they should A/B test the curvature of the shapes in this animation to see if it can drive up revenue
+</p></blockquote>
+<p>I don&#8217;t really know what you mean by this, but changing the shape to something different would be the job of someone with some artistic sense, not the job of a tech.</p>
+<p>Changing a the shape a little bit is also not something Greensock does. In all the examples you&#8217;ve seen, you feed Greensock a shape to morph from and a shape to morph to. Greensock doesn&#8217;t generate those shapes. The shapes are created by someone with enough of an artistic sense.</p>
+<p>Same thing goes for the plain JS technique I&#8217;ve described <b>in the previous article</b>. In this article I&#8217;ve just explained a demo where I used it. I had an idea of how to geometrically generate a star and heart and I acted on it.</p>
+<p>However, the morphing technique I explained works the same way for any other shapes, geometrically generated or not. In <a href="https://codepen.io/thebabydino/pen/GOZVvy" rel="nofollow">this demo</a> for example, I just took two SVG shapes from Wikipedia, tweaked them a bit and used them as the initial and final shapes. No geometry computation was required. All I did was introduce some zero length lines so that I&#8217;d have the same curve to curve, line to line sequence in the path data. If somebody wants a different curvature for one of those curves, fine, give me the new path data with the new curvature, I&#8217;ll just paste it in place of the previous one. It doesn&#8217;t change my JS at all.</p>
+
+            <div class="reply">
+                          </div><!-- .reply -->
+
+          </div>
+        </div>
+      </div>
+    
+  <ul class="children">
+
+    <li class="comment odd alt depth-2" id="li-comment-1613114">
+
+      <div class="grid group comment-wrap" id="comment-1613114">
+
+        <div class="comment-avatar grid-1-5">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="50" height="50" class="lazyload-gravatar" alt="User Avatar" data-src="https://secure.gravatar.com/avatar/3a66051c5a3383379a53942f7abb472d?s=160&d=retro&r=pg">
+        </div>
+
+        <div class="comment-body group grid-4-5">
+
+          <div class="comment-author-wrap vcard">
+            <div class="comment-author">Tony Brix</div> <div class="comment-time"><a href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/#comment-1613114"><span class="screen-reader">Permalink to comment</span>#</a> <time datetime="2017-11-16T12:11:27+00:00">November 16, 2017</time></div>
+            
+          </div>
+          
+          <div class="comment-content">
+
+            <blockquote><p>
+changing the shape to something different would be the job of someone with some artistic sense, not the job of a tech.
+</p></blockquote>
+<p>If you had an animation that just took two plain SVGs and morphed them (most likely with a library like Greensock) than you would be correct. Creating the SVGs would probably be the job of a designer.</p>
+<p>I don&#8217;t know any non-technical designers who would know how to change the shape of the star with the code in this article.</p>
+<p>I was really just using &#8220;changing the shape&#8221; as something that might need to be modified in the future. The math in this article is <i>outrageously</i> fun, but not something most people use every day. Which means  at some point in the future (if this is used in production) this animation will need to be modified, and the person modifying it (even if it is the person who created it) will probably have to learn this math all over again.</p>
+<p>Moral of this story: <b>All</b> code becomes legacy eventually, and for most software projects the developers&#8217; time is the most expensive cost.</p>
+
+            <div class="reply">
+                          </div><!-- .reply -->
+
+          </div>
+        </div>
+      </div>
+    
+  </li><!-- #comment-## -->
+
+    <li class="comment even depth-2" id="li-comment-1613115">
+
+      <div class="grid group comment-wrap" id="comment-1613115">
+
+        <div class="comment-avatar grid-1-5">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="50" height="50" class="lazyload-gravatar" alt="User Avatar" data-src="https://secure.gravatar.com/avatar/3a66051c5a3383379a53942f7abb472d?s=160&d=retro&r=pg">
+        </div>
+
+        <div class="comment-body group grid-4-5">
+
+          <div class="comment-author-wrap vcard">
+            <div class="comment-author">Tony Brix</div> <div class="comment-time"><a href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/#comment-1613115"><span class="screen-reader">Permalink to comment</span>#</a> <time datetime="2017-11-16T13:29:04+00:00">November 16, 2017</time></div>
+            
+          </div>
+          
+          <div class="comment-content">
+
+            <blockquote><p>
+  changing the shape to something different would be the job of someone with some artistic sense, not the job of a tech.
+</p></blockquote>
+<p>I don&#8217;t know any non-technical designers who would be able to change the shape of the star given the code in this article.</p>
+<p>My point was just that the math in this article is <em>outrageously</em> fun but not something most people use every day, and since <strong>all</strong> code becomes legacy eventually someone will have to relearn the math to modify it.</p>
+
+            <div class="reply">
+                          </div><!-- .reply -->
+
+          </div>
+        </div>
+      </div>
+    
+  </li><!-- #comment-## -->
+
+    <li class="comment byuser comment-author-thebabydino bypostauthor odd alt depth-2" id="li-comment-1613125">
+
+      <div class="grid group comment-wrap" id="comment-1613125">
+
+        <div class="comment-avatar grid-1-5">
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="50" height="50" class="lazyload-gravatar" alt="User Avatar" data-src="https://secure.gravatar.com/avatar/bee436794e066a5423040cf673c7506f?s=160&d=retro&r=pg">
+        </div>
+
+        <div class="comment-body group grid-4-5">
+
+          <div class="comment-author-wrap vcard">
+            <div class="comment-author">Ana Tudor</div> <div class="comment-time"><a href="https://css-tricks.com/creating-star-heart-animation-svg-vanilla-javascript/#comment-1613125"><span class="screen-reader">Permalink to comment</span>#</a> <time datetime="2017-11-17T01:42:11+00:00">November 17, 2017</time></div>
+            
+          </div>
+          
+          <div class="comment-content">
+
+            <p>No non-technical person would have to touch the code. They&#8217;d just have to edit the shape/ create another shape in a graphical editor, dragging handles and stuff and then pass the new SVG result on.</p>
+<p>Whatever SVG is used doesn&#8217;t influence the morphing code (which, again, is the topic of the previous article, not this one). The fact that I chose to generate the shape with JS here is absolutely irrelevant to the morphing part (and again, morphing is what Greensock does, not drawing the shape).</p>
+<p>I can well take all the generating code out and just put the path data for the star in an <code>ini</code> attribute the path data for the heart in a <code>fin</code> attribute on the path element, tweak the JS so that it takes the coordinates from those attributes instead of from the generating functions and that&#8217;s it.</p>
+<p>Which is exactly what I did in the demo linked above. The note and the nine are not geometrically generated, I just took them from Wikipedia.</p>
+
+            <div class="reply">
+                          </div><!-- .reply -->
+
+          </div>
+        </div>
+      </div>
+    
+  </li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+  </ol>
+
+
+
+<div class="comments-closed">
+  This comment thread is closed. If you have important information to share, please <a href="/contact/">contact us</a>.
+</div>
+
+
+</section>    </div>
+  </div>
+</div>
+
+  <aside class="entry-unrelated sidebar sidebar-right">
+
+  
+          <div id="all-ads"></div>
+    
+  
+</aside>
+
+
+  </div>
+
+  <footer class="site-footer footer-newsletter">
+
+    <div class="footer-section-1"></div>
+
+    <div class="footer-section-2">
+
+      <img src="https://css-tricks.com/wp-content/themes/CSS-Tricks-16/images/get-the-newsletter.png" alt="Get the Newsletter!">
+
+      <form action="//chriscoyier.us2.list-manage.com/subscribe/post?u=155f5a9ccc4e24c318130cace&amp;id=197f127a68" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+
+        <p class="mc-field-group">
+          <label for="mce-EMAIL" class="screen-reader">Email Address</label>
+          <input type="email" name="EMAIL" class="required email mailchimp-email-input" id="mce-EMAIL">
+          <svg class="icon-email" width="20px" height="15px">
+            <use xlink:href="#icon-email"></use>
+          </svg>
+          <input type="submit" value="Subscribe" name="Subscribe" id="mc-embedded-subscribe" class="button subscribe-button">
+        </p>
+        <div id="mce-responses" class="clear">
+          <div class="response" id="mce-error-response" style="display:none"></div>
+          <div class="response" id="mce-success-response" style="display:none"></div>
+        </div>
+        <div style="position: absolute; left: -9999px; top: -9999px"><input type="text" name="b_155f5a9ccc4e24c318130cace_197f127a68" value=""></div>
+
+      </form>
+    </div>
+
+    <div class="footer-section-3">
+      Lots of great stuff that isn't published anywhere else!
+    </div>
+
+  </footer>
+
+  <footer class="site-footer footer-mediatemple">
+
+    <div class="footer-section-1"></div>
+    <div class="footer-section-2">
+      <a href="https://mediatemple.net/landing/csstricks/?utm_source=CSS-Tricks&utm_medium=display&utm_campaign=heaeder-box"><img class="mt-img" src="https://css-tricks.com/wp-content/themes/CSS-Tricks-16/images/mediatemple-logo-white-superwide.svg" alt="Media Temple"></a>
+    </div>
+    <div class="footer-section-3">
+      <a href="https://mediatemple.net/landing/csstricks/?utm_source=CSS-Tricks&utm_medium=display&utm_campaign=heaeder-box">CSS-Tricks web host since day one. Save 20% with code <strong>CSSTRICKS</strong>.</a>
+    </div>
+
+  </footer>
+
+  <footer class="site-footer footer-colophon">
+
+    <div class="footer-section-1">
+      <svg class="icon-footer-star" width="280px" height="280px">
+        <use xlink:href="#icon-logo-star"></use>
+      </svg>
+    </div>
+
+    <div class="footer-section-2">
+      <div>
+        <p>CSS-Tricks* is created, written by, and maintained by <a href="https://chriscoyier.net">Chris Coyier</a> and <a href="/about/">a team</a> of swell people. It is built on <a href="https://wordpress.org/">WordPress</a>, hosted by <a href="https://mediatemple.net/landing/csstricks/?utm_source=CSS-Tricks&utm_medium=display&utm_campaign=footer-link">Media Temple</a>. It is made possible through <a href="/advertising/">sponsorships</a> from products and services we like.</p>
+
+        <p class="mega-big-time-warning"><small>*May or may not contain any actual "CSS" or "Tricks".</small></p>
+
+        <a class="twitter-follow-button" href="https://twitter.com/css">
+          Follow @CSS
+        </a>
+      </div>
+
+      <nav>
+        <a href="/contact/" class="footer-contact-link">Contact</a>
+        <a href="/about/">About</a>
+        <a href="/archives/">Archives</a>
+        <a href="/advertising/">Advertise</a>
+        <a href="/jobs/">Jobs</a>
+        <a href="/license/">License</a>
+        <a href="/subscription-options/">Subscribe</a>
+        <a href="/random">Random</a>
+        <a href="/guest-posting/">Guest Posting</a>
+      </nav>
+
+    </div>
+
+    <div class="footer-section-3">
+
+      <div class="module module-jobs">
+
+  <h4 class="h4">Front-End Jobs</h4>
+
+  
+  <ul class="job-list">
+
+        <li>
+            <a href="https://codepen.io/url/job/nJOvXz">
+        <strong>
+          Wiki Education        </strong>
+        is hiring a
+        Software Developer      </a>
+    </li>
+        <li>
+            <a href="https://codepen.io/url/job/zAbaQZ">
+        <strong>
+          Ableton AG        </strong>
+        is hiring a
+         Front-End Developer, Web      </a>
+    </li>
+        <li>
+            <a href="https://codepen.io/url/job/rXDqkr">
+        <strong>
+          Bright Bright Great        </strong>
+        is hiring a
+        Senior Front-End Developer      </a>
+    </li>
+    
+  </ul>
+
+  <div class="button-wrap">
+
+    <a href="/jobs/" class="button full-width-button">See More Jobs</a>
+    <a href="https://codepen.io/job/new/" class="button full-width-button">Post a Job</a>
+  </div>
+
+</div>
+    </div>
+
+  </footer>
+
+  <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" display="none"><symbol id="icon-anchor" viewbox="0 0 54.89 64"><title>icon-anchor</title><path fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="2" d="M26.96 13v50"/><path fill="none" stroke="#000" stroke-linejoin="bevel" stroke-width="2" d="M13.96 50l-10-3-3 10M39.96 50l10-3 4 10"/><path d="M49.71 47A24 24 0 0 1 27 63 24 24 0 0 1 4.21 47M17.96 17h18" fill="none" stroke="#000" stroke-linejoin="bevel" stroke-width="2"/><circle cx="26.96" cy="7" r="6" fill="none" stroke="#000" stroke-miterlimit="10" stroke-width="2"/></symbol><symbol id="icon-close" viewbox="0 0 95.08 95.09"><title>icon-close</title><path d="M58.31 47.47l34.58-34.58a7.63 7.63 0 0 0 0-10.69 7.63 7.63 0 0 0-10.69 0L47.62 36.78 13 2.19a7.63 7.63 0 0 0-10.69 0 7.63 7.63 0 0 0 0 10.69l34.6 34.6L2.33 82.07a7.29 7.29 0 0 0 0 10.69 7.63 7.63 0 0 0 10.69 0l34.6-34.6 34.6 34.6a7.27 7.27 0 0 0 10.68 0 7.63 7.63 0 0 0 0-10.69z" data-name="Layer 1"/></symbol><symbol id="icon-email" viewbox="0 0 100 68.89"><title>icon-email</title><path d="M36.25 38.44L47.74 49.1a3.33 3.33 0 0 0 4.51 0l11.5-10.66 24.69 23.78H11.56zM93.33 11v46.6L68.68 33.85zM6.67 11l24.65 22.85L6.67 57.64zm5.1-4.37h76.46L50 42.12zM4.44 0A4.51 4.51 0 0 0 0 4.44v60a4.51 4.51 0 0 0 4.44 4.44h91.12a4.51 4.51 0 0 0 4.44-4.44v-60A4.51 4.51 0 0 0 95.56 0z" data-name="Layer 1"/></symbol><symbol id="icon-link" viewbox="0 0 100 58.84"><title>icon-link</title><path d="M78.47 48H49.21a10.66 10.66 0 0 1-9-4.91h10.58A21.57 21.57 0 0 0 71.7 26.64h6.76a10.67 10.67 0 0 1 0 21.33zm-67.6-26.47a10.67 10.67 0 0 1 10.67-10.66H50.8A10.59 10.59 0 0 1 58.34 14a10.94 10.94 0 0 1 1.43 1.79H49.21a21.57 21.57 0 0 0-20.92 16.4h-6.76a10.67 10.67 0 0 1-10.66-10.66zm39.92 10.66H39.86a10.68 10.68 0 0 1 9.35-5.54h10.93a10.67 10.67 0 0 1-9.35 5.54zM100 37.31a21.53 21.53 0 0 0-21.53-21.53h-6.92A21.53 21.53 0 0 0 50.8 0H21.54a21.53 21.53 0 0 0 0 43.06h6.83v-.31A21.41 21.41 0 0 0 34 52.53a21.4 21.4 0 0 0 15.2 6.31h29.26A21.56 21.56 0 0 0 100 37.31z"/></symbol><symbol id="icon-logo-star" viewbox="0 0 362.62 388.52"><title>icon-logo-star</title><path d="M156.58 239l-88.3 64.75c-10.59 7.06-18.84 11.77-29.43 11.77-21.19 0-38.85-18.84-38.85-40 0-17.69 14.13-30.64 27.08-36.52l103.6-44.74-103.6-45.92C13 142.46 0 129.51 0 111.85 0 90.66 18.84 73 40 73c10.6 0 17.66 3.53 28.25 11.77l88.3 64.75-11.74-104.78C141.28 20 157.76 0 181.31 0s40 18.84 36.5 43.56L206 149.52l88.3-64.75C304.93 76.53 313.17 73 323.77 73a39.2 39.2 0 0 1 38.85 38.85c0 18.84-12.95 30.61-27.08 36.5l-103.61 45.91L335.54 239c14.13 5.88 27.08 18.83 27.08 37.67 0 21.19-18.84 38.85-40 38.85-9.42 0-17.66-4.71-28.26-11.77L206 239l11.77 104.78c3.53 24.72-12.95 44.74-36.5 44.74s-40-18.84-36.5-43.56z"/></symbol><symbol id="icon-menu" viewbox="0 0 100 68.42"><title>icon-menu</title><path d="M94.73 10.53H5.27c-7 0-7-10.53 0-10.53h89.46c6.88.14 6.88 10.38 0 10.53zm0 18.42H5.27c-7 0-7 10.53 0 10.53h89.46c6.86-.17 6.86-10.38 0-10.53zm0 28.94H5.27c-7 0-7 10.53 0 10.53h89.46c7.03 0 7.03-10.53 0-10.53z" data-name="Layer 1"/></symbol><symbol id="icon-nav-almanac" viewbox="0 0 64 64"><path fill="none" d="M7 1h46v62H7z"/><path fill="none" vector-effect="non-scaling-stroke" d="M15 63V2M20 15h28M20 21h28"/></symbol><symbol id="icon-nav-forums" viewbox="0 0 64 64"><path d="M10 15h44v2H10zM10 25h44v2H10zM10 35h44v2H10z"/><path d="M17 61.174L32.37 48H64V4H0v44h17v13.174zM2 46V6h60v40H31.63L19 56.826V46H2z"/></symbol><symbol id="icon-nav-gallery" viewbox="0 0 64 64"><path d="M0 54h64V10H0v44zm2-2v-4.544l21.952-19.09 12.156 12.156 6.051-8.068L62 49.459V52H2zm60-40v34.826l-20.16-17.28-5.949 7.932-11.843-11.844L2 44.805V12h60z"/><path d="M51 28c3.309 0 6-2.691 6-6s-2.691-6-6-6-6 2.691-6 6 2.691 6 6 6zm0-10c2.206 0 4 1.794 4 4s-1.794 4-4 4-4-1.794-4-4 1.794-4 4-4z"/></symbol><symbol id="icon-nav-guide" viewbox="0 0 64 56.9"><title>icon-nav-guide</title><path d="M1 55.45l21-8 20 8 21-8v-46l-21 8-20-8-21 8v46zM22 1.45v46M42 9.45v46"/></symbol><symbol id="icon-nav-home" viewbox="0 0 64 64"><path d="M32 3L2 33h9v30h12V47h16v16h12V33h11z"/></symbol><symbol id="icon-nav-jobs" viewbox="0 0 64 64"><path d="M41 37.586L23.414 20l12-12-5.305-5.302-.688.486c-.025.018-2.537 1.769-5.671 1.769-2.244 0-4.277-.896-6.043-2.66L17 1.586-.414 19 12 31.414l10-10L39.586 39l-3 3L57 62.414 64.414 55 44 34.586l-3 3zM2.414 19L17.026 4.388c1.983 1.703 4.241 2.565 6.724 2.565 2.722 0 4.992-1.057 6.103-1.687L32.586 8 12 28.586 2.414 19zM57 59.586L39.414 42 44 37.414 61.586 55 57 59.586z"/></symbol><symbol id="icon-nav-newsletter" viewbox="0 0 64 64"><path d="M64 12H0v39h64V12zm-4.395 2L32 31.81 4.395 14h55.21zM2 49V14.835L32 34.19l30-19.355V49H2z"/></symbol><symbol id="icon-nav-shop" viewbox="0 0 64 64"><path d="M44 18h10v45H10V18h10z"/><path d="M22 24V11c0-5.523 4.477-10 10-10s10 4.477 10 10v13"/></symbol><symbol id="icon-nav-snippets" viewbox="0 0 64 64"><path d="M0 64h64.414L0-.414V64zm2-9h6v-2H2v-6h4v-2H2v-6h6v-2H2v-6h4v-2H2v-6h6v-2H2V4.414L59.586 62H2v-7z"/><path d="M13 27.586V55h27.414L13 27.586zm2 4.828L35.586 53H15V32.414zM64.375 46.375l-2.472-9.886L25-.414 17.586 7l36.903 36.903 9.886 2.472zm-2.75-2.75l-6.114-1.528L26.414 13 31 8.414l29.097 29.097 1.528 6.114zM25 2.414L29.586 7 25 11.586 20.414 7 25 2.414z"/></symbol><symbol id="icon-nav-video" viewbox="0 0 64 64"><path d="M46 30l17-10v32L46 42v10H1V20h45zM6 28h4M14 28h4"/><path d="M7 36h18v10H7zM6 12h26l8 8"/></symbol><symbol id="icon-search" viewbox="0 0 100 100"><title>icon-search</title><path d="M80.65 66.78a33.55 33.55 0 0 1-47.44-47.44 33.55 33.55 0 1 1 47.44 47.44zm6.73-54.16a43.06 43.06 0 0 0-65.32 55.71L2 88.39A6.8 6.8 0 0 0 11.61 98l20.06-20.06a43.06 43.06 0 0 0 55.71-65.32z"/></symbol><symbol id="icon-star" viewbox="0 0 100 95.52"><title>icon-star</title><path d="M64.19 28.77a5.17 5.17 0 0 0 3.9 2.83s29.27-3 31.74 4.61-23 22.39-23 22.39a5.17 5.17 0 0 0-1.49 4.58s11.91 26.9 5.42 31.61S52.4 79.87 52.4 79.87a5.21 5.21 0 0 0-2.41-.6 5.14 5.14 0 0 0-2.41.6S25.68 99.5 19.2 94.79s5.42-31.61 5.42-31.61a5.18 5.18 0 0 0-1.49-4.58S-2.31 43.83.17 36.21s31.74-4.61 31.74-4.61a5.19 5.19 0 0 0 3.9-2.83S42 0 50 0s14.19 28.77 14.19 28.77z" data-name="Layer 1"/></symbol><symbol id="icon-tag" viewbox="0 0 100 99.98"><title>icon-tag</title><path d="M42 42a10.07 10.07 0 1 1 0-14.24A10 10 0 0 1 42 42zm56 6.5l-43.74-44a7.19 7.19 0 0 0-5-2.25L8 0a7.55 7.55 0 0 0-8 7v1l2.5 41a7.11 7.11 0 0 0 2.25 4.75l43.49 44a7.2 7.2 0 0 0 5.24 2.25 6.81 6.81 0 0 0 5.25-2.25L97.72 59A7.47 7.47 0 0 0 98 48.5z"/></symbol></svg>
+  
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/css-tricks.com\/creating-star-heart-animation-svg-vanilla-javascript\/":261587};
+	</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var bblpAJAX = {"ajaxurl":"https:\/\/css-tricks.com\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script  src='https://css-tricks.com/wp-content/plugins/bbpress-live-preview-css-tricks/includes/assets/js/scripts.min.js?ver=1.0.0'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var pollsL10n = {"ajax_url":"https:\/\/css-tricks.com\/wp-admin\/admin-ajax.php","text_wait":"Your last request is still being processed. Please wait a while ...","text_valid":"Please choose a valid poll answer.","text_multiple":"Maximum number of choices allowed: ","show_loading":"0","show_fading":"1"};
+/* ]]> */
+</script>
+<script  src='https://css-tricks.com/wp-content/plugins/wp-polls/polls-js.js?ver=2.73.8'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var markdownify = {"ajax_url":"\/wp-admin\/admin-ajax.php","nonce":"396f113cf6"};
+/* ]]> */
+</script>
+<script  src='https://css-tricks.com/wp-content/plugins/jetpack-markdown-live-preview-comments/js/markdownify.js?ver=1'></script>
+<script  src='https://css-tricks.com/wp-content/plugins/jetpack/modules/widgets/search/js/search-widget.js?ver=6.5'></script>
+<script  src='https://css-tricks.com/wp-includes/js/wp-embed.min.js?ver=4.9.8'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1"};
+/* ]]> */
+</script>
+<script  src='https://css-tricks.com/wp-content/plugins/jetpack/_inc/build/sharedaddy/sharing.min.js?ver=6.5'></script>
+<script >
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-facebook', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-twitter', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-linkedin', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomlinkedin', 'menubar=1,resizable=1,width=580,height=450' );
+				return false;
+			});
+</script>
+<script type='text/javascript' src='https://stats.wp.com/e-201841.js' async='async' defer='defer'></script>
+<script type='text/javascript'>
+	_stq = window._stq || [];
+	_stq.push([ 'view', {v:'ext',j:'1:6.5',blog:'45537868',post:'261587',tz:'-7',srv:'css-tricks.com'} ]);
+	_stq.push([ 'clickTrackerInit', '45537868', '261587' ]);
+</script>
+
+  
+    <script>var __should_toggle_comments = false;</script>
+  
+<script src='https://css-tricks.com/wp-content/themes/CSS-Tricks-16/js/min/global-min.js?v=4.6'></script>
+
+<script async src="https://static.codepen.io/assets/embed/ei.js"></script>
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-68528-29', 'auto');
+  ga('send', 'pageview');
+</script>
+
+<script>window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));</script>
+
+</body>
+
+</html>

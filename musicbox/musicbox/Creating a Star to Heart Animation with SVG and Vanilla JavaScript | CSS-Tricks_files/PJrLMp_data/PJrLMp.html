@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html class=" -moz-" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico">
+  <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111">
+  <title>CodePen - SVG star vs. heart alignment</title>
+  
+  
+  
+  
+      <style>
+      body {
+  display: flex;
+  margin: 0;
+  height: 100vh;
+}
+
+svg {
+  flex: 1;
+}
+
+path {
+  fill: none;
+  stroke-width: 5;
+}
+
+#star {
+  stroke: #f90;
+}
+
+#heart {
+  stroke: #b53;
+}
+
+    </style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+    <script src="../LpqEmJ_data/LpqEmJ_data/prefixfree.js"></script>
+
+  
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+
+
+</head>
+
+<body translate="no">
+
+  <svg viewBox="-500 -500 1000 1000">
+  <path id="star" d="M112,155C0,500 0,500 -112,155C-476,155 -476,155 -182,-59C-294,-405 -294,-405 0,-191C294,-405 294,-405 182,-59C476,155 476,155 112,155"></path>
+	<path id="heart" d="M354,177C0,531 0,531 -354,177C-452,79 -452,-79 -354,-177C-256,-275 -98,-275 0,-177C98,-275 256,-275 354,-177C452,-79 452,79 354,177"></path>
+</svg>
+    <script src="../LpqEmJ_data/LpqEmJ_data/stopExecutionOnTimeout-41c52890748cd7143004e05d3c5f786c66b199.js"></script>
+
+  
+  
+
+    <script>
+      var _SVG = document.querySelector('svg'),
+_STAR = document.getElementById('star'),
+_HEART = document.getElementById('heart'),
+D = 1000 /* viewBox size */,
+O = {} /* data object */,
+/* number of cubic curves/ polygon vertices */
+P = 5;
+
+function getStarPoints() {var f = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : .5;
+	var RCO = f * D /* outer (pentagram) circumradius*/,
+	BAS = 2 * (2 * Math.PI / P) /* base angle for star poly */,
+	BAC = 2 * Math.PI / P /* base angle for convex poly */,
+	RI = RCO * Math.cos(.5 * BAS) /*pentagram/ inner pentagon inradius */,
+	RCI = RI / Math.cos(.5 * BAC) /* inner pentagon circumradius */,
+	ND = 2 * P /* total number of distinct points we need to get */,
+	BAD = 2 * Math.PI / ND /* base angle for point distribution */,
+	PTS = [] /* array we fill with point coordinates */;
+
+	for (var i = 0; i < ND; i++) {if (window.CP.shouldStopExecution(0)) break;
+		var /* radius at end point (inner)/ control point (outer) */
+		cr = i % 2 ? RCI : RCO,
+		/* angle of radial segment from origin to current point */
+		ca = i * BAD + .5 * Math.PI,
+		x = Math.round(cr * Math.cos(ca)),
+		y = Math.round(cr * Math.sin(ca));
+
+		PTS.push([x, y]);
+		/* for even indices double it, control points coincide here */
+		if (!(i % 2)) PTS.push([x, y]);
+	}window.CP.exitedLoop(0);
+
+	return PTS;
+};
+
+function getHeartPoints() {var f = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : .25;
+	var R = f * D /* helper circle radius  */,
+	RC = Math.round(R / Math.SQRT2) /* circumradius of square of edge R */,
+	XT = 0,YT = -RC /* coords of point T */,
+	XA = 2 * RC,YA = -RC /* coords of A points (x in abs value) */,
+	XB = 2 * RC,YB = RC /* coords of B points (x in abs value) */,
+	XC = 0,YC = 3 * RC /* coords of point C */,
+	XD = RC,YD = -2 * RC /* coords of D points (x in abs value) */,
+	XE = 3 * RC,YE = 0 /* coords of E points (x in abs value) */,
+	/* const for cubic curve approx of quarter circle */
+	C = .551915,
+	CC = 1 - C,
+	/* coords of ctrl points on TD segs */
+	XTD = Math.round(CC * XT + C * XD),YTD = Math.round(CC * YT + C * YD),
+	/* coords of ctrl points on AD segs */
+	XAD = Math.round(CC * XA + C * XD),YAD = Math.round(CC * YA + C * YD),
+	/* coords of ctrl points on AE segs */
+	XAE = Math.round(CC * XA + C * XE),YAE = Math.round(CC * YA + C * YE),
+	/* coords of ctrl points on BE segs */
+	XBE = Math.round(CC * XB + C * XE),YBE = Math.round(CC * YB + C * YE);
+
+	return [
+	[XC, YC], [XC, YC], [-XB, YB],
+	[-XBE, YBE], [-XAE, YAE], [-XA, YA],
+	[-XAD, YAD], [-XTD, YTD], [XT, YT],
+	[XTD, YTD], [XAD, YAD], [XA, YA],
+	[XAE, YAE], [XBE, YBE], [XB, YB]];
+
+};
+
+function fnStr(fname, farg) {return fname + '(' + farg + ')';}
+
+(function init() {
+	_SVG.setAttribute('viewBox', [-.5 * D, -.5 * D, D, D].join(' '));
+
+	O.d = {
+		ini: getStarPoints(),
+		fin: getHeartPoints(),
+		afn: function afn(pts) {
+			return pts.reduce(function (a, c, i) {
+				return a + (i % 3 ? ' ' : 'C') + c;
+			}, 'M' + pts[pts.length - 1]);
+		} };
+
+
+	for (var p in O) {
+		_STAR.setAttribute(p, O[p].afn(O[p].ini));
+		_HEART.setAttribute(p, O[p].afn(O[p].fin));
+	}
+})();
+      //# sourceURL=pen.js
+    </script>
+
+
+
+  
+  
+
+
+
+
+ </body></html>

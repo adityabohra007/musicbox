@@ -1,0 +1,292 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="FEdcbn_ePYVamQZ679KlLV_0cS7jKPo9DVBeCfIqXqk" />
+    <title>
+    Handling Media Files in Django - OverIQ.com
+</title>
+    <link rel="icon" type="image/x-icon" href="/assets/static/img/favicon.ico">
+    <link rel="stylesheet" href="/assets/static/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/assets/static/css/prism.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-125424793-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-125424793-1');
+</script>
+
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#000"
+    },
+    "button": {
+      "background": "#f1d600"
+    }
+  },
+  "theme": "classic",
+  "position": "bottom-right",
+  "content": {
+    "href": "https://overiq.com/privacy-policy/#cookies-and-web-beacons"
+  }
+})});
+</script>
+
+</head>
+<body><!-- start of navbar-->
+<div class="navbar">
+    <div class="section-inner clearfix">
+        <span class="logo"><a href="/">OVERIQ.COM</a></span>
+        <div class="mob-icons"><div class="search-icon"><span></span></div><div class="nav-icon"><span></span></div></div>
+        <nav class="clear">
+            <a class="blog_active" href="/blog/">Blog</a>
+            <a class="contact_active" href="/contact/">Contact</a>
+            <a class="about_active" href="/about/">About</a>
+        </nav>
+        <form class="search-form clear" action="">
+            <input type="text" placeholder="Search..." name="query" value="">
+        </form>
+    </div>
+</div><!-- end of navbar-->
+
+<!-- start of content-->
+<div class="content">
+
+    <!-- start of section-inner-->
+    <div class="section-inner clearfix">
+
+        
+
+    <div class="sidebar">
+        <h3 class="course-title">Learn Django 1.10</h3>
+        <ul><li ><a href="/django/1.10/intro-to-django/"  >Intro to Django</a></li>
+            <li ><a href="/django/1.10/installing-django/"  >Installing Django</a></li>
+            <li ><a href="/django/1.10/creating-django-project/"  >Creating Django Project</a></li>
+            <li ><a href="/django/1.10/mvc-pattern-and-django/"  >MVC Pattern and Django</a></li>
+            <li ><a href="/django/1.10/views-and-urlconfs-in-django/"  >Views and URLconfs in Django</a></li>
+            <li ><a href="/django/1.10/basics-of-django-templates/"  >Basics of Django Templates</a></li>
+            <li ><a href="/django/1.10/template-tags-in-django/"  >Template tags in Django</a></li>
+            <li ><a href="/django/1.10/template-filters-in-django/"  >Template filters in Django</a></li>
+            <li ><a href="/django/1.10/loading-templates-in-django/"  >Loading Templates in Django</a></li>
+            <li ><a href="/django/1.10/template-inheritance-in-django/"  >Template Inheritance in Django</a></li>
+            <li ><a href="/django/1.10/basics-of-models-in-django/"  >Basics of Models in Django</a></li>
+            <li ><a href="/django/1.10/migrations-in-django/"  >Migrations in Django</a></li>
+            <li ><a href="/django/1.10/django-orm-basics/"  >Django ORM Basics</a></li>
+            <li ><a href="/django/1.10/accessing-related-data-using-django-orm/"  >Accessing Related Data Using Django ORM</a></li>
+            <li ><a href="/django/1.10/building-blog-the-first-steps/"  >Building Blog The First Steps</a></li>
+            <li ><a href="/django/1.10/django-admin-app/"  >Django Admin App</a></li>
+            <li ><a href="/django/1.10/creating-urls-in-django/"  >Creating URLs in Django</a></li>
+            <li ><a href="/django/1.10/showing-404-errors-in-django/"  >Showing 404 errors In Django</a></li>
+            <li ><a href="/django/1.10/redirecting-urls-in-django/"  >Redirecting URLs in Django</a></li>
+            <li ><a href="/django/1.10/django-form-basics/"  >Django Form Basics</a></li>
+            <li ><a href="/django/1.10/displaying-forms-in-django/"  >Displaying Forms in Django</a></li>
+            <li ><a href="/django/1.10/building-contact-us-page/"  >Building Contact Us Page</a></li>
+            <li ><a href="/django/1.10/django-rendering-fields-manually/"  >Django Rendering Fields Manually</a></li>
+            <li ><a href="/django/1.10/handling-static-content-in-django/"  >Handling Static Content in Django</a></li>
+            <li class="active-lesson"><a href="/django/1.10/handling-media-files-in-django/"  >Handling Media Files in Django</a></li>
+            <li ><a href="/django/1.10/pagination-in-django/"  >Pagination in Django</a></li>
+            <li ><a href="/django/1.10/cookies-in-django/"  >Cookies in Django</a></li>
+            <li ><a href="/django/1.10/sessions-in-django/"  >Sessions in Django</a></li>
+            <li ><a href="/django/1.10/django-authentication-framework-basics/"  >Django Authentication Framework Basics</a></li>
+            <li ><a href="/django/1.10/django-logging-users-in-and-out/"  >Django Logging Users In and Out</a></li>
+            <li ><a href="/django/1.10/django-password_change-view/"  >Django password_change() View</a></li>
+            <li ><a href="/django/1.10/django-creating-users-using-usercreationform/"  >Django Creating Users using UserCreationForm</a></li>
+            <li ><a href="/django/1.10/django-extending-user-model/"  >Django Extending User model</a></li>
+            <li ><a href="/django/1.10/flatpages-in-django/"  >Flatpages in Django</a></li>
+            <li ><a href="/django/1.10/creating-sitemaps-in-django/"  >Creating Sitemaps in Django</a></li>
+            <li ><a href="/django/1.10/revisiting-cadmin-app/"  >Revisiting cadmin App</a></li>
+            <li ><a href="/django/1.10/integrating-ckeditor-in-django/"  >Integrating CKeditor in Django</a></li>
+            
+        </ul>
+    </div>
+
+    <div class="main">
+        <h1>Handling Media Files in Django</h1>
+
+
+        <p>
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+           
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-1332705620278168"
+                 data-ad-slot="3412228738"
+                 data-ad-format="auto"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </p>
+
+
+
+        <p>In Django, files which are uploaded by the user are called Media or Media Files. Here are some examples:</p>
+
+<ol>
+<li>A user uploaded image, pdfs, doc files etc while publishing a post.</li>
+<li>Images of products in an e-commerce site.</li>
+<li>User&#39;s profile image.
+etc...</li>
+</ol>
+
+<p>Just as with static files, to serve media files we have do add some configurations in our <code>settings.py</code> file.</p>
+<span id="media-files-configurations" class="anchor-target"></span><h2 class="heading" id="media-files-configurations">Media Files Configurations <a        class="header-link"href="#media-files-configurations">#</a></h2>
+<p>Media files depend upon two configurations:</p>
+
+<ol>
+<li><code>MEDIA_ROOT</code></li>
+<li><code>MEDIA_URL</code></li>
+</ol>
+
+<p>None of these are set by default.</p>
+<span id="media-root-setting" class="anchor-target"></span><h2 class="heading" id="media-root-setting">MEDIA_ROOT Setting <a        class="header-link"href="#media-root-setting">#</a></h2>
+<p>It contains the absolute path to the file system where Media files will be uploaded. It accepts a string, not a list or tuple.</p>
+
+<p>Create a new directory named <code>media</code> inside Django project root directory (<code>TGDB/django_project</code>), the same place where <code>manage.py</code> is located.</p>
+
+<p><img src="/uploads/2017/09/11/media-directory-location.png" alt="media-directory-location.png"></p>
+
+<p>Open <code>settings.py</code> file and add the following code to the end of the file, just below <code>STATICFILES_DIRS</code> which we had set earlier.</p>
+
+<p><strong>TGDB/django_project/django_project/settings.py</strong></p>
+
+<pre class="language-python line-numbers" data-line="6" ><code>#...
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, &#39;static&#39;),
+]
+
+MEDIA_ROOT  = os.path.join(BASE_DIR, &#39;media&#39;)</code></pre>
+<span id="media-url-setting" class="anchor-target"></span><h2 class="heading" id="media-url-setting">MEDIA_URL Setting <a        class="header-link"href="#media-url-setting">#</a></h2>
+<p>This setting works similar to <code>STATIC_URL</code> and is used to access media files. Just below the <code>MEDIA_ROOT</code> setting add the following code to the end of <code>settings.py</code> file.</p>
+
+<p><strong>TGDB/django_project/django_project/settings.py</strong></p>
+
+<pre class="language-python line-numbers" data-line="3" ><code>#...
+MEDIA_ROOT  = os.path.join(BASE_DIR, &#39;media&#39;)
+MEDIA_URL = &#39;/media/&#39;</code></pre>
+
+<p>Download <a href="/uploads/2018/2/6/python-5098a18d-52ac-4e6f-8008-77af1a5c1800.png">this</a> image and save it as <code>python.png</code> in the <code>media</code> directory. To access the file visit <code>http://127.0.0.1:8000/media/python.png</code>. You will get an HTTP 404 error like this:</p>
+
+<p><img src="/uploads/2017/09/11/media-404-error.png" alt="media-404-error.png"></p>
+
+<p>But why?</p>
+
+<p>The problem is that Django development server doesn&#39;t serve media files by default. To make Django development server serve static we have to add a URL pattern in sitewide <code>urls.py</code> file.</p>
+
+<p>First open <code>urls.py</code> in the Django project configuration directory, i.e <code>TGDB/django_project/django_project</code>. If you are following along this tutorial closely, your <code>urls.py</code> file should look like this:</p>
+
+<p><strong>TGDB/django_project/django_project/urls.py</strong></p>
+
+<pre class="language-python line-numbers"><code>from django.conf.urls import url, include
+from django.contrib import admin
+
+urlpatterns = [
+    url(r&#39;&#39;, include(&#39;blog.urls&#39;)),
+    url(r&#39;^admin/&#39;, admin.site.urls),
+    url(r&#39;^cadmin/&#39;, include(&#39;cadmin.urls&#39;)),
+]</code></pre>
+
+<p>Modify the <code>urls.py</code> file as follows:</p>
+
+<p><strong>TGDB/django_project/django_project/urls.py</strong></p>
+
+<pre class="language-python line-numbers" data-line="3-4,10" ><code>from django.conf.urls import url, include
+from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns = [
+    url(r&#39;&#39;, include(&#39;blog.urls&#39;)),
+    url(r&#39;^admin/&#39;, admin.site.urls),
+    url(r&#39;^cadmin/&#39;, include(&#39;cadmin.urls&#39;)),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)</code></pre>
+
+<p>Now visit <code>http://127.0.0.1:8000/media/python.png</code> again, this time you should be able to see the image.</p>
+
+<p><img src="/uploads/2017/09/11/media-found.png" alt="media-found.png"></p>
+
+<p>Just as with static files, the method employed here to serve media files is not recommended in the production environment. In fact, we will use Nginx server to serve both media and static files. We will discuss how to do this in Django Deployment lesson.</p>
+
+<p><strong>Note:</strong> To checkout this version of the repository type <code>git checkout 25a</code>.</p>
+
+
+
+        <p>
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+           
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-1332705620278168"
+                 data-ad-slot="6365695135"
+                 data-ad-format="auto"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </p>
+
+
+        <div class="next_links clearfix">
+            
+                <p>
+                    <a href="/django/1.10/handling-static-content-in-django/" class="prev">&lt; Handling Static Content in Django</a>
+                </p>
+            
+
+            
+                <p>
+                    <a href="/django/1.10/pagination-in-django/" class="next">Pagination in Django &gt;</a>
+                </p>
+            
+        </div>
+        <section id="isso-thread"></section>
+    </div>
+
+
+
+    </div>
+    <!-- end of section-inner-->
+
+</div>
+<!-- end of content-->
+
+<div class="footer">
+    <div class="section-inner clearfix">
+        <footer class="clear">
+            <p>
+                <a href="#">&copy; Copyright 2017</a>
+                <a href="/terms-of-use/">Terms and conditions</a>
+                <a href="/privacy-policy/">Privacy Policy</a>
+            </p>
+        </footer>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="/assets/static/js/custom.js"></script>
+<script src="/assets/static/js/prism.js"></script>
+
+<script data-isso="//overiq.com/isso/"
+        data-isso-require-author="true"
+        data-isso-require-email="true"
+        src="//overiq.com/isso/js/embed.min.js"></script>
+
+<script>
+  (function (w,i,d,g,e,t,s) {w[d] = w[d]||[];t= i.createElement(g);
+    t.async=1;t.src=e;s=i.getElementsByTagName(g)[0];s.parentNode.insertBefore(t, s);
+  })(window, document, '_gscq','script','//widgets.getsitecontrol.com/145076/script.js');
+</script>
+
+</body>
+</html>

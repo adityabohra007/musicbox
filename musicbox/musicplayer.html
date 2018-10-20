@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>HTML Audio Player</title>
+		        <link rel="stylesheet" href="owlcarousel/owl.carousel.min.css">
+			<link rel="stylesheet" href="owlcarousel/owl.theme.default.min.css">
+			<link href="https://fonts.googleapis.com/css?family=Mali" rel="stylesheet"> 
+			<link href="https://fonts.googleapis.com/css?family=Maven+Pro" rel="stylesheet"> 
+			<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+	<div id="container">
+		
+<!--Float it down-->	
+		<div id="audio-player">
+
+		<div class="img-info" style="width:30%;height:100%;position:absolute;">
+		<div id="audio-img">
+			<img  id="album-art" src="Album.png" width=100% height=100%>		
+		</div><!--audio-img-->	
+			<div id="audio-info" style="position:absolute; left:100px;padding-top:15px;float:left;height:100%;padding:0px;float:left;">
+			<span class="title"></span>
+			<span class="timing" style="position:absolute;top:2.6em;left:0em">0:00:00/0:00:00</span>	
+		</div><!--audio-info-->
+		<div id="back"></div>
+	        <div class="heart"></div>
+
+		</div><!--img-info-->
+<br>
+		<div id="audio-buttons">
+		<button	id="prev"></button>
+		<button	id="play"></button>
+		<button	id="pause"></button>
+		<button	id="next"></button>
+		</div>
+		<div id="volume">
+		<input id="volume" type="range" min="0" max="10" value="5">		
+		</div>
+		
+	<div class="clearfix"></div>
+	<div id="tracker">
+		<div id="progressbar">
+			<span id="progress"></span>
+			</div>
+			<span id="duration"></span>
+		</div><!--audio-player-->
+
+			<div class="clearfix"></div>
+	</div>
+	<ul id="playlist" cover="playlist-art.jpg">
+		<li  song="Break My Heart.mp3" cover="Album.png" artist="Linkin park">Break My Heart</li>
+		<li  song="New Age.mp3" cover="cover1.jpg" artist="Linkin park">New age</li>
+		<li  song="Still Got The Blues.mp3" cover="cover1.jpg" artist=" Gary Moore ">Still Got The Blues</li>
+		<li  song="How Long.mp3" cover="cover1.jpg" artist="Lionel Richie ">How Long</li>
+		
+	</ul>
+	<!-- Set up your HTML -->
+	<div class="album-carousel" style="margin-top:20px;color:#b18273">
+	<h3 style="position:relative;left:150px;width:200px;;" >Album</h3>
+	<br>
+<div class="owl-carousel" style="margin:20px 20px 20px 0px;height:auto;width:80%;">
+      <div class="card" style="">
+                        <img src="../shawn.jpg" width="150px" height="120px">
+                        Mustang
+                </div>
+
+<div class="card">
+	<img src="../shawn.jpg" width="150px" height="120px">
+	
+	Your Content </div>
+  <div class="card"> <img src="Album.png" width="150px" height="120px">
+Your Content </div>
+<div class="card"> Your Content </div>
+ <div class="card"> Your Content </div>
+  <div class="card"> Your Content </div>
+<div class="card"> Your Content </div>
+ <div class="card"> Your Content </div>
+  <div class="card"> Your Content </div>
+<div class="card"> Your Content </div>
+</div>
+</div>
+	</div><!--container-->
+	<script src="static/main/jquery-2.1.4.js"></script>	
+	<script src="owlcarousel/owl.carousel.min.js"></script>
+	<script src="main.js"></script>
+	</body>
+	
+</html>

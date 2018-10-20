@@ -1,0 +1,1530 @@
+<!doctype html>
+<head lang="en-US" prefix="og: http://ogp.me/ns#">
+
+<meta name="google-play-app" content="app-id=com.analyticsvidhya.android">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="//www.google-analytics.com" rel="dns-prefetch">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="pingback" href="https://www.analyticsvidhya.com/xmlrpc.php">
+<link rel='icon' id='favicon' type='image/png' href='https://www.analyticsvidhya.com/wp-content/uploads/2015/02/logo_square_v2.jpg'><link rel='apple-touch-icon' href='https://www.analyticsvidhya.com/wp-content/uploads/2015/02/logo_square_v2.jpg'><link rel='apple-touch-icon' sizes='76x76' href='https://www.analyticsvidhya.com/wp-content/uploads/2015/02/logo_square_v2.jpg'><link rel='apple-touch-icon' sizes='114x114' href='https://www.analyticsvidhya.com/wp-content/uploads/2015/02/logo_square_v2.jpg'><link rel='apple-touch-icon' sizes='144x144' href='https://www.analyticsvidhya.com/wp-content/uploads/2015/02/logo_square_v2.jpg'>
+<link rel='stylesheet' href="https://www.analyticsvidhya.com/wp-content/themes/Curated/custom/custom_style.css" type='text/css' media='all'>
+<link rel="stylesheet" href="https://www.analyticsvidhya.com/wp-content/themes/Curated/custom/smart-app-banner.css" type="text/css" media="screen">
+<link rel="stylesheet" href="https://www.analyticsvidhya.com/wp-content/themes/Curated/custom/special-offer-strip-2.css" type="text/css" media="screen">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<title>Understanding and Building an Object Detection Model from Scratch in Python</title>
+<script>
+                            /* You can add more configuration options to webfontloader by previously defining the WebFontConfig with your options */
+                            if ( typeof WebFontConfig === "undefined" ) {
+                                WebFontConfig = new Object();
+                            }
+                            WebFontConfig['google'] = {families: ['Oswald:400', 'Raleway:400&amp;subset=latin']};
+
+                            (function() {
+                                var wf = document.createElement( 'script' );
+                                wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.5.3/webfont.js';
+                                wf.type = 'text/javascript';
+                                wf.async = 'true';
+                                var s = document.getElementsByTagName( 'script' )[0];
+                                s.parentNode.insertBefore( wf, s );
+                            })();
+                        </script>
+<style>
+.stb-container-css {margin: 10px 10px 10px 10px;}.stb-box {}.stb-caption-box {}.stb-body-box {}
+/* Class Dependent Parameters */
+.stb-border.stb-alert-container {border: 1px none #FF4F4A;}.stb-side.stb-alert-container {background: #FF4F4A;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FF4F4A', endColorstr='#504848',GradientType=0 );background: -moz-linear-gradient(top,  #FF4F4A 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FF4F4A), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #FF4F4A 30%,#504848 90%);background: -o-linear-gradient(top,  #FF4F4A 30%,#504848 90%);background: -ms-linear-gradient(top,  #FF4F4A 30%,#504848 90%);background: linear-gradient(#FF4F4A 30%, #504848 90%);}.stb-side-none.stb-alert-container {background: #FFE7E6;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFE7E6', endColorstr='#fb7d78',GradientType=0 );background: -moz-linear-gradient(top,  #FFE7E6 30%, #fb7d78 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FFE7E6), color-stop(90%,#fb7d78));background: -webkit-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: -o-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: -ms-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: linear-gradient(#FFE7E6 30%, #fb7d78 90%);}.stb-alert_box {background: #FFE7E6;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFE7E6', endColorstr='#fb7d78',GradientType=0 );background: -moz-linear-gradient(top,  #FFE7E6 30%, #fb7d78 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FFE7E6), color-stop(90%,#fb7d78));background: -webkit-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: -o-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: -ms-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: linear-gradient(#FFE7E6 30%, #fb7d78 90%);color: #000000;}.stb-alert-caption_box {background: #FF4F4A;background: -moz-linear-gradient(top,  #FF4F4A 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FF4F4A), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #FF4F4A 30%,#504848 90%);background: -o-linear-gradient(top,  #FF4F4A 30%,#504848 90%);background: -ms-linear-gradient(top,  #FF4F4A 30%,#504848 90%);background: linear-gradient(#FF4F4A 30%, #504848 90%);color: #FFFFFF;}.stb-alert-body_box {background: #FFE7E6;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFE7E6', endColorstr='#fb7d78',GradientType=0 );background: -moz-linear-gradient(top,  #FFE7E6 30%, #fb7d78 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FFE7E6), color-stop(90%,#fb7d78));background: -webkit-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: -o-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: -ms-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: linear-gradient(#FFE7E6 30%, #fb7d78 90%);color: #000000;}.stb-border.stb-black-container {border: 1px none #6E6E6E;}.stb-side.stb-black-container {background: #333333;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#333333', endColorstr='#504848',GradientType=0 );background: -moz-linear-gradient(top,  #333333 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#333333), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #333333 30%,#504848 90%);background: -o-linear-gradient(top,  #333333 30%,#504848 90%);background: -ms-linear-gradient(top,  #333333 30%,#504848 90%);background: linear-gradient(#333333 30%, #504848 90%);}.stb-side-none.stb-black-container {background: #000000;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000',GradientType=0 );background: -moz-linear-gradient(top,  #000000 30%, #000000 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#000000), color-stop(90%,#000000));background: -webkit-linear-gradient(top,  #000000 30%,#000000 90%);background: -o-linear-gradient(top,  #000000 30%,#000000 90%);background: -ms-linear-gradient(top,  #000000 30%,#000000 90%);background: linear-gradient(#000000 30%, #000000 90%);}.stb-black_box {background: #000000;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000',GradientType=0 );background: -moz-linear-gradient(top,  #000000 30%, #000000 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#000000), color-stop(90%,#000000));background: -webkit-linear-gradient(top,  #000000 30%,#000000 90%);background: -o-linear-gradient(top,  #000000 30%,#000000 90%);background: -ms-linear-gradient(top,  #000000 30%,#000000 90%);background: linear-gradient(#000000 30%, #000000 90%);color: #FFFFFF;}.stb-black-caption_box {background: #333333;background: -moz-linear-gradient(top,  #333333 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#333333), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #333333 30%,#504848 90%);background: -o-linear-gradient(top,  #333333 30%,#504848 90%);background: -ms-linear-gradient(top,  #333333 30%,#504848 90%);background: linear-gradient(#333333 30%, #504848 90%);color: #FFFFFF;}.stb-black-body_box {background: #000000;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000',GradientType=0 );background: -moz-linear-gradient(top,  #000000 30%, #000000 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#000000), color-stop(90%,#000000));background: -webkit-linear-gradient(top,  #000000 30%,#000000 90%);background: -o-linear-gradient(top,  #000000 30%,#000000 90%);background: -ms-linear-gradient(top,  #000000 30%,#000000 90%);background: linear-gradient(#000000 30%, #000000 90%);color: #FFFFFF;}.stb-border.stb-custom-container {border: 1px none #f844ee;}.stb-side.stb-custom-container {background: #f844ee;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f844ee', endColorstr='#504848',GradientType=0 );background: -moz-linear-gradient(top,  #f844ee 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#f844ee), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #f844ee 30%,#504848 90%);background: -o-linear-gradient(top,  #f844ee 30%,#504848 90%);background: -ms-linear-gradient(top,  #f844ee 30%,#504848 90%);background: linear-gradient(#f844ee 30%, #504848 90%);}.stb-side-none.stb-custom-container {background: #f7cdf5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7cdf5', endColorstr='#f77df1',GradientType=0 );background: -moz-linear-gradient(top,  #f7cdf5 30%, #f77df1 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#f7cdf5), color-stop(90%,#f77df1));background: -webkit-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: -o-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: -ms-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: linear-gradient(#f7cdf5 30%, #f77df1 90%);}.stb-custom_box {background: #f7cdf5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7cdf5', endColorstr='#f77df1',GradientType=0 );background: -moz-linear-gradient(top,  #f7cdf5 30%, #f77df1 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#f7cdf5), color-stop(90%,#f77df1));background: -webkit-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: -o-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: -ms-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: linear-gradient(#f7cdf5 30%, #f77df1 90%);color: #000000;}.stb-custom-caption_box {background: #f844ee;background: -moz-linear-gradient(top,  #f844ee 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#f844ee), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #f844ee 30%,#504848 90%);background: -o-linear-gradient(top,  #f844ee 30%,#504848 90%);background: -ms-linear-gradient(top,  #f844ee 30%,#504848 90%);background: linear-gradient(#f844ee 30%, #504848 90%);color: #ffffff;}.stb-custom-body_box {background: #f7cdf5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7cdf5', endColorstr='#f77df1',GradientType=0 );background: -moz-linear-gradient(top,  #f7cdf5 30%, #f77df1 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#f7cdf5), color-stop(90%,#f77df1));background: -webkit-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: -o-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: -ms-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: linear-gradient(#f7cdf5 30%, #f77df1 90%);color: #000000;}.stb-border.stb-download-container {border: 1px none #65ADFE;}.stb-side.stb-download-container {background: #65ADFE;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#65ADFE', endColorstr='#504848',GradientType=0 );background: -moz-linear-gradient(top,  #65ADFE 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#65ADFE), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #65ADFE 30%,#504848 90%);background: -o-linear-gradient(top,  #65ADFE 30%,#504848 90%);background: -ms-linear-gradient(top,  #65ADFE 30%,#504848 90%);background: linear-gradient(#65ADFE 30%, #504848 90%);}.stb-side-none.stb-download-container {background: #DFF0FF;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#DFF0FF', endColorstr='#2e7cb9',GradientType=0 );background: -moz-linear-gradient(top,  #DFF0FF 30%, #2e7cb9 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#DFF0FF), color-stop(90%,#2e7cb9));background: -webkit-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: -o-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: -ms-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: linear-gradient(#DFF0FF 30%, #2e7cb9 90%);}.stb-download_box {background: #DFF0FF;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#DFF0FF', endColorstr='#2e7cb9',GradientType=0 );background: -moz-linear-gradient(top,  #DFF0FF 30%, #2e7cb9 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#DFF0FF), color-stop(90%,#2e7cb9));background: -webkit-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: -o-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: -ms-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: linear-gradient(#DFF0FF 30%, #2e7cb9 90%);color: #000000;}.stb-download-caption_box {background: #65ADFE;background: -moz-linear-gradient(top,  #65ADFE 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#65ADFE), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #65ADFE 30%,#504848 90%);background: -o-linear-gradient(top,  #65ADFE 30%,#504848 90%);background: -ms-linear-gradient(top,  #65ADFE 30%,#504848 90%);background: linear-gradient(#65ADFE 30%, #504848 90%);color: #FFFFFF;}.stb-download-body_box {background: #DFF0FF;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#DFF0FF', endColorstr='#2e7cb9',GradientType=0 );background: -moz-linear-gradient(top,  #DFF0FF 30%, #2e7cb9 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#DFF0FF), color-stop(90%,#2e7cb9));background: -webkit-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: -o-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: -ms-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: linear-gradient(#DFF0FF 30%, #2e7cb9 90%);color: #000000;}.stb-border.stb-grey-container {border: 1px none #BBBBBB;}.stb-side.stb-grey-container {background: #BBBBBB;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#BBBBBB', endColorstr='#6e6e6e',GradientType=0 );background: -moz-linear-gradient(top,  #BBBBBB 30%, #6e6e6e 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#BBBBBB), color-stop(90%,#6e6e6e));background: -webkit-linear-gradient(top,  #BBBBBB 30%,#6e6e6e 90%);background: -o-linear-gradient(top,  #BBBBBB 30%,#6e6e6e 90%);background: -ms-linear-gradient(top,  #BBBBBB 30%,#6e6e6e 90%);background: linear-gradient(#BBBBBB 30%, #6e6e6e 90%);}.stb-side-none.stb-grey-container {background: #EEEEEE;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#EEEEEE', endColorstr='#ababab',GradientType=0 );background: -moz-linear-gradient(top,  #EEEEEE 30%, #ababab 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#EEEEEE), color-stop(90%,#ababab));background: -webkit-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: -o-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: -ms-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: linear-gradient(#EEEEEE 30%, #ababab 90%);}.stb-grey_box {background: #EEEEEE;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#EEEEEE', endColorstr='#ababab',GradientType=0 );background: -moz-linear-gradient(top,  #EEEEEE 30%, #ababab 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#EEEEEE), color-stop(90%,#ababab));background: -webkit-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: -o-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: -ms-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: linear-gradient(#EEEEEE 30%, #ababab 90%);color: #000000;}.stb-grey-caption_box {background: #BBBBBB;background: -moz-linear-gradient(top,  #BBBBBB 30%, #6e6e6e 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#BBBBBB), color-stop(90%,#6e6e6e));background: -webkit-linear-gradient(top,  #BBBBBB 30%,#6e6e6e 90%);background: -o-linear-gradient(top,  #BBBBBB 30%,#6e6e6e 90%);background: -ms-linear-gradient(top,  #BBBBBB 30%,#6e6e6e 90%);background: linear-gradient(#BBBBBB 30%, #6e6e6e 90%);color: #FFFFFF;}.stb-grey-body_box {background: #EEEEEE;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#EEEEEE', endColorstr='#ababab',GradientType=0 );background: -moz-linear-gradient(top,  #EEEEEE 30%, #ababab 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#EEEEEE), color-stop(90%,#ababab));background: -webkit-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: -o-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: -ms-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: linear-gradient(#EEEEEE 30%, #ababab 90%);color: #000000;}.stb-border.stb-info-container {border: 1px none #7AD975;}.stb-side.stb-info-container {background: #7AD975;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7AD975', endColorstr='#504848',GradientType=0 );background: -moz-linear-gradient(top,  #7AD975 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#7AD975), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #7AD975 30%,#504848 90%);background: -o-linear-gradient(top,  #7AD975 30%,#504848 90%);background: -ms-linear-gradient(top,  #7AD975 30%,#504848 90%);background: linear-gradient(#7AD975 30%, #504848 90%);}.stb-side-none.stb-info-container {background: #E2F8DE;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#E2F8DE', endColorstr='#79b06e',GradientType=0 );background: -moz-linear-gradient(top,  #E2F8DE 30%, #79b06e 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#E2F8DE), color-stop(90%,#79b06e));background: -webkit-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: -o-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: -ms-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: linear-gradient(#E2F8DE 30%, #79b06e 90%);}.stb-info_box {background: #E2F8DE;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#E2F8DE', endColorstr='#79b06e',GradientType=0 );background: -moz-linear-gradient(top,  #E2F8DE 30%, #79b06e 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#E2F8DE), color-stop(90%,#79b06e));background: -webkit-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: -o-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: -ms-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: linear-gradient(#E2F8DE 30%, #79b06e 90%);color: #000000;}.stb-info-caption_box {background: #7AD975;background: -moz-linear-gradient(top,  #7AD975 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#7AD975), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #7AD975 30%,#504848 90%);background: -o-linear-gradient(top,  #7AD975 30%,#504848 90%);background: -ms-linear-gradient(top,  #7AD975 30%,#504848 90%);background: linear-gradient(#7AD975 30%, #504848 90%);color: #FFFFFF;}.stb-info-body_box {background: #E2F8DE;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#E2F8DE', endColorstr='#79b06e',GradientType=0 );background: -moz-linear-gradient(top,  #E2F8DE 30%, #79b06e 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#E2F8DE), color-stop(90%,#79b06e));background: -webkit-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: -o-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: -ms-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: linear-gradient(#E2F8DE 30%, #79b06e 90%);color: #000000;}.stb-border.stb-section-container {border: 1px none #2982C5;}.stb-side.stb-section-container {background: #2982C5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2982C5', endColorstr='#2944f2',GradientType=0 );background: -moz-linear-gradient(top,  #2982C5 30%, #2944f2 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#2982C5), color-stop(90%,#2944f2));background: -webkit-linear-gradient(top,  #2982C5 30%,#2944f2 90%);background: -o-linear-gradient(top,  #2982C5 30%,#2944f2 90%);background: -ms-linear-gradient(top,  #2982C5 30%,#2944f2 90%);background: linear-gradient(#2982C5 30%, #2944f2 90%);}.stb-side-none.stb-section-container {background: #2982C5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2982C5', endColorstr='#294ee3',GradientType=0 );background: -moz-linear-gradient(top,  #2982C5 30%, #294ee3 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#2982C5), color-stop(90%,#294ee3));background: -webkit-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: -o-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: -ms-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: linear-gradient(#2982C5 30%, #294ee3 90%);}.stb-section_box {background: #2982C5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2982C5', endColorstr='#294ee3',GradientType=0 );background: -moz-linear-gradient(top,  #2982C5 30%, #294ee3 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#2982C5), color-stop(90%,#294ee3));background: -webkit-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: -o-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: -ms-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: linear-gradient(#2982C5 30%, #294ee3 90%);color: #000000;}.stb-section-caption_box {background: #2982C5;background: -moz-linear-gradient(top,  #2982C5 30%, #2944f2 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#2982C5), color-stop(90%,#2944f2));background: -webkit-linear-gradient(top,  #2982C5 30%,#2944f2 90%);background: -o-linear-gradient(top,  #2982C5 30%,#2944f2 90%);background: -ms-linear-gradient(top,  #2982C5 30%,#2944f2 90%);background: linear-gradient(#2982C5 30%, #2944f2 90%);color: #FFFFFF;}.stb-section-body_box {background: #2982C5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2982C5', endColorstr='#294ee3',GradientType=0 );background: -moz-linear-gradient(top,  #2982C5 30%, #294ee3 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#2982C5), color-stop(90%,#294ee3));background: -webkit-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: -o-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: -ms-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: linear-gradient(#2982C5 30%, #294ee3 90%);color: #000000;}.stb-border.stb-warning-container {border: 1px none #FE9A05;}.stb-side.stb-warning-container {background: #FE9A05;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FE9A05', endColorstr='#504848',GradientType=0 );background: -moz-linear-gradient(top,  #FE9A05 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FE9A05), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #FE9A05 30%,#504848 90%);background: -o-linear-gradient(top,  #FE9A05 30%,#504848 90%);background: -ms-linear-gradient(top,  #FE9A05 30%,#504848 90%);background: linear-gradient(#FE9A05 30%, #504848 90%);}.stb-side-none.stb-warning-container {background: #FEFFD5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FEFFD5', endColorstr='#f0d208',GradientType=0 );background: -moz-linear-gradient(top,  #FEFFD5 30%, #f0d208 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FEFFD5), color-stop(90%,#f0d208));background: -webkit-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: -o-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: -ms-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: linear-gradient(#FEFFD5 30%, #f0d208 90%);}.stb-warning_box {background: #FEFFD5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FEFFD5', endColorstr='#f0d208',GradientType=0 );background: -moz-linear-gradient(top,  #FEFFD5 30%, #f0d208 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FEFFD5), color-stop(90%,#f0d208));background: -webkit-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: -o-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: -ms-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: linear-gradient(#FEFFD5 30%, #f0d208 90%);color: #000000;}.stb-warning-caption_box {background: #FE9A05;background: -moz-linear-gradient(top,  #FE9A05 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FE9A05), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #FE9A05 30%,#504848 90%);background: -o-linear-gradient(top,  #FE9A05 30%,#504848 90%);background: -ms-linear-gradient(top,  #FE9A05 30%,#504848 90%);background: linear-gradient(#FE9A05 30%, #504848 90%);color: #FFFFFF;}.stb-warning-body_box {background: #FEFFD5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FEFFD5', endColorstr='#f0d208',GradientType=0 );background: -moz-linear-gradient(top,  #FEFFD5 30%, #f0d208 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FEFFD5), color-stop(90%,#f0d208));background: -webkit-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: -o-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: -ms-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: linear-gradient(#FEFFD5 30%, #f0d208 90%);color: #000000;}</style>
+
+<meta name="description" content="Object detection is seeing a boom in the machine learning space in recent times. In this article, learn how to build your first object detection model from scratch in Python!" />
+<link rel="canonical" href="https://www.analyticsvidhya.com/blog/2018/06/understanding-building-object-detection-model-python/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Understanding and Building an Object Detection Model from Scratch in Python" />
+<meta property="og:description" content="Object detection is seeing a boom in the machine learning space in recent times. In this article, learn how to build your first object detection model from scratch in Python!" />
+<meta property="og:url" content="https://www.analyticsvidhya.com/blog/2018/06/understanding-building-object-detection-model-python/" />
+<meta property="og:site_name" content="Analytics Vidhya" />
+<meta property="article:publisher" content="https://www.facebook.com/AnalyticsVidhya/" />
+<meta property="article:tag" content="deep learning" />
+<meta property="article:tag" content="detection" />
+<meta property="article:tag" content="first object detection model" />
+<meta property="article:tag" content="object detection" />
+<meta property="article:tag" content="python" />
+<meta property="article:section" content="Deep Learning" />
+<meta property="article:published_time" content="2018-06-28T08:03:26+05:30" />
+<meta property="article:modified_time" content="2018-07-13T12:58:10+05:30" />
+<meta property="og:updated_time" content="2018-07-13T12:58:10+05:30" />
+<meta property="og:image" content="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/maxresdefault.jpg" />
+<meta property="og:image:secure_url" content="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/maxresdefault.jpg" />
+<meta property="og:image:width" content="1280" />
+<meta property="og:image:height" content="720" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:description" content="Object detection is seeing a boom in the machine learning space in recent times. In this article, learn how to build your first object detection model from scratch in Python!" />
+<meta name="twitter:title" content="Understanding and Building an Object Detection Model from Scratch in Python" />
+<meta name="twitter:site" content="@analyticsvidhya" />
+<meta name="twitter:image" content="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/maxresdefault.jpg" />
+<meta name="twitter:creator" content="@analyticsvidhya" />
+<script type='application/ld+json'>{"@context":"https:\/\/schema.org","@type":"Organization","url":"https:\/\/www.analyticsvidhya.com\/","sameAs":["https:\/\/www.facebook.com\/AnalyticsVidhya\/","https:\/\/www.linkedin.com\/company\/analytics-vidhya","https:\/\/twitter.com\/analyticsvidhya"],"@id":"https:\/\/www.analyticsvidhya.com\/#organization","name":"Analytics Vidhya","logo":"https:\/\/www.analyticsvidhya.com\/wp-content\/uploads\/2014\/12\/analytics-logo-300x70.jpg"}</script>
+
+<link rel='dns-prefetch' href='//www.analyticsvidhya.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//cdnjs.cloudflare.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="Analytics Vidhya &raquo; Feed" href="https://www.analyticsvidhya.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Analytics Vidhya &raquo; Comments Feed" href="https://www.analyticsvidhya.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Analytics Vidhya &raquo; Understanding and Building an Object Detection Model from Scratch in Python Comments Feed" href="https://www.analyticsvidhya.com/blog/2018/06/understanding-building-object-detection-model-python/feed/" />
+<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.analyticsvidhya.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.9.8"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='contact-form-7-css' href='https://www.analyticsvidhya.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=5.0.4' type='text/css' media='all' />
+<link rel='stylesheet' id='dgd-scrollbox-plugin-core-css' href='https://www.analyticsvidhya.com/wp-content/plugins/dreamgrow-scroll-triggered-box/css/style.css?ver=2.3' type='text/css' media='all' />
+<link rel='stylesheet' id='inline-tweet-sharer-style-css' href='https://www.analyticsvidhya.com/wp-content/plugins/inline-tweet-sharer/inline-tweet-sharer.css?ver=2.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='dashicons-css' href='https://www.analyticsvidhya.com/wp-includes/css/dashicons.min.css?ver=4.9.8' type='text/css' media='all' />
+<link rel='stylesheet' id='maha-bootstrap-css' href='https://www.analyticsvidhya.com/wp-content/themes/Curated/static/css/bootstrap-responsive.css?ver=1.0' type='text/css' media='all' />
+<link rel='stylesheet' id='maha-tm-icons-css' href='https://www.analyticsvidhya.com/wp-content/themes/Curated/static/css/font-tm.css?ver=1.0' type='text/css' media='all' />
+<link rel='stylesheet' id='maha-basix-css' href='https://www.analyticsvidhya.com/wp-content/themes/Curated/static/css/basix.css?ver=1.0' type='text/css' media='all' />
+<link rel='stylesheet' id='maha-basix-r-css' href='https://www.analyticsvidhya.com/wp-content/themes/Curated/static/css/basix-responsive.css?ver=1.0' type='text/css' media='all' />
+<link rel='stylesheet' id='maha-dynamic-css' href='https://www.analyticsvidhya.com/wp-content/themes/Curated/includes/functions/dynamic-style.css?ver=1.0' type='text/css' media='all' />
+<link rel='stylesheet' id='stbCoreCSS-css' href='https://www.analyticsvidhya.com/wp-content/plugins/wp-special-textboxes/css/stb-core.css?ver=5.9.107' type='text/css' media='all' />
+<link rel='stylesheet' id='jetpack_css-css' href='https://www.analyticsvidhya.com/wp-content/plugins/jetpack/css/jetpack.css?ver=6.5' type='text/css' media='all' />
+<link rel='stylesheet' id='wpss-style-css' href='https://www.analyticsvidhya.com/wp-content/plugins/wordpress-simple-survey/assets/build/css/wpss-pkg.min.css?ver=4.9.8' type='text/css' media='all' />
+<link rel='stylesheet' id='wpss-custom-db-style-css' href='https://www.analyticsvidhya.com/wp-content/plugins/wordpress-simple-survey/assets/css/custom-performance.css?ver=4.9.8' type='text/css' media='all' />
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1' defer='defer'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var related_posts_js_options = {"post_heading":"h4"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-content/plugins/jetpack/_inc/build/related-posts/related-posts.min.js?ver=20150408' defer='defer'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var $DGD = {"ajaxurl":"\/wp-admin\/admin-ajax.php","nonce":"fac65c29a6","debug":"","permalink":"https:\/\/www.analyticsvidhya.com\/blog\/2018\/06\/understanding-building-object-detection-model-python\/","title":"Understanding and Building an Object Detection Model from Scratch in Python","thumbnail":"https:\/\/s3-ap-south-1.amazonaws.com\/av-blog-media\/wp-content\/uploads\/2018\/06\/maxresdefault.jpg","scripthost":"\/wp-content\/plugins\/dreamgrow-scroll-triggered-box\/","scrollboxes":[{"id":"dgd_scrollbox-38994-tab","parentid":"dgd_scrollbox-38994","trigger":{"action":"tab"},"height":"auto","width":"auto","vpos":"bottom","hpos":"center","theme":"none","jsCss":{"margin":"0","backgroundImageUrl":"","backgroundColor":"#ffffff","boxShadow":"0px","borderColor":"#000000","borderWidth":"1px","borderRadius":""},"transition":{"effect":"fade","from":"b","speed":"400"},"lightbox":0,"closeImageUrl":"","hide_mobile":"1","submit_auto_close":0,"delay_auto_close":0,"hide_submitted":0,"cookieLifetime":-1,"receiver_email":"0","thankyou":"You are subscribed. Thank You!","widget_enabled":"0"},{"trigger":{"action":"scroll","scroll":"0","delaytime":"0","element":""},"vpos":"center","hpos":"center","cookieLifetime":"0","hide_mobile":"1","receiver_email":"0","thankyou":"You are subscribed. Thank You!","submit_auto_close":"5","hide_submitted":"1","delay_auto_close":"60","lightbox":{"color":"#000000","opacity":"0.7","blur":"2"},"theme":"none","widget_enabled":"1","height":"350","width":"600","jsCss":{"padding":"10","margin":"10","backgroundColor":"#ffffff","boxShadow":"0px","borderColor":"#000000","borderWidth":"2px","borderRadius":"1px","backgroundImageUrl":""},"closeImageUrl":"","transition":{"from":"b","effect":"fade","speed":"400"},"tab":"1","social":{"facebook":"","twitter":"","google":"","pinterest":"","stumbleupon":"","linkedin":""},"id":"dgd_scrollbox-38994","mode":"stb","voff":0,"hoff":0,"tabid":"dgd_scrollbox-38994-tab"}]};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-content/plugins/dreamgrow-scroll-triggered-box/js/script.js?ver=2.3' defer='defer'></script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-content/plugins/inline-tweet-sharer/inline-tweet-sharer.js?ver=2.2.1' defer='defer'></script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-content/plugins/wordpress-simple-survey/assets/build/js/wpss-pkg.min.js?ver=3.0.0' defer='defer'></script>
+<link rel='https://api.w.org/' href='https://www.analyticsvidhya.com/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.analyticsvidhya.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.analyticsvidhya.com/wp-includes/wlwmanifest.xml" />
+<meta name="generator" content="WordPress 4.9.8" />
+<link rel='shortlink' href='https://www.analyticsvidhya.com/?p=45293' />
+<link rel="alternate" type="application/json+oembed" href="https://www.analyticsvidhya.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.analyticsvidhya.com%2Fblog%2F2018%2F06%2Funderstanding-building-object-detection-model-python%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://www.analyticsvidhya.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.analyticsvidhya.com%2Fblog%2F2018%2F06%2Funderstanding-building-object-detection-model-python%2F&#038;format=xml" />
+<script type="text/javascript"><!--
+function powerpress_pinw(pinw_url){window.open(pinw_url, 'PowerPressPlayer','toolbar=0,status=0,resizable=1,width=460,height=320');	return false;}
+//-->
+</script>
+<script type="text/javascript">/* <![CDATA[ */ jQuery.post("https://www.analyticsvidhya.com/wp-admin/admin-ajax.php", { action: "wmp_update", id: 45293, token: "25154432fe" }); /* ]]> */</script> 
+<meta property="og:url" content="https://www.analyticsvidhya.com/blog/2018/06/understanding-building-object-detection-model-python/" />
+<meta property="og:title" content="Understanding and Building an Object Detection Model from Scratch in Python" />
+<meta property="og:description" content="Introduction When we're shown an image, our brain instantly recognizes the objects contained in it. On the other hand, it takes a lot of time and training data for a machine to identify these objects. But with the recent advances in hardware and deep learning, this computer vision field has become a whole lot easier" />
+<meta property="og:image" content="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/maxresdefault-200x200.jpg" />
+
+<link rel='canonical' href='https://www.analyticsvidhya.com/blog/2018/06/understanding-building-object-detection-model-python/' />
+<style type="text/css"></style><script>
+if(! /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {     
+jQuery(document).ready(function(){
+jQuery( ".col-sm-12" ).removeClass( "myrun" );    
+});
+}
+</script>
+<script>
+//subscribe android app
+jQuery(document).ready(function(){
+   jQuery('#submit-subscribe-android-app').click(function(){
+       var email = jQuery('#email-subscribe-android-app').val();
+       if(email){
+           jQuery.ajax({
+               url: "/subscriptions/early-android-access.php",
+               type: "POST",
+               data: {
+                   "email": email
+               },
+               success: function(data){
+                   if(data.success){
+                       jQuery("#bg-sbox ul").hide(1);
+                       jQuery("#bg-sbox h5").text('yay!');
+                       jQuery("#bg-sbox p.msg1").text('Your email has been added to our beta list');
+                       jQuery("#bg-sbox p.msg2").text('You will hear from us soon');
+                   } else {
+                       jQuery("#bg-sbox h5").text('Something went wrong, try again!');
+                       console.log(data.error);
+                   }
+               },
+               error: function(e){
+                   console.log(e);
+                   jQuery("#bg-sbox h5").text('Something went wrong, try again!');
+               }
+           })
+       }
+   });
+});
+</script>
+<script>
+jQuery(document).ready(function(){
+	jQuery(".filter-button").click(function(){
+		var value = jQuery(this).attr('data-filter');
+       if(value == "all"){
+           $('.filter').show('1000');
+       }else{
+			jQuery(".filter").not('.'+value).hide('3000');
+			jQuery('.filter').filter('.'+value).show('3000');
+       }
+   });
+});
+</script>
+<script>//----------footer js start------</script>
+<script type="text/javascript">
+     jQuery(document).ready(function(){
+       jQuery('.footer-links-holder .links-show').click(function () {
+       jQuery(this).parent().toggleClass('active');
+     });
+   });
+</script>
+
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '136748720225584'); // Insert your pixel ID here.
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=136748720225584&ev=PageView&noscript=1"
+/></noscript>
+
+<script type="text/javascript">
+     var clevertap = {event:[], profile:[], account:[], onUserLogin:[], notifications:[]};
+ // replace with the CLEVERTAP_ACCOUNT_ID with the actual ACCOUNT ID value from your Dashboard -> Settings page
+ clevertap.account.push({"id": "R5K-4WR-7W5Z"});
+ (function () {
+		 var wzrk = document.createElement('script');
+		 wzrk.type = 'text/javascript';
+		 wzrk.async = true;
+		 wzrk.src = ('https:' == document.location.protocol ? 'https://d2r1yp2w7bby2u.cloudfront.net' : 'http://static.clevertap.com') + '/js/a.js';
+		 var s = document.getElementsByTagName('script')[0];
+		 s.parentNode.insertBefore(wzrk, s);
+  })();
+</script>
+
+<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/40884943/blog-title', [728, 90], 'div-gpt-ad-1525327567902-0').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40101183-1', 'auto');
+  ga('require', 'GTM-PBZGQJ4');
+  //ga('send', 'pageview');
+  ga('send', 'pageview', {
+     'dimension1': 'Faizan Shaikh',
+     'dimension2': 'Deep Learning'
+     });
+</script>
+
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ969NR');</script>
+
+<meta property="fb:pages" content="452065408218678" />
+
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '136748720225584'); // Insert your pixel ID here.
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=136748720225584&ev=PageView&noscript=1"
+/></noscript>
+
+<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/40884943/AIDC2', [728, 90], 'div-gpt-ad-1536848898417-0').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+</head>
+<body class="post-template-default single single-post postid-45293 single-format-standard mh-body chrome">
+
+<div class="container-fluid">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://www.analyticsvidhya.com/wp-content/themes/Curated/custom/smart-app-banner.js"></script>
+<script type="text/javascript">
+    if (!navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
+      new SmartBanner({
+          daysHidden: 15,   // days to hide banner after close button is clicked (defaults to 15)
+          daysReminder: 1, // days to hide banner after "VIEW" button is clicked (defaults to 90)
+          appStoreLanguage: 'us', // language code for the App Store (defaults to user's browser language)
+          title: '',
+          author: '',
+          button: '',
+          store: {
+              android: ' ',
+          },
+          price: {
+              android: '',
+          }
+          , theme: 'android' // put platform type ('ios', 'android', etc.) here to force single theme on all device
+          // , icon: '' // full path to icon image if not using website icon image
+          , force: 'android' // Uncomment for platform emulation
+      });
+    }
+    </script>
+<script>
+    $(document).ready(function(){
+        $(".smartbanner-container").click(function(){
+            ga('send', {'hitType': 'event', 'eventCategory': 'smart-banner', 'eventAction': 'clicked'});
+            window.open("https://play.google.com/store/apps/details?id=com.analyticsvidhya.android", '_blank');
+        });
+    });
+    </script>
+</div>
+
+<div id="announcements">
+<div class="container">
+<div class="row">
+<p class="text-center">
+<a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+DS101+2018T2/about?utm_source=Ds101flashstrip" target="_blank">
+<span>FLASH SALE: Course On Introduction To Data Science | Use COUPON CODE: <strong>FLASH25</strong> for 25% Discount| Work on 4 real-life projects |</span>
+<span><strong>Buy Now</strong> </span>
+</a>
+</p>
+</div>
+</div>
+</div>
+<div id="body-maha" class="body-maha" data-tmloader="https://www.analyticsvidhya.com/wp-content/themes/Curated/images/ellipsis.gif">
+<nav id="mobile-bar-sticky" role="navigation" class="mobile-bar bar-sticky">
+<div id="close-mobile-bar"><i class="tm-cancel"></i></div>
+<div id="search-mobile-bar"><form action="https://www.analyticsvidhya.com/" class="searchform" method="get">
+<button class="search-button"><i class="tm-search"></i></button>
+<input type="text" name="s" class="search-input" value="Search" onfocus="if(this.value=='Search')this.value='';" onblur="if(this.value=='')this.value='Search';" autocomplete="off" />
+</form></div>
+<ul id="menu-main-menu" class="menu"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0"><span></span><a href="#">Learn</a>
+<ul class="sub-menu">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/blog-archive/">Blog Archive</a>
+<ul class="sub-menu">
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-2498"><span></span><a href="https://www.analyticsvidhya.com/blog/category/machine-learning/">Machine Learning</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent mh-navcat-3761"><span></span><a href="https://www.analyticsvidhya.com/blog/category/deep-learning/">Deep Learning</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-4121"><span></span><a href="https://www.analyticsvidhya.com/blog/category/career/">Career</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-3118"><span></span><a href="https://www.analyticsvidhya.com/blog/category/stories/">Stories</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-4219"><span></span><a href="https://www.analyticsvidhya.com/blog/category/avbytes/">AVBytes</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/blog/category/podcast/">DataHack Radio</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-2284"><span></span><a href="https://www.analyticsvidhya.com/blog/category/infographics/">Infographics</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://trainings.analyticsvidhya.com?utm_source=home_blog_navbar">Trainings</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/">Learning Paths</a>
+<ul class="sub-menu">
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/learning-path-business-analyst-sas/">SAS Business Analyst</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/learning-path-r-data-science/">LeaRn Data Science on R</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/learning-path-data-science-python/">Data Science in Python</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/weka-gui-learn-machine-learning/">DATA SCIENCE IN WEKA</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/tableau-learning-path/">Data Visualization with Tableau</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/qlikview-learning-path/">Data Visualization with QlikView</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/newbie-d3-js-expert-complete-path-create-interactive-visualization-d3-js/">Interactive Data Stories with D3.js</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/glossary-of-common-statistics-and-machine-learning-terms/">Glossary</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0"><span></span><a href="#">Engage</a>
+<ul class="sub-menu">
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://discuss.analyticsvidhya.com">Discuss</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-1915"><span></span><a href="https://www.analyticsvidhya.com/blog/category/events/">Events</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/datahack-summit-2018/">Datahack Summit 2018</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/datahacksummit/">DataHack Summit 2017</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/student-datafest-2018/?utm_source=homepage_menu">Student Datafest</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="http://www.analyticsvidhya.com/about-me/write/">Write For Us</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0"><span></span><a href="#">Compete</a>
+<ul class="sub-menu">
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://datahack.analyticsvidhya.com/contest/all">Hackathons</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0"><span></span><a href="#">Get Hired</a>
+<ul class="sub-menu">
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-170"><span></span><a href="https://www.analyticsvidhya.com/jobs/">Jobs</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0"><span></span><a href="#">Trainings</a>
+<ul class="sub-menu">
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+DS101+2018T2/about?utm_source=home_blog_navbar">INTRODUCTION TO DATA SCIENCE</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+ITE001+2018_T1/about?utm_source=home_blog_navbar">MICROSOFT EXCEL</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://trainings.analyticsvidhya.com/courses?utm_source=home_blog_navbar">MORE COURSES</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/datahack-summit-2018/?ref=blog-internal"><span style="color:#ee3d24">Datahack Summit</span></a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/contact/">Contact</a></li>
+</ul> </nav>
+
+<div id='body-background'>
+
+<div id="off-canvas-body" class="off-canvas-body animati-on">
+
+<div id="top-bar-sticky" class="bar-sticky">
+<div class="top-bar">
+
+<div class="container">
+<div class="row">
+<div class="col-sm-12">
+<div id="top-right-nav">
+<div class="social-top">
+<ul><li><a target="_blank" href="https://www.facebook.com/AnalyticsVidhya"><i class="tm-facebook"></i></a></li><li><a target="_blank" href="https://twitter.com/analyticsvidhya"><i class="tm-twitter"></i></a></li><li><a target="_blank" href="https://plus.google.com/+Analyticsvidhya/posts"><i class="tm-googleplus"></i></a></li><li><a target="_blank" href="https://www.linkedin.com/groups/Analytics-Vidhya-Learn-everything-about-5057165"><i class="tm-linkedin"></i></a></li></ul>
+</div>
+</div>
+<nav id="top-nav-wrapper" class="ul-nav">
+<ul id="menu-top" class="menu"><li id="menu-item-42575" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-42575 mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com">Home</a></li>
+<li id="menu-item-12992" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12992 mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/blog-archive/">Blog Archive</a></li>
+<li id="menu-item-41279" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-41279 mh-navcat-0"><span></span><a href="https://trainings.analyticsvidhya.com?utm_source=home_blog_navbar">Trainings</a></li>
+<li id="menu-item-12952" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12952 mh-navcat-0"><span></span><a href="https://discuss.analyticsvidhya.com">Discuss</a></li>
+<li id="menu-item-45058" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-45058 mh-navcat-0"><span></span><a href="https://datahack.analyticsvidhya.com">Datahack</a></li>
+<li id="menu-item-12658" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12658 mh-navcat-170"><span></span><a href="https://www.analyticsvidhya.com/jobs/">Jobs</a></li>
+<li id="menu-item-39605" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-39605 mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/corporate/">Corporate</a></li>
+</ul> </nav>
+<nav id="top-mobile-wrapper" class="ul-nav">
+<ul><li><a><i class="tm-menu"></i></a></li></ul>
+</nav>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+
+<div class="main-logo-ads-wrap">
+<div class="main-logo-ads">
+
+<div class="container">
+<div class="row ">
+<div class="col-sm-12">
+
+<div id="thelogo" class="logo ">
+<a href="https://www.analyticsvidhya.com/blog/">
+<img alt="Analytics Vidhya - Learn everything about Analytics" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/03/18122331/av100.png" data-retina="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/03/18122331/av100.png" data-first="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/03/18122331/av100.png" />
+</a>
+</div>
+<h2 class='site-outline'>Learn everything about Analytics</h2>
+
+<div id="main-ads" class="">
+<div class="vp-1170 vp-fluid"><a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+DS101+2018T2/about?utm_source=DS101AVBlogBanner&utm_medium=Topbanner&utm_campaign=DS101" target="_blank"><img src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/10/intro-ds-1-1.gif"></a></div>
+<div class="vp-970 vp-750"><a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+DS101+2018T2/about?utm_source=DS101AVBlogBanner&utm_medium=Topbanner&utm_campaign=DS101" target="_blank"><img src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/10/intro-ds-1-1.gif"></a></div>
+<div class="vp-320"><a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+DS101+2018T2/about?utm_source=DS101AVBlogBanner&utm_medium=Topbanner&utm_campaign=DS101" target="_blank"><img src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/10/intro-ds-1-1.gif"></a></div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+
+<div id="main-nav">
+<div id="main-nav-bar" class="main-nav-bar clearfix ">
+<div id="main-search" class=" clearfix">
+<div id="con-search">
+<div class="container">
+<div class="cols-sm12">
+<div id="main-search-form">
+<span class="close-search-form"><i class="tm-cancel"></i></span>
+<span class="loading-search-result"><img src="https://www.analyticsvidhya.com/wp-content/themes/Curated/images/ellipsis.gif" alt=""></span>
+<form action="https://www.analyticsvidhya.com/" class="searchform" method="get">
+<button class="search-button"><i class="tm-search"></i></button>
+<input type="text" name="s" class="search-input" value="Search" onfocus="if(this.value=='Search')this.value='';" onblur="if(this.value=='')this.value='Search';" autocomplete="off" />
+</form> <div class="search-result">
+<div class="container search-result-content"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class='maha-notification container'><div id="main-notif"></div></div>
+<div class="container clearfix">
+</div>
+
+<div class="container clearfix">
+<div class="row clearfix">
+<div class="col-sm-12 clearfix">
+
+
+<div id="search-nav" class="search-nav clearfix">
+<span class="open-search-form"><i class="tm-search"></i></span>
+</div>
+
+
+<nav id="main-nav-wrapper" class="main-ul-nav clearfix">
+<div id="thelogosmall" class="logo">
+<a href="https://www.analyticsvidhya.com/blog/">
+<img alt="Analytics Vidhya - Learn everything about Analytics" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/03/18121731/av44.png" data-retina="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/03/18121731/av44.png" data-first="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/03/18121731/av44.png" />
+</a>
+</div>
+<ul id="menu-main-menu-1" class="menu"><li id="menu-item-37781" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0"><a href="#">Learn</a><div class="nav-sub-wrap container"><div class="nsw clearfix row">
+<div class="nav-sub-menus"><ul>
+<li id="menu-item-12993" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children mh-navcat-0"><a href="https://www.analyticsvidhya.com/blog-archive/">Blog Archive</a><div class="nav-sub-wrap container"><div class="nsw clearfix row">
+<div class="nav-sub-menus"><ul>
+<li id="menu-item-47251" class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-2498"><a href="https://www.analyticsvidhya.com/blog/category/machine-learning/">Machine Learning</a></li>
+<li id="menu-item-47265" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent mh-navcat-3761"><a href="https://www.analyticsvidhya.com/blog/category/deep-learning/">Deep Learning</a></li>
+<li id="menu-item-47191" class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-4121"><a href="https://www.analyticsvidhya.com/blog/category/career/">Career</a></li>
+<li id="menu-item-27174" class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-3118"><a href="https://www.analyticsvidhya.com/blog/category/stories/">Stories</a></li>
+</ul></div>
+</div></div>
+</li>
+<li id="menu-item-45052" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-4219"><a href="https://www.analyticsvidhya.com/blog/category/avbytes/">AVBytes</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-45209" class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-0"><a href="https://www.analyticsvidhya.com/blog/category/podcast/">DataHack Radio</a></li>
+<li id="menu-item-18233" class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-2284"><a href="https://www.analyticsvidhya.com/blog/category/infographics/">Infographics</a></li>
+<li id="menu-item-41036" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://trainings.analyticsvidhya.com?utm_source=home_blog_navbar">Trainings</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-12170" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children mh-navcat-0"><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/">Learning Paths</a><div class="nav-sub-wrap container"><div class="nsw clearfix row">
+<div class="nav-sub-menus"><ul>
+<li id="menu-item-12503" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/learning-path-business-analyst-sas/">SAS Business Analyst</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-14416" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/learning-path-r-data-science/">LeaRn Data Science on R</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-12171" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/learning-path-data-science-python/">Data Science in Python</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-13207" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/weka-gui-learn-machine-learning/">DATA SCIENCE IN WEKA</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-23077" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/tableau-learning-path/">Data Visualization with Tableau</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-12320" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/qlikview-learning-path/">Data Visualization with QlikView</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-23078" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/newbie-d3-js-expert-complete-path-create-interactive-visualization-d3-js/">Interactive Data Stories with D3.js</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+</ul></div>
+</div></div>
+</li>
+<li id="menu-item-31580" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/glossary-of-common-statistics-and-machine-learning-terms/">Glossary</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+</ul></div>
+</div></div>
+</li>
+<li id="menu-item-37782" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0"><a href="#">Engage</a><div class="nav-sub-wrap container"><div class="nsw clearfix row">
+<div class="nav-sub-menus"><ul>
+<li id="menu-item-11881" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://discuss.analyticsvidhya.com">Discuss</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-24639" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-1915"><a href="https://www.analyticsvidhya.com/blog/category/events/">Events</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-45075" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://www.analyticsvidhya.com/datahack-summit-2018/">Datahack Summit 2018</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-39652" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://www.analyticsvidhya.com/datahacksummit/">DataHack Summit 2017</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-43948" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://www.analyticsvidhya.com/student-datafest-2018/?utm_source=homepage_menu">Student Datafest</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-22625" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="http://www.analyticsvidhya.com/about-me/write/">Write For Us</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+</ul></div>
+</div></div>
+</li>
+<li id="menu-item-37783" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0"><a href="#">Compete</a><div class="nav-sub-wrap container"><div class="nsw clearfix row">
+<div class="nav-sub-menus"><ul>
+<li id="menu-item-24638" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://datahack.analyticsvidhya.com/contest/all">Hackathons</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+</ul></div>
+</div></div>
+</li>
+<li id="menu-item-37784" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0"><a href="#">Get Hired</a><div class="nav-sub-wrap container"><div class="nsw clearfix row">
+<div class="nav-sub-menus"><ul>
+<li id="menu-item-31593" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-170"><a href="https://www.analyticsvidhya.com/jobs/">Jobs</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+</ul></div>
+</div></div>
+</li>
+<li id="menu-item-44643" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0"><a href="#">Trainings</a><div class="nav-sub-wrap container"><div class="nsw clearfix row">
+<div class="nav-sub-menus"><ul>
+<li id="menu-item-44644" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+DS101+2018T2/about?utm_source=home_blog_navbar">INTRODUCTION TO DATA SCIENCE</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+ <li id="menu-item-44645" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+ITE001+2018_T1/about?utm_source=home_blog_navbar">MICROSOFT EXCEL</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-44646" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://trainings.analyticsvidhya.com/courses?utm_source=home_blog_navbar">MORE COURSES</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+</ul></div>
+</div></div>
+</li>
+<li id="menu-item-45049" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://www.analyticsvidhya.com/datahack-summit-2018/?ref=blog-internal"><span style="color:#ee3d24">Datahack Summit</span></a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-24641" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/contact/">Contact</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+
+<div class="page-wrapper">
+
+<div class="mh-el page-sidebar single-regular" itemscope itemtype="https://schema.org/Article">
+
+<div class="container">
+<div class="row">
+
+<div class="col-sm-8">
+<div class="main-content">
+
+<div class="maha-crumbs" itemscope itemtype="https://schema.org/BreadcrumbList"><span><a href="https://www.analyticsvidhya.com/">Home</a></span> <i class="tm-crumb-right"></i> <span itemscope itemprop="itemListElement" itemtype="https://schema.org/ListItem"><a itemscope itemprop="item" itemtype="https://schema.org/Thing" href="https://www.analyticsvidhya.com/blog/category/deep-learning/"><span itemprop="name">Deep Learning</span></a><meta itemprop="position" content="1"></span> <i class="tm-crumb-right"></i> <span><a href="https://www.analyticsvidhya.com/blog/2018/06/understanding-building-object-detection-model-python/">Understanding and Building an Object Detection Model from Scratch in Python</a></span></div>
+<article id="post-45293" class="main-content single-post-box">
+<header>
+<meta itemprop="headline" content="Understanding and Building an Object Detection Model from Scratch in Python">
+<meta itemprop="datecreated" content="2018-06-28T08:03:26+00:00">
+<meta itemprop="datePublished" content="2018-06-28T08:03:26+00:00">
+<meta itemprop="dateModified" content="2018-07-13T12:58:10+00:00">
+<meta itemscope itemprop="mainEntityOfPage" itemType="https://schema.org/WebPage" itemid="https://www.analyticsvidhya.com/blog/2018/06/understanding-building-object-detection-model-python/" />
+<span class="hidden" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+<meta itemprop="url" content="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/maxresdefault.jpg">
+<meta itemprop="width" content="720">
+<meta itemprop="height" content="720">
+</span>
+<span class="hidden" itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+<span class="hidden" itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+<meta itemprop="url" content="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/03/18122331/av100.png">
+</span>
+<meta itemprop="name" content="Analytics Vidhya">
+</span>
+<div class="meta-count">
+<span class="i-category"><span class="mh-cat-item"><a class="mh-elcat-3761" href="https://www.analyticsvidhya.com/blog/category/deep-learning/" title="Deep Learning" rel="category">Deep Learning</a></span><span class="mh-cat-item"><a class="mh-elcat-396" href="https://www.analyticsvidhya.com/blog/category/python-2/" title="Python" rel="category">Python</a></span></span>
+</div>
+<h1 itemprop="name" class="entry-title">Understanding and Building an Object Detection Model from Scratch in Python</h1>
+<div class="meta-info">
+<span class="entry-author">
+<a href="https://www.analyticsvidhya.com/blog/author/jalfaizy/"><span>Faizan Shaikh</span></a>,
+</span>
+<time class="entry-date" content="2018-06-28" datetime="2018-06-28T08:03:26+00:00">
+June 28, 2018 </time>
+<div class="count-data right">
+</div>
+</div>
+</header>
+<div class="text-content">
+<div id="ban3_av"></div><h2>Introduction</h2>
+<p>When we&#8217;re shown an image, our brain instantly recognizes the objects contained in it. On the other hand, it takes a lot of time and training data for a machine to identify these objects. But with the recent advances in hardware and deep learning, this computer vision field has become a whole lot easier and more intuitive.</p>
+<p>Check out the below image as an example. The system is able to identify different objects in the image with incredible accuracy.</p>
+<p><img class="aligncenter size-full wp-image-45411" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/OD.png" alt="" width="1097" height="628" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/OD.png 1097w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/OD-300x172.png 300w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/OD-768x440.png 768w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/OD-850x487.png 850w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/OD-360x206.png 360w" sizes="(max-width: 1097px) 100vw, 1097px" /></p>
+<p>Object detection technology has seen a rapid adoption rate in various and diverse industries. It helps self-driving cars safely navigate through traffic, spots violent behavior in a crowded place,  assists sports teams analyze and build scouting reports, ensures proper quality control of parts in manufacturing, among many, many other things. And these are just scratching the surface of what object detection technology can do!</p>
+<p>In this article, we will understand what object detection is and look at a few different approaches one can take to solve problems in this space. Then we will deep dive into building our own object detection system in Python. By the end of the article, you will have enough knowledge to take on different object detection challenges on your own!</p>
+<p><em>Note: This tutorial assumes that you know the basics of deep learning and have solved simple image processing problems before. In case you haven&#8217;t, or need a refresher, I recommend reading the following articles first:</em></p>
+<ul>
+<li><strong><a href="https://www.analyticsvidhya.com/blog/2016/03/introduction-deep-learning-fundamentals-neural-networks/" target="_blank" rel="noopener">Fundamentals of Deep Learning – Starting with Artificial Neural Network</a></strong></li>
+<li><strong><a href="https://www.analyticsvidhya.com/blog/2016/04/deep-learning-computer-vision-introduction-convolution-neural-networks/" target="_blank" rel="noopener">Deep Learning for Computer Vision – Introduction to Convolution Neural Networks</a></strong></li>
+<li><strong><a href="https://www.analyticsvidhya.com/blog/2016/10/tutorial-optimizing-neural-networks-using-keras-with-image-recognition-case-study/" target="_blank" rel="noopener">Tutorial: Optimizing Neural Networks using Keras (with Image recognition case study)</a></strong></li>
+</ul>
+<p>&nbsp;</p>
+<h2>Table of Contents</h2>
+<ul>
+<li>What is Object Detection?</li>
+<li>The Different Approaches we can use to Solve an Object Detection Problem
+<ul>
+<li>Approach 1: Naive way (Divide and Conquer)</li>
+<li>Approach 2: Increase the number of divisions</li>
+<li>Approach 3: Performing structured divisions</li>
+<li>Approach 4: Becoming more efficient</li>
+<li>Approach 5: Using Deep Learning for feature selection and to build an end-to-end approach</li>
+</ul>
+</li>
+<li>Getting Technical: How to build an Object Detection model using the ImageAI library</li>
+</ul>
+<p>&nbsp;</p>
+<h2>What is Object Detection?</h2>
+<p>Before we dive into build a state-of-the-art model, let us first try to understand what object detection is. Let&#8217;s (hypothetically) build a pedestrian detection system for a self-driving car. Suppose your car captures an image like the one below. How would you describe this image?</p>
+<p><img class="aligncenter wp-image-45347" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-300x87.png" alt="" width="514" height="149" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-300x87.png 300w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-768x223.png 768w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-850x247.png 850w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351.png 1344w" sizes="(max-width: 514px) 100vw, 514px" /></p>
+<p>The image essentially depicts that our car is near a square, and a handful of people are crossing the road in front of our car. As the traffic sign is not clearly visible, the car&#8217;s pedestrian detection system should identify exactly where the people are walking so that we can steer clear of them.</p>
+<p>So what can the car&#8217;s system do to ensure this happens? What it can do is create a bounding box around these people, so that the system can pinpoint where in the image the people are, and then accordingly make a decision as to which path to take, in order to avoid any mishaps.</p>
+<p><img class="aligncenter wp-image-45348" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-copy-300x87.png" alt="" width="520" height="151" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-copy-300x87.png 300w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-copy-768x223.png 768w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-copy-850x247.png 850w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-copy.png 1344w" sizes="(max-width: 520px) 100vw, 520px" /></p>
+<p>Our objective behind doing object detection is two folds:</p>
+<ol>
+<li>To identify what all objects are present in the image and where they&#8217;re located</li>
+<li>Filter out the object of attention</li>
+</ol>
+<p>&nbsp;</p>
+<h2>Different Approaches to Solve an Object Detection Problem</h2>
+<p>Now that we know what our problem statement is, what can be a possible approach (or multiple approaches) to solve it? In this section, we&#8217;ll look at a few techniques that can be used to detect objects in images. We will start from the simplest approach and find our way up from there. If you have any suggestions or alternate approaches to the ones we will see below, do let me know in the comments section!</p>
+<p>&nbsp;</p>
+<h3>Approach 1: Naive way (Divide and Conquer)</h3>
+<p>The simplest approach we can take is to divide the image into four parts:</p>
+<ul>
+<li>Upper left hand side corner<br />
+<img class="aligncenter wp-image-45349" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-3rd-copy-www.imagesplitter.net-0-0-300x87.jpeg" alt="" width="452" height="131" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-3rd-copy-www.imagesplitter.net-0-0-300x87.jpeg 300w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-3rd-copy-www.imagesplitter.net-0-0-670x195.jpeg 670w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-3rd-copy-www.imagesplitter.net-0-0.jpeg 672w" sizes="(max-width: 452px) 100vw, 452px" /></li>
+<li>Upper right hand side corner<br />
+<img class="aligncenter wp-image-45350" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-3rd-copy-www.imagesplitter.net-0-1-300x87.jpeg" alt="" width="449" height="130" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-3rd-copy-www.imagesplitter.net-0-1-300x87.jpeg 300w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-3rd-copy-www.imagesplitter.net-0-1-670x195.jpeg 670w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-3rd-copy-www.imagesplitter.net-0-1.jpeg 672w" sizes="(max-width: 449px) 100vw, 449px" /></li>
+<li>Lower left hand side corner<br />
+<img class="aligncenter wp-image-45351" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-3rd-copy-www.imagesplitter.net-1-0-300x87.jpeg" alt="" width="452" height="131" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-3rd-copy-www.imagesplitter.net-1-0-300x87.jpeg 300w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-3rd-copy-www.imagesplitter.net-1-0-670x195.jpeg 670w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-3rd-copy-www.imagesplitter.net-1-0.jpeg 672w" sizes="(max-width: 452px) 100vw, 452px" /></li>
+<li>Lower right hand side corner<img class="aligncenter wp-image-45352" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-3rd-copy-www.imagesplitter.net-1-1-300x87.jpeg" alt="" width="448" height="130" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-3rd-copy-www.imagesplitter.net-1-1-300x87.jpeg 300w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-3rd-copy-www.imagesplitter.net-1-1-670x195.jpeg 670w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-3rd-copy-www.imagesplitter.net-1-1.jpeg 672w" sizes="(max-width: 448px) 100vw, 448px" /></li>
+</ul>
+<p>Now the next step is to feed each of these parts into an image classifier. This will give us an output of whether that part of the image has a pedestrian or not. If yes, mark that patch in the original image. The output will be somewhat like this:</p>
+<p><img class="aligncenter wp-image-45353" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-another-copy-300x87.png" alt="" width="594" height="172" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-another-copy-300x87.png 300w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-another-copy-768x223.png 768w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-another-copy-850x247.png 850w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-another-copy.png 1344w" sizes="(max-width: 594px) 100vw, 594px" /></p>
+<p>This is a good approach to try out first, but we are looking for a much more accurate and precise system. It needs to identify the entire object (or a person in this case) because only locating parts of an object could lead to catastrophic results.</p>
+<p>&nbsp;</p>
+<h3>Approach 2: Increase the number of divisions</h3>
+<p>The previous system worked well but what else can we do? We can improve upon it by exponentially increasing the number of patches we input into the system. This is how our output should look like:</p>
+<p><img class="aligncenter wp-image-45354" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-copy1-300x87.png" alt="" width="606" height="176" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-copy1-300x87.png 300w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-copy1-768x223.png 768w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-copy1-850x247.png 850w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-copy1.png 1344w" sizes="(max-width: 606px) 100vw, 606px" /></p>
+<p>This ended up being a boon and a curse. Of course our solution seems a bit better than the naive approach, but it is riddled with so many bounding boxes which approximate the same thing. This is an issue, and we need a more structured way to solve our problem.</p>
+<p>&nbsp;</p>
+<h3>Approach 3: Performing structured divisions</h3>
+<p>In order to build our object detection system in a more structured way, we can follow the below steps:</p>
+<p><strong>Step 1: </strong>Divide the image into a 10&#215;10 grid like this:</p>
+<p><img class="aligncenter wp-image-45359" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/divisions-300x86.png" alt="" width="670" height="192" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/divisions-300x86.png 300w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/divisions-768x220.png 768w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/divisions-850x244.png 850w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/divisions.png 1342w" sizes="(max-width: 670px) 100vw, 670px" /></p>
+<p><strong>Step 2: </strong>Define the centroids for each patch</p>
+<p><strong>Step 3: </strong>For each centroid, take three different patches of different heights and aspect ratio:</p>
+<p><img class="aligncenter wp-image-45361" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/structured-300x132.png" alt="" width="529" height="233" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/structured-300x132.png 300w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/structured.png 641w" sizes="(max-width: 529px) 100vw, 529px" /></p>
+<p><strong>Step 4:</strong> Pass all of the patches created through the image classifier to get predictions</p>
+<p>So how does the final output look like? A bit more structured and disciplined for sure &#8211; take a look below:</p>
+<p><img class="aligncenter wp-image-45362" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/output-300x86.png" alt="" width="572" height="164" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/output-300x86.png 300w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/output-768x220.png 768w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/output-850x244.png 850w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/output.png 1342w" sizes="(max-width: 572px) 100vw, 572px" /></p>
+<p>But we can further improve on this! Read on to see yet another approach that will produce even better results.</p>
+<p>&nbsp;</p>
+<h3>Approach 4: Becoming more efficient</h3>
+<p>The previous approach we saw is acceptable to quite a good degree, but we can build a system a little more efficient than that. Can you suggest how? Off the top of my mind, I can propose an optimization. If we think about approach #3, we can do two things to make our model better.</p>
+<ol>
+<li style="text-align: left;"><strong><strong>Increase the grid size: </strong></strong>So instead of taking the grid size as 10, we can increase it to, say, 20:
+<div class="mceTemp"></div>
+<p><img class="aligncenter wp-image-45366" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/Screenshot-from-2018-06-25-18-55-44-300x86.png" alt="" width="698" height="200" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/Screenshot-from-2018-06-25-18-55-44-300x86.png 300w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/Screenshot-from-2018-06-25-18-55-44-768x219.png 768w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/Screenshot-from-2018-06-25-18-55-44-850x242.png 850w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/Screenshot-from-2018-06-25-18-55-44.png 1340w" sizes="(max-width: 698px) 100vw, 698px" /></li>
+<li><strong>Instead of three patches, take more patches with various heights and aspect ratios: </strong>Here, we can take 9 shapes off of a single anchor, namely three square patches of different heights and 6 vertical and horizontal rectangle patches of different heights. This will provide us with different aspect ratios of the patches.<strong><br />
+<img class="wp-image-45365 aligncenter" title="https://www.quora.com/How-does-the-region-proposal-network-RPN-in-Faster-R-CNN-work" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/main-qimg-5f23c56676fcf1369a836f625500c19e-300x190.png" alt="" width="306" height="194" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/main-qimg-5f23c56676fcf1369a836f625500c19e-300x190.png 300w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/main-qimg-5f23c56676fcf1369a836f625500c19e.png 602w" sizes="(max-width: 306px) 100vw, 306px" /><br />
+</strong></li>
+</ol>
+<p>This again, has its pros and cons. Sure both of the methods will help us go to a more granular level. But it will again create an explosion of all the patches that we have to pass through our image classification model.</p>
+<p>What we can do is, <strong>take selective patches instead of taking all of them</strong>. For example, we could build an intermediate classifier which tries to predict if the patch actually has background, or potentially contains an object. This would exponentially decrease the patches that our image classification model has to see.</p>
+<p>One more optimization that we can do, is to decrease the predictions which say the &#8220;same thing&#8221;. Let&#8217;s take the output of approach 3 again:</p>
+<p><img class="aligncenter wp-image-45362" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/output-300x86.png" alt="" width="488" height="140" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/output-300x86.png 300w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/output-768x220.png 768w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/output-850x244.png 850w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/output.png 1342w" sizes="(max-width: 488px) 100vw, 488px" /></p>
+<p>As you can see, both the bounding box predictions are basically of the same person. We have an option to choose any one of them. So to make predictions, we consider all the boxes which &#8220;say the same thing&#8221; and then pick whichever one has the most probability of detecting a person.</p>
+<p>All of these optimizations have so far given us pretty decent predictions. We almost have all the cards in our hands, but can you guess what is missing? Deep Learning of course!</p>
+<p>&nbsp;</p>
+<h3>Approach 5: Using Deep Learning for feature selection and to build an end-to-end approach</h3>
+<p>Deep learning has so much potential in the object detection space. Can you recommend where and how can we leverage it for our problem? I have listed a couple of methodologies below:</p>
+<ul>
+<li>Instead of taking patches from the original image, we can pass the original image through a neural network to <strong>reduce the dimensions</strong></li>
+<li>We could also use a neural network to <strong>suggest selective patches</strong></li>
+<li>We can <strong>reinforce</strong> a deep learning algorithm <strong>to give predictions</strong> as <strong>close to the original bounding box </strong>as possible. This will ensure that the algorithm gives more tighter and finer bounding box predictions</li>
+</ul>
+<p>Now instead of training different neural networks for solving each individual problem, we can take a single deep neural network model which will attempt to solve all the problems by itself. The advantage of doing this, is that each of the smaller components of a neural network will help in optimizing the other parts of the same neural network. This will help us in jointly training the entire deep model.</p>
+<p>Our output would give us the best performance out of all the approaches we have seen so far, somewhat similar to the image below. We will see how to create this using Python in the next section.</p>
+<p><img class="aligncenter wp-image-45407 " src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/prediction-300x87.png" alt="" width="744" height="216" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/prediction-300x87.png 300w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/prediction-768x223.png 768w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/prediction-850x247.png 850w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/prediction.png 1344w" sizes="(max-width: 744px) 100vw, 744px" /></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h2>Getting Technical: How to build an Object Detection model using the ImageAI library</h2>
+<p>Now that we know what object detection is and the best approach to solve the problem, let&#8217;s build our own object detection system! We will be using <span style="text-decoration: underline;"><a href="https://github.com/OlafenwaMoses/ImageAI" target="_blank" rel="noopener">ImageAI</a></span>, a python library which supports state-of-the-art machine learning algorithms for computer vision tasks.</p>
+<p>Running an object detection model to get predictions is fairly simple. We don&#8217;t have to go through complex installation scripts to get started. We don&#8217;t even need a GPU to generate predictions! We will use this ImageAI library to get the output prediction we saw above in approach #5. I highly recommend following along with the code below (on your own machine) as this will enable you to gain the maximum knowledge out of this section.</p>
+<p>Please note that you need to set up your system before creating the object detection model. Once you have Anaconda installed in your local system, you can get started with the below steps.</p>
+<p><strong>Step 1</strong>: Create an Anaconda environment with python version 3.6.</p>
+<pre>conda create -n retinanet python=3.6 anaconda</pre>
+<p><strong>Step 2</strong>: Activate the environment and install the necessary packages.</p>
+<pre>source activate retinanet
+conda install tensorflow numpy scipy opencv pillow matplotlib h5py keras</pre>
+<p><strong>Step 3</strong>: Then install the ImageAI library.</p>
+<pre>pip install https://github.com/OlafenwaMoses/ImageAI/releases/download/2.0.1/imageai-2.0.1-py3-none-any.whl</pre>
+<p><strong>Step 4</strong>: Now download the pretrained model required to generate predictions. This model is based on RetinaNet (a subject of a future article). Click on the link to download &#8211; <b><a href="https://github.com/OlafenwaMoses/ImageAI/releases/download/1.0/resnet50_coco_best_v2.0.1.h5" target="_blank" rel="noopener">RetinaNet Pretrained model</a></b><b> </b></p>
+<p><strong>Step 5</strong>: Copy the downloaded file to your current working folder</p>
+<p><strong>Step 6: </strong>Download the image from <a rel="lightbox" href=https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/06/I1_2009_09_08_drive_0012_001351-768x223.png>this link</a>. Name the image as image.png</p>
+<p><strong>Step 7: </strong>Open jupyter notebook (type <em><strong>jupyter notebook</strong></em> in your terminal) and run the following codes:</p>
+<pre>from imageai.Detection import ObjectDetection
+import os
+
+execution_path = os.getcwd()
+
+detector = ObjectDetection()
+detector.setModelTypeAsRetinaNet()
+detector.setModelPath( os.path.join(execution_path , "resnet50_coco_best_v2.0.1.h5"))
+detector.loadModel()
+custom_objects = detector.CustomObjects(person=True, car=False)
+detections = detector.detectCustomObjectsFromImage(input_image=os.path.join(execution_path , "image.png"), output_image_path=os.path.join(execution_path , "image_new.png"), custom_objects=custom_objects, minimum_percentage_probability=65)
+
+
+for eachObject in detections:
+   print(eachObject["name"] + " : " + eachObject["percentage_probability"] )
+   print("--------------------------------")</pre>
+<p>This will create a modified image file named image_new.png, which contains the bounding box for your image.</p>
+<p><strong>Step 8: </strong>To print the image use the following code:</p>
+<pre><span id=":57.co" class="tL8wMe EMoHub" dir="ltr">from IPython.display import Image
+Image("image_new.png")</span></pre>
+<p>&nbsp;</p>
+<p><img src="https://lh3.googleusercontent.com/-_M4GqFGDYOQ/WzovcOqFAII/AAAAAAAAB8M/96IajrZwOAsF3PYH74qLJ6uZL-25CJbKACL0BGAYYCw/h223/2018-07-02.png" alt="https://lh3.googleusercontent.com/-_M4GqFGDYOQ/WzovcOqFAII/AAAAAAAAB8M/96IajrZwOAsF3PYH74qLJ6uZL-25CJbKACL0BGAYYCw/h223/2018-07-02.png" /></p>
+<p>Congratulations! You have created your own object detection model for pedestrian detection. How awesome is that?</p>
+<p>&nbsp;</p>
+<h2>End Notes</h2>
+<p>In this article, we learned what is object detection, and the intuition behind creating an object detection model. We also saw how to build this object detection model for pedestrian detection using the ImageAI library.</p>
+<p>By just tweaking the code a bit, you can easily transform the model to solve your own object detection challenges. If you do solve such a problem using the approach above, especially for a social cause, do let me know in the comments below!</p>
+<p>&nbsp;</p>
+You can also read this article on Analytics Vidhya's Android APP <a href='//play.google.com/store/apps/details?id=com.analyticsvidhya.android&utm_source=blog_article&utm_campaign=blog&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1' onclick="ga('send', {'hitType': 'event', 'eventCategory': 'app-blog', 'eventAction': 'clicked'});"><img alt='Get it on Google Play' src='//play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' style='height:65px'></a><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-5229672700622157" data-ad-slot="7938033629"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<footer class="clearfix both">
+<div class="meta-tags clearfix">
+Tags : <a href="https://www.analyticsvidhya.com/blog/tag/deep-learning/" rel="tag">deep learning</a><span>,</span> <a href="https://www.analyticsvidhya.com/blog/tag/detection/" rel="tag">detection</a><span>,</span> <a href="https://www.analyticsvidhya.com/blog/tag/first-object-detection-model/" rel="tag">first object detection model</a><span>,</span> <a href="https://www.analyticsvidhya.com/blog/tag/object-detection/" rel="tag">object detection</a><span>,</span> <a href="https://www.analyticsvidhya.com/blog/tag/python/" rel="tag">python</a> </div>
+<div class="next-prev clearfix">
+<a class="next" href="https://www.analyticsvidhya.com/blog/2018/06/googles-amazing-self-supervised-computer-vision-model-can-track-objects-in-any-video/" rel="next"><i class="tm-chevron-right"></i><div class="np-caption">Next Article</div><h3 class="np-title">Google&#8217;s Amazing Self-Supervised Computer Vision Model can Track Objects in any Video!</h3></a> <i class="tm-3dots"></i>
+<a class="prev" href="https://www.analyticsvidhya.com/blog/2018/06/ai-guardman-machine-learning-application-estimates-poses-detect-shoplifters/" rel="prev"><i class="tm-chevron-left"></i><div class="np-caption">Previous Article</div><h3 class="np-title">&#8216;AI Guardman&#8217; &#8211; A Machine Learning Application that uses Pose Estimation to Detect Shoplifters</h3></a> </div>
+<div class="meta-author" itemprop="author" itemscope itemtype="https://schema.org/Person">
+<div class="author-thumb">
+<a href="https://www.analyticsvidhya.com/blog/author/jalfaizy/">
+<img alt='' src='https://secure.gravatar.com/avatar/fd90df6aafd127cc243609d0e1a97621?s=200&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/fd90df6aafd127cc243609d0e1a97621?s=400&#038;d=mm&#038;r=g 2x' class='avatar avatar-200 photo' height='200' width='200' /> </a>
+</div>
+<div class="author-info">
+<h3 class="author-name">
+<a itemprop="name" content="Faizan Shaikh" href="https://www.analyticsvidhya.com/blog/author/jalfaizy/">Faizan Shaikh</a>
+</h3>
+<div class="author-desc">
+<span class="fn">Faizan is a Data Science enthusiast and a Deep learning rookie. A recent Comp. Sc. undergrad, he aims to utilize his skills to push the boundaries of AI research.</span>
+</div>
+<ul class="author-links">
+<li><a target="_blank" href="https://www.linkedin.com/in/faizankshaikh"><i class="tm-linkedin"></i></a></li><li><a target="_blank" href="http://github.com/faizankshaikh"><i class="tm-github"></i></a></li> </ul>
+</div>
+</div>
+<div class="related-article">
+
+<div class="row">
+<div class="col-sm-12">
+<div class="block-cap">
+<h3>Related Articles</h3>
+</div>
+</div>
+</div>
+<div class="row block-streams el-block-5">
+
+<div class="col-sm-4">
+<article class="item-medium-simple post-box-normal">
+<div class="meta-info no-bottom">
+<span class="entry-author"><a href="https://www.analyticsvidhya.com/blog/author/datascience22/">Pranav Dar</a></span><span class="coma">,</span>
+<time class="entry-date" datetime="2018-04-09T00:35:56+00:00">
+April 9, 2018 </time>
+</div>
+<div class="thumb-wrap zoom-zoom">
+<a href="https://www.analyticsvidhya.com/blog/2018/04/avbytes-ai-ml-developments-this-week-090418/" rel="bookmark" title="AVBytes: AI &#038; ML Developments this week &#8211; Comet.ml for ML Models, TensorFlow.js, a Python ANN Visualizer, etc.">
+<img width="262" height="141" class="entry-thumb zoom-it three" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/02/AVBytes-262x141.png" alt="AVBytes: AI &#038; ML Developments this week &#8211; Comet.ml for ML Models, TensorFlow.js, a Python ANN Visualizer, etc." title="AVBytes: AI &#038; ML Developments this week &#8211; Comet.ml for ML Models, TensorFlow.js, a Python ANN Visualizer, etc." />
+</a>
+</div>
+<h3 class="entry-title">
+<a href="https://www.analyticsvidhya.com/blog/2018/04/avbytes-ai-ml-developments-this-week-090418/" rel="bookmark" title="AVBytes: AI &#038; ML Developments this week &#8211; Comet.ml for ML Models, TensorFlow.js, a Python ANN Visualizer, etc.">
+AVBytes: AI &#038; ML Developments this week &#8211; Comet.ml for ML Models, TensorFlow.js, a Python ANN Visualizer, etc. </a>
+</h3>
+<meta content="AVBytes: AI &#038; ML Developments this week &#8211; Comet.ml for ML Models, TensorFlow.js, a Python ANN Visualizer, etc." />
+</article> </div>
+
+<div class="col-sm-4">
+<article class="item-medium-simple post-box-normal">
+<div class="meta-info no-bottom">
+<span class="entry-author"><a href="https://www.analyticsvidhya.com/blog/author/shuvayandas/">Shuvayan Das</a></span><span class="coma">,</span>
+<time class="entry-date" datetime="2015-06-15T02:22:50+00:00">
+June 15, 2015 </time>
+</div>
+<div class="thumb-wrap zoom-zoom">
+<a href="https://www.analyticsvidhya.com/blog/2015/06/mongodb-r-python-nosql-manager/" rel="bookmark" title="Getting Mongo-ed in NoSQL manager, R &#038; Python">
+<img width="262" height="141" class="entry-thumb zoom-it three" src="https://www.analyticsvidhya.com/wp-content/uploads/2015/06/mongo-262x141.jpg" alt="Getting Mongo-ed in NoSQL manager, R &#038; Python" title="Getting Mongo-ed in NoSQL manager, R &#038; Python" />
+</a>
+</div>
+<h3 class="entry-title">
+<a href="https://www.analyticsvidhya.com/blog/2015/06/mongodb-r-python-nosql-manager/" rel="bookmark" title="Getting Mongo-ed in NoSQL manager, R &#038; Python">
+Getting Mongo-ed in NoSQL manager, R &#038; Python </a>
+</h3>
+<meta content="Getting Mongo-ed in NoSQL manager, R &#038; Python" />
+</article> </div>
+
+<div class="col-sm-4">
+<article class="item-medium-simple post-box-normal">
+<div class="meta-info no-bottom">
+<span class="entry-author"><a href="https://www.analyticsvidhya.com/blog/author/gurchetan1000/">Gurchetan Singh</a></span><span class="coma">,</span>
+<time class="entry-date" datetime="2018-03-20T09:06:14+00:00">
+March 20, 2018 </time>
+</div>
+<div class="thumb-wrap zoom-zoom">
+<a href="https://www.analyticsvidhya.com/blog/2018/03/introduction-regression-splines-python-codes/" rel="bookmark" title="Introduction to Regression Splines (with Python codes)">
+<img width="262" height="141" class="entry-thumb zoom-it three" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/02/Screen-Shot-2018-02-22-at-4.24.22-PM-262x141.png" alt="Introduction to Regression Splines (with Python codes)" title="Introduction to Regression Splines (with Python codes)" />
+</a>
+</div>
+<h3 class="entry-title">
+<a href="https://www.analyticsvidhya.com/blog/2018/03/introduction-regression-splines-python-codes/" rel="bookmark" title="Introduction to Regression Splines (with Python codes)">
+Introduction to Regression Splines (with Python codes) </a>
+</h3>
+<meta content="Introduction to Regression Splines (with Python codes)" />
+</article> </div>
+
+<div class="col-sm-4">
+<article class="item-medium-simple post-box-normal">
+<div class="meta-info no-bottom">
+<span class="entry-author"><a href="https://www.analyticsvidhya.com/blog/author/aishwaryasingh/">Aishwarya Singh</a></span><span class="coma">,</span>
+<time class="entry-date" datetime="2018-09-13T08:14:45+00:00">
+September 13, 2018 </time>
+</div>
+<div class="thumb-wrap zoom-zoom">
+<a href="https://www.analyticsvidhya.com/blog/2018/09/non-stationary-time-series-python/" rel="bookmark" title="A Gentle Introduction to Handling a Non-Stationary Time Series in Python">
+<img width="262" height="141" class="entry-thumb zoom-it three" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/09/1-262x141.jpg" alt="A Gentle Introduction to Handling a Non-Stationary Time Series in Python" title="A Gentle Introduction to Handling a Non-Stationary Time Series in Python" />
+</a>
+</div>
+<h3 class="entry-title">
+<a href="https://www.analyticsvidhya.com/blog/2018/09/non-stationary-time-series-python/" rel="bookmark" title="A Gentle Introduction to Handling a Non-Stationary Time Series in Python">
+A Gentle Introduction to Handling a Non-Stationary Time Series in Python </a>
+</h3>
+<meta content="A Gentle Introduction to Handling a Non-Stationary Time Series in Python" />
+</article> </div>
+
+<div class="col-sm-4">
+<article class="item-medium-simple post-box-normal">
+<div class="meta-info no-bottom">
+<span class="entry-author"><a href="https://www.analyticsvidhya.com/blog/author/datascience22/">Pranav Dar</a></span><span class="coma">,</span>
+<time class="entry-date" datetime="2018-06-04T08:59:57+00:00">
+June 4, 2018 </time>
+</div>
+<div class="thumb-wrap zoom-zoom">
+<a href="https://www.analyticsvidhya.com/blog/2018/06/comprehensive-data-science-machine-learning-interview-guide/" rel="bookmark" title="The Most Comprehensive Data Science &#038; Machine Learning Interview Guide You’ll Ever Need">
+<img width="262" height="141" class="entry-thumb zoom-it three" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/05/interview-262x141.png" alt="The Most Comprehensive Data Science &#038; Machine Learning Interview Guide You’ll Ever Need" title="The Most Comprehensive Data Science &#038; Machine Learning Interview Guide You’ll Ever Need" />
+</a>
+</div>
+<h3 class="entry-title">
+<a href="https://www.analyticsvidhya.com/blog/2018/06/comprehensive-data-science-machine-learning-interview-guide/" rel="bookmark" title="The Most Comprehensive Data Science &#038; Machine Learning Interview Guide You’ll Ever Need">
+The Most Comprehensive Data Science &#038; Machine Learning Interview Guide You’ll Ever Need </a>
+</h3>
+<meta content="The Most Comprehensive Data Science &#038; Machine Learning Interview Guide You’ll Ever Need" />
+</article> </div>
+
+<div class="col-sm-4">
+<article class="item-medium-simple post-box-normal">
+<div class="meta-info no-bottom">
+<span class="entry-author"><a href="https://www.analyticsvidhya.com/blog/author/shubham-jain/">Shubham Jain</a></span><span class="coma">,</span>
+<time class="entry-date" datetime="2018-02-11T17:13:16+00:00">
+February 11, 2018 </time>
+</div>
+<div class="thumb-wrap zoom-zoom">
+<a href="https://www.analyticsvidhya.com/blog/2018/02/natural-language-processing-for-beginners-using-textblob/" rel="bookmark" title="Natural Language Processing for Beginners: Using TextBlob">
+<img width="262" height="141" class="entry-thumb zoom-it three" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/02/textblob-logo-262x141.png" alt="Natural Language Processing for Beginners: Using TextBlob" title="Natural Language Processing for Beginners: Using TextBlob" />
+</a>
+</div>
+<h3 class="entry-title">
+<a href="https://www.analyticsvidhya.com/blog/2018/02/natural-language-processing-for-beginners-using-textblob/" rel="bookmark" title="Natural Language Processing for Beginners: Using TextBlob">
+Natural Language Processing for Beginners: Using TextBlob </a>
+</h3>
+<meta content="Natural Language Processing for Beginners: Using TextBlob" />
+</article> </div>
+</div>
+</div>
+</footer>
+</article> 
+
+
+<div class="row">
+<div class="col-sm-12">
+</div>
+</div>
+<div class="comment-wrap">
+
+<div class="row">
+<div class="col-sm-12">
+<div class="block-cap" id="comments">
+<h3 id="comment">12 Comments</h3>
+</div>
+</div>
+</div>
+<div class="navigation">
+<div class="alignleft"></div>
+<div class="alignright"></div>
+</div>
+<ul class="comment-list" id="show-comments">
+<li class="comment even thread-even depth-1" id="comment-153981">
+<div id="div-comment-153981" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/f2f124a96834dd55581683b2dc907947?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/f2f124a96834dd55581683b2dc907947?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">Vidyush</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2018/06/understanding-building-object-detection-model-python/#comment-153981">
+June 28, 2018 at 2:47 pm</a> </div>
+<p>Really nice article wanted this and its is simple..<br />
+Keep doing the great work</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-153981' onclick='return addComment.moveForm( "div-comment-153981", "153981", "respond", "45293" )' aria-label='Reply to Vidyush'>Reply</a></div>
+</div>
+</li>
+<li class="comment odd alt thread-odd thread-alt depth-1 parent" id="comment-153984">
+<div id="div-comment-153984" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/69a7abaee92f4e53bf722f8a0833b2b1?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/69a7abaee92f4e53bf722f8a0833b2b1?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">Vaibhav</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2018/06/understanding-building-object-detection-model-python/#comment-153984">
+June 28, 2018 at 5:20 pm</a> </div>
+<p>The second and the third link before the table of contents are pointing to the same page.</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-153984' onclick='return addComment.moveForm( "div-comment-153984", "153984", "respond", "45293" )' aria-label='Reply to Vaibhav'>Reply</a></div>
+</div>
+<ul class="children">
+<li class="comment byuser comment-author-pulkits even depth-2" id="comment-153987">
+<div id="div-comment-153987" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/eed74e736d0a3795af0cc24f161a8a24?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/eed74e736d0a3795af0cc24f161a8a24?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">Pulkit Sharma</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2018/06/understanding-building-object-detection-model-python/#comment-153987">
+June 28, 2018 at 6:47 pm</a> </div>
+<p>Hi Vaibhav,</p>
+<p>Thanks for bringing this to our notice. The links have been updated.</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-153987' onclick='return addComment.moveForm( "div-comment-153987", "153987", "respond", "45293" )' aria-label='Reply to Pulkit Sharma'>Reply</a></div>
+</div>
+</li>
+</ul>
+</li>
+<li class="comment odd alt thread-even depth-1 parent" id="comment-153988">
+<div id="div-comment-153988" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/a60f1446089ff5fe273c6af37ba94e3c?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/a60f1446089ff5fe273c6af37ba94e3c?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">ABHIHEK MISHRA</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2018/06/understanding-building-object-detection-model-python/#comment-153988">
+June 28, 2018 at 7:36 pm</a> </div>
+<p>you didnt tell about other packages using in that code ,many errors are coming for it</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-153988' onclick='return addComment.moveForm( "div-comment-153988", "153988", "respond", "45293" )' aria-label='Reply to ABHIHEK MISHRA'>Reply</a></div>
+</div>
+<ul class="children">
+<li class="comment byuser comment-author-pulkits even depth-2 parent" id="comment-153989">
+<div id="div-comment-153989" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/eed74e736d0a3795af0cc24f161a8a24?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/eed74e736d0a3795af0cc24f161a8a24?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">Pulkit Sharma</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2018/06/understanding-building-object-detection-model-python/#comment-153989">
+June 28, 2018 at 7:56 pm</a> </div>
+<p>Hi Abhihek,</p>
+<p>Can you please tell us what error are you getting? That would help us to clarify your doubt in a better way.</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-153989' onclick='return addComment.moveForm( "div-comment-153989", "153989", "respond", "45293" )' aria-label='Reply to Pulkit Sharma'>Reply</a></div>
+</div>
+<ul class="children">
+<li class="comment odd alt depth-3 parent" id="comment-154001">
+<div id="div-comment-154001" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/f09cccb17f259ebbfd7ca811be533a84?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/f09cccb17f259ebbfd7ca811be533a84?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">Rajat</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2018/06/understanding-building-object-detection-model-python/#comment-154001">
+June 29, 2018 at 8:42 am</a> </div>
+<p>Hi Pulkit,<br />
+I am implementing the above code using jupyter notebook . I have gone through all the steps mentioned above but when i executed the above code,i got an error saying &#8220;no module named imageai&#8221;</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-154001' onclick='return addComment.moveForm( "div-comment-154001", "154001", "respond", "45293" )' aria-label='Reply to Rajat'>Reply</a></div>
+</div>
+<ul class="children">
+<li class="comment byuser comment-author-pulkits even depth-4" id="comment-154002">
+<div id="div-comment-154002" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/eed74e736d0a3795af0cc24f161a8a24?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/eed74e736d0a3795af0cc24f161a8a24?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">Pulkit Sharma</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2018/06/understanding-building-object-detection-model-python/#comment-154002">
+June 29, 2018 at 11:09 am</a> </div>
+<p>Hi Rajat,</p>
+<p>The code given in the article is to run in the script. If you want to do any modification to it, like if you want to use it in jupyter notebook, you first have to install jupyter notebook in the same environment. So, once all the installations are done including jupyter notebook in same environment, run the code. It will work.</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-154002' onclick='return addComment.moveForm( "div-comment-154002", "154002", "respond", "45293" )' aria-label='Reply to Pulkit Sharma'>Reply</a></div>
+</div>
+</li>
+<li class="comment odd alt depth-4" id="comment-154032">
+<div id="div-comment-154032" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/be2c3c3150d183756ea7eaebb9834f2a?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/be2c3c3150d183756ea7eaebb9834f2a?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">Gianni</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2018/06/understanding-building-object-detection-model-python/#comment-154032">
+July 2, 2018 at 6:17 pm</a> </div>
+<p>Try this in a cell of your jupyter notebook:</p>
+<p>!pip install <a href="https://github.com/OlafenwaMoses/ImageAI/releases/download/2.0.1/imageai-2.0.1-py3-none-any.whl" rel="nofollow">https://github.com/OlafenwaMoses/ImageAI/releases/download/2.0.1/imageai-2.0.1-py3-none-any.whl</a></p>
+<p>For the model download, in another cell:<br />
+import urllib.request<br />
+url = &#8220;https://github.com/OlafenwaMoses/ImageAI/releases/download/1.0/resnet50_coco_best_v2.0.1.h5&#8221;<br />
+file_name = &#8220;resnet50_coco_best_v2.0.1.h5&#8221;<br />
+urllib.request.urlretrieve(url, file_name)</p>
+<p>For the image download, I used this:</p>
+<p>import urllib.request<br />
+url = &#8220;https://orig00.deviantart.net/f170/f/2013/087/e/0/wizards_of_waverly_place_png_by_ivygo-d5zjoqx.png&#8221;<br />
+file_name = &#8220;image.png&#8221;<br />
+urllib.request.urlretrieve(url, file_name)</p>
+<p>And i got a good result, but 7 people instead of 6.</p>
+<p>However, great work Rajat, thank you.</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-154032' onclick='return addComment.moveForm( "div-comment-154032", "154032", "respond", "45293" )' aria-label='Reply to Gianni'>Reply</a></div>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="comment even thread-odd thread-alt depth-1 parent" id="comment-154031">
+<div id="div-comment-154031" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/853a39003c5c939f1d9cb60998b08312?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/853a39003c5c939f1d9cb60998b08312?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">Suryam</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2018/06/understanding-building-object-detection-model-python/#comment-154031">
+July 2, 2018 at 12:54 pm</a> </div>
+<p>Hi ,<br />
+As above mentioned i have done with every<br />
+when i executing getting &#8221; No Module Named imageai&#8221;<br />
+Kindly give me the solutions</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-154031' onclick='return addComment.moveForm( "div-comment-154031", "154031", "respond", "45293" )' aria-label='Reply to Suryam'>Reply</a></div>
+</div>
+<ul class="children">
+<li class="comment byuser comment-author-pulkits odd alt depth-2" id="comment-154055">
+<div id="div-comment-154055" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/eed74e736d0a3795af0cc24f161a8a24?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/eed74e736d0a3795af0cc24f161a8a24?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">Pulkit Sharma</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2018/06/understanding-building-object-detection-model-python/#comment-154055">
+July 4, 2018 at 4:15 pm</a> </div>
+<p>Hi Suryam,</p>
+<p>The steps have been updated. Please go through them and run the steps again.</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-154055' onclick='return addComment.moveForm( "div-comment-154055", "154055", "respond", "45293" )' aria-label='Reply to Pulkit Sharma'>Reply</a></div>
+</div>
+</li>
+</ul>
+</li>
+<li class="comment even thread-even depth-1 parent" id="comment-154914">
+ <div id="div-comment-154914" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/48d5601d36b5989e014bd739f40bb7b1?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/48d5601d36b5989e014bd739f40bb7b1?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">vidhun v warrier</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2018/06/understanding-building-object-detection-model-python/#comment-154914">
+September 10, 2018 at 11:20 am</a> </div>
+<p>hai<br />
+I have completed the whole. It&#8217;s working perfectly. can u say how can I use in videos rather than in images?</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-154914' onclick='return addComment.moveForm( "div-comment-154914", "154914", "respond", "45293" )' aria-label='Reply to vidhun v warrier'>Reply</a></div>
+</div>
+<ul class="children">
+<li class="comment byuser comment-author-aishwaryasingh odd alt depth-2" id="comment-154948">
+<div id="div-comment-154948" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/9674ea7760b6955e65709184e41f12c2?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/9674ea7760b6955e65709184e41f12c2?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">Aishwarya Singh</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2018/06/understanding-building-object-detection-model-python/#comment-154948">
+September 12, 2018 at 10:47 am</a> </div>
+<p>Hi,</p>
+<p>You might find this post useful : <a rel="nofollow" href="https://www.analyticsvidhya.com/blog/2018/09/deep-learning-video-classification-python/" target="_blank">Calculate screen time of actors in a video </a></p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-154948' onclick='return addComment.moveForm( "div-comment-154948", "154948", "respond", "45293" )' aria-label='Reply to Aishwarya Singh'>Reply</a></div>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="write-comment"></div>
+<script>
+var hash = window.location.hash;
+if(hash!=""){
+jQuery.ajax ({
+	type: 'GET',
+    url: 'https://www.analyticsvidhya.com/comments-form/show-comments.php?rand='+Math.random()+'&id=45293',
+    success: function (data)
+	{
+		jQuery('#show-comments').html(data);
+	},
+	error: function (e) {
+		console.log(e);
+	}
+});
+}
+</script>
+<script>
+jQuery.ajax ({
+	type: 'GET',
+    url: 'https://www.analyticsvidhya.com/comments-form/comments-form.php?id=45293',
+    success: function (data)
+	{
+		jQuery('#write-comment').html(data);
+	},
+	error: function (e) {
+		console.log(e);
+	}
+});
+</script>
+</div>
+</div>
+<div class="col-sm-4 "><div class="sidebar"><div id="text-46" class="widget clearfix widget_text"> <div class="textwidget"><p><a href="https://www.analyticsvidhya.com/datahack-summit-2018/?utm_source=AVbannerdhslong" target="_blank" rel="noopener"><img src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/10/Comp-11.gif" /></a></p>
+</div>
+</div><div id="wmp_widget-2" class="widget clearfix widget_wmp_widget"><div class="widget-title"><div class="block-cap"><h3>Popular posts</h3></div></div><ul class="wp-most-popular">
+<li class="post-28549posttype-poststatus-publishformat-standardhas-post-thumbnailcategory-machine-learningcategory-python-2category-rtag-analytics-projectstag-boston-housing-datatag-classification-datatag-data-explorationtag-data-mining-projectstag-data-science-projecttag-feature-engineeringtag-image-recognitiontag-machine-learningtag-machine-learning-projectstag-mnist-datatag-multi-classificationtag-object-recognitiontag-regression-datatag-text-mining-datatag-titanic-datatag-yelp-data">
+<a href="https://www.analyticsvidhya.com/blog/2018/05/24-ultimate-data-science-projects-to-boost-your-knowledge-and-skills/" title="24 Ultimate Data Science Projects To Boost Your Knowledge and Skills (&#038; can be accessed freely)">
+24 Ultimate Data Science Projects To Boost Your Knowledge and Skills (&#038; can be accessed freely)
+</a>
+</li>
+<li class="post-18770posttype-poststatus-publishformat-standardhas-post-thumbnailcategory-business-analyticscategory-python-2category-rtag-c4-5tag-carttag-decision-treetag-gbmtag-k-meanstag-knntag-linear-regressiontag-logistic-regressiontag-machine-learningtag-naive-bayestag-neural-networktag-random-foresttag-reinforcementtag-supervised-learningtag-unsupervised">
+<a href="https://www.analyticsvidhya.com/blog/2017/09/common-machine-learning-algorithms/" title="Essentials of Machine Learning Algorithms (with Python and R Codes)">
+Essentials of Machine Learning Algorithms (with Python and R Codes)
+</a>
+</li>
+<li class="post-22387posttype-poststatus-publishformat-standardhas-post-thumbnailcategory-machine-learningcategory-pandascategory-python-2tag-applytag-box-plotstag-categorical-variabletag-data-cleaningtag-data-explorationtag-data-framestag-data-miningtag-data-mungingtag-data-structuretag-data-wranglingtag-dictionarytag-distribution-analysistag-installing-pythontag-ipythontag-liststag-logistic-regressiontag-matplotlibtag-meantag-mergetag-numpytag-pandastag-pythontag-python-tutorialtag-scikit-learntag-scipytag-setstag-splittag-stacked-charttag-starting-pythontag-statisticstag-stringstag-tupletag-tuplestag-tutorial">
+<a href="https://www.analyticsvidhya.com/blog/2016/01/complete-tutorial-learn-data-science-python-scratch-2/" title="A Complete Tutorial to Learn Data Science with Python from Scratch">
+A Complete Tutorial to Learn Data Science with Python from Scratch
+</a>
+</li>
+<li class="post-18835posttype-poststatus-publishformat-standardhas-post-thumbnailcategory-business-analyticstag-elasticnet-regressiontag-lasso-regressiontag-linear-regressiontag-logistic-regressiontag-multinomial-logistic-rgressiontag-multiple-regressiontag-ordinal-logistic-regressiontag-polynomial-regressiontag-regressiontag-regularizationtag-ridge-regressiontag-stepwise-regression">
+<a href="https://www.analyticsvidhya.com/blog/2015/08/comprehensive-guide-regression/" title="7 Types of Regression Techniques you should know!">
+7 Types of Regression Techniques you should know!
+</a>
+</li>
+<li class="post-20569posttype-poststatus-publishformat-standardhas-post-thumbnailcategory-machine-learningcategory-python-2category-rtag-e1071tag-kerneltag-machine-learningtag-scikit-learntag-svm">
+<a href="https://www.analyticsvidhya.com/blog/2017/09/understaing-support-vector-machine-example-code/" title="Understanding Support Vector Machine algorithm from examples (along with code)">
+Understanding Support Vector Machine algorithm from examples (along with code)
+</a>
+</li>
+<li class="post-19875posttype-poststatus-publishformat-standardhas-post-thumbnailcategory-machine-learningcategory-python-2category-rtag-machine-learningtag-naive-bayestag-naive-bayes-in-rtag-probabilitytag-python">
+<a href="https://www.analyticsvidhya.com/blog/2017/09/naive-bayes-explained/" title="6 Easy Steps to Learn Naive Bayes Algorithm (with codes in Python and R)">
+6 Easy Steps to Learn Naive Bayes Algorithm (with codes in Python and R)
+</a>
+</li>
+<li class="post-26363posttype-poststatus-publishformat-standardhas-post-thumbnailcategory-business-analyticstag-analytical-thinkingtag-analytics-interviewtag-analytics-interview-questiontag-data-science-interview-questionstag-job-in-analyticstag-job-interviewstag-logical-thinkingtag-numerical-ability">
+<a href="https://www.analyticsvidhya.com/blog/2016/07/20-challenging-job-interview-puzzles-which-every-analyst-solve-atleast/" title="20 Challenging Job Interview Puzzles which every analyst should solve atleast once">
+20 Challenging Job Interview Puzzles which every analyst should solve atleast once
+</a>
+</li>
+<li class="post-23168posttype-poststatus-publishformat-standardhas-post-thumbnailcategory-business-analyticscategory-machine-learningcategory-python-2category-time-seriestag-arimatag-forecasting-analyticstag-pandastag-time-seriestag-time-series-analysistag-time-series-forecasting">
+<a href="https://www.analyticsvidhya.com/blog/2016/02/time-series-forecasting-codes-python/" title="A comprehensive beginner&#8217;s guide to create a Time Series Forecast (with Codes in Python)">
+A comprehensive beginner&#8217;s guide to create a Time Series Forecast (with Codes in Python)
+</a>
+</li>
+</ul></div><div id="text-23" class="widget clearfix widget_text"> <div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<ins class="adsbygoogle" style="display:inline-block;width:336px;height:280px" data-ad-client="ca-pub-5229672700622157" data-ad-slot="1620249624"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+</div><div id="maha_recent_posts-3" class="widget clearfix widget_recents"><div class="widget-title"><div class="block-cap"><h3>Recent Posts</h3></div></div>
+<article class="post-box-small recent-item clearfix">
+<div class="thumb-wrap zoom-zoom three">
+<a href="https://www.analyticsvidhya.com/blog/2018/10/understanding-inception-network-from-scratch/" rel="bookmark" title="Deep Learning in the Trenches: Understanding Inception Network from Scratch">
+<img width="83" height="63" class="entry-thumb zoom-it three" src="https://www.analyticsvidhya.com/wp-content/uploads/2016/04/neu-83x63.jpeg" alt="Deep Learning in the Trenches: Understanding Inception Network from Scratch" title="Deep Learning in the Trenches: Understanding Inception Network from Scratch" />
+</a>
+</div>
+<div class="box-small-wrap">
+<h3 class="entry-title short-bottom">
+<a href="https://www.analyticsvidhya.com/blog/2018/10/understanding-inception-network-from-scratch/" rel="bookmark" title="Deep Learning in the Trenches: Understanding Inception Network from Scratch">
+Deep Learning in the Trenches: Understanding Inception Network from Scratch </a>
+</h3>
+<meta content="Deep Learning in the Trenches: Understanding Inception Network from Scratch" />
+<div class="meta-info">
+<time class="entry-date" datetime="2018-10-18T06:54:22+00:00">
+October 18, 2018 </time>
+</div>
+</div>
+</article>
+<article class="post-box-small recent-item clearfix">
+<div class="thumb-wrap zoom-zoom three">
+<a href="https://www.analyticsvidhya.com/blog/2018/10/read-books-for-beginners-machine-learning-artificial-intelligence/" rel="bookmark" title="Must Read Books for Beginners on Machine Learning and Artificial Intelligence">
+<img width="83" height="63" class="entry-thumb zoom-it three" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2015/10/graphics-83x63.jpg" alt="Must Read Books for Beginners on Machine Learning and Artificial Intelligence" title="Must Read Books for Beginners on Machine Learning and Artificial Intelligence" />
+</a>
+</div>
+<div class="box-small-wrap">
+ <h3 class="entry-title short-bottom">
+<a href="https://www.analyticsvidhya.com/blog/2018/10/read-books-for-beginners-machine-learning-artificial-intelligence/" rel="bookmark" title="Must Read Books for Beginners on Machine Learning and Artificial Intelligence">
+Must Read Books for Beginners on Machine Learning and Artificial Intelligence </a>
+</h3>
+<meta content="Must Read Books for Beginners on Machine Learning and Artificial Intelligence" />
+<div class="meta-info">
+<time class="entry-date" datetime="2018-10-17T19:00:29+00:00">
+October 17, 2018 </time>
+</div>
+</div>
+</article>
+<article class="post-box-small recent-item clearfix">
+<div class="thumb-wrap zoom-zoom three">
+<a href="https://www.analyticsvidhya.com/blog/2018/10/mining-online-reviews-topic-modeling-lda/" rel="bookmark" title="An NLP Approach to Mining Online Reviews using Topic Modeling (with Python codes)">
+<img width="83" height="63" class="entry-thumb zoom-it three" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/10/Feat_img_Online_Reviews_2-83x63.jpg" alt="An NLP Approach to Mining Online Reviews using Topic Modeling (with Python codes)" title="An NLP Approach to Mining Online Reviews using Topic Modeling (with Python codes)" />
+</a>
+</div>
+<div class="box-small-wrap">
+<h3 class="entry-title short-bottom">
+<a href="https://www.analyticsvidhya.com/blog/2018/10/mining-online-reviews-topic-modeling-lda/" rel="bookmark" title="An NLP Approach to Mining Online Reviews using Topic Modeling (with Python codes)">
+An NLP Approach to Mining Online Reviews using Topic Modeling (with Python codes) </a>
+</h3>
+<meta content="An NLP Approach to Mining Online Reviews using Topic Modeling (with Python codes)" />
+<div class="meta-info">
+<time class="entry-date" datetime="2018-10-16T10:40:56+00:00">
+October 16, 2018 </time>
+</div>
+</div>
+</article>
+<article class="post-box-small recent-item clearfix">
+<div class="thumb-wrap zoom-zoom three">
+<a href="https://www.analyticsvidhya.com/blog/2018/10/datahack-radio-podcast-nlp-research-sebastian-ruder/" rel="bookmark" title="DataHack Radio #12: Exploring the Nuts and Bolts of Natural Language Processing with Sebastian Ruder">
+<img width="83" height="63" class="entry-thumb zoom-it three" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/10/Sebastian-Ruder-83x63.jpg" alt="DataHack Radio #12: Exploring the Nuts and Bolts of Natural Language Processing with Sebastian Ruder" title="DataHack Radio #12: Exploring the Nuts and Bolts of Natural Language Processing with Sebastian Ruder" />
+</a>
+</div>
+<div class="box-small-wrap">
+<h3 class="entry-title short-bottom">
+<a href="https://www.analyticsvidhya.com/blog/2018/10/datahack-radio-podcast-nlp-research-sebastian-ruder/" rel="bookmark" title="DataHack Radio #12: Exploring the Nuts and Bolts of Natural Language Processing with Sebastian Ruder">
+DataHack Radio #12: Exploring the Nuts and Bolts of Natural Language Processing with Sebastian Ruder </a>
+</h3>
+<meta content="DataHack Radio #12: Exploring the Nuts and Bolts of Natural Language Processing with Sebastian Ruder" />
+<div class="meta-info">
+<time class="entry-date" datetime="2018-10-14T23:17:21+00:00">
+October 14, 2018 </time>
+</div>
+</div>
+</article>
+</div><div id="text-19" class="widget clearfix widget_text"> <div class="textwidget"><a href="http://www.edvancer.in/certified-data-scientist-with-python-course?utm_source=AV&utm_medium=AVads&utm_campaign=AVadsnonfc&utm_content=pythonavad" rel="nofollow" target="_blank"><img src="https://www.analyticsvidhya.com/wp-content/uploads/2016/10/edvancer-oct-2016.gif" alt=""></a></div>
+</div><div id="text-37" class="widget clearfix widget_text"> <div class="textwidget"><p><a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+DS101+2018T2/about?utm_source=AVStickybanner1" target="_blank" rel="noopener"><img src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/10/intro-ds-42.gif" /></a></p>
+</div>
+</div><div id="text-42" class="widget clearfix widget_text"> <div class="textwidget"><p><a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+CVDL101+CVDL101_T1/about?utm_source=CV101AVBlogBanner&amp;utm_medium=Stickybanner2utm_campaign=CV101banner" target="_blank" rel="noopener"><img src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/10/com-vision-4.gif" /></a></p>
+</div>
+</div></div></div> </div>
+</div>
+</div>
+</div>
+
+</div>
+
+<footer>
+<div id="footer">
+<div class="footer-container">
+<div class="upper-footer">
+<div class="logo">
+<img src="https://s3-ap-south-1.amazonaws.com/av-blog-media/2017/05/29093240/AV-white.d14465ee4af2.png" class="footer-logo">
+</div>
+<div class="navigation-content">
+<div class="footer-links-holder">
+<h5 class="links-hide">ANALYTICS VIDHYA</h5>
+<ul class="footer-links av-links">
+<li><a target="_blank" href="http://www.analyticsvidhya.com/about-me/">About Us</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/about-me/team/">Our Team</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/career-analytics-vidhya/">Career</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/contact/">Contact Us</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/about-me/write/">Write for us</a></li>
+</ul>
+</div>
+<div class="mobile-links-holder">
+<div class="links">
+<a target="_blank" href="http://www.analyticsvidhya.com/about-me/">About Us</a>
+</div>
+<div class="links">
+<a target="_blank" href="https://www.analyticsvidhya.com/about-me/team/">•</a>
+</div>
+<div class="links">
+<a target="_blank" href="https://www.analyticsvidhya.com/about-me/team/">Our Team</a>
+</div>
+<div class="links">
+<a target="_blank" href="https://www.analyticsvidhya.com/about-me/team/">•</a>
+</div>
+<div class="links">
+<a target="_blank" href="https://www.analyticsvidhya.com/career-analytics-vidhya/">Careers</a>
+</div>
+<div class="links">
+<a target="_blank" href="https://www.analyticsvidhya.com/about-me/team/">•</a>
+</div>
+<div class="links">
+<a target="_blank" href="https://www.analyticsvidhya.com/contact/">Contact Us</a>
+</div>
+</div>
+<div class="footer-links-holder">
+<h5 class="links-show">DATA SCIENTISTS</h5>
+<ul class="footer-links">
+<li><a target="_blank" href="https://www.analyticsvidhya.com/blog">Blog</a></li>
+<li><a target="_blank" href="https://datahack.analyticsvidhya.com/">Hackathon</a></li>
+<li><a target="_blank" href="https://discuss.analyticsvidhya.com/">Discussions</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/jobs/">Apply Jobs</a></li>
+<li><a target="_blank" href="https://datahack.analyticsvidhya.com/users/">Leaderboard</a></li>
+</ul>
+</div>
+<div class="footer-links-holder">
+<h5 class="links-show">COMPANIES</h5>
+<ul class="footer-links">
+<li><a target="_blank" href="https://www.analyticsvidhya.com/corporate/">Post Jobs</a></li>
+<li><a target="_blank" href="https://trainings.analyticsvidhya.com">Trainings</a></li>
+<li><a target="_blank" href="https://datahack.analyticsvidhya.com/">Hiring Hackathons</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/contact/">Advertising</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/contact/">Reach Us</a></li>
+</ul>
+</div>
+</div>
+<div class="mobile-signup">
+<p>Don't have an account? <a target="_blank" href="https://datahack.analyticsvidhya.com/signup/" class="signup-link">Sign up</a> here.</p>
+</div>
+<div class="footer-social">
+<div class="join">
+<h5> JOIN OUR COMMUNITY :</h5>
+</div>
+<div class="social-stats">
+<div class="social" id="wrapper">
+<a href="https://www.facebook.com/AnalyticsVidhya/" target="_blank" class="item facebook"><i class="fa fa-facebook social-img"></i></a>
+<a href="https://www.facebook.com/AnalyticsVidhya/" target="_blank" class="item facebook"><span class="count_followers" id="followers-count">46336</span></a>
+<a href="https://www.facebook.com/AnalyticsVidhya/" target="_blank" class="item facebook"><span id="followers">Followers</span></a>
+</div>
+<div class="social" id="wrapper">
+<a href="https://twitter.com/analyticsvidhya" target="_blank" class="item twitter"><i class="fa fa-twitter social-img"></i></a>
+<a href="https://twitter.com/analyticsvidhya" target="_blank" class="item twitter"><span class="count_followers" id="followers-count">18336</span></a>
+<a href="https://twitter.com/analyticsvidhya" target="_blank" class="item twitter"><span id="followers">Followers</span></a>
+</div>
+<div class="social" id="wrapper">
+<a href="https://plus.google.com/+Analyticsvidhya" target="_blank" class="item google"><i class="fa fa-google-plus social-img"></i></a>
+<a href="https://plus.google.com/+Analyticsvidhya" target="_blank" class="item google"><span class="count_followers" id="followers-count">3009</span></a>
+<a href="https://plus.google.com/+Analyticsvidhya" target="_blank" class="item google"><span id="followers">Followers</span></a>
+</div>
+<div class="social" id="wrapper">
+<a href="https://www.linkedin.com/m/login/" target="_blank" class="item linkedin"><i class="fa fa-linkedin social-img"></i></a>
+<a href="https://www.linkedin.com/m/login/" target="_blank" class="item linkedin"><span class="count_followers" id="followers-count">7513</span></a>
+<a href="https://www.linkedin.com/m/login/" target="_blank" class="item linkedin"><span id="followers">Followers</span></a>
+</div>
+</div>
+<div class="subscribe">
+<form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="_blank">
+<input name="uri" value="analyticsvidhya" type="hidden">
+<input name="loc" value="en_US" type="hidden">
+<input class="subscriber" placeholder="&nbsp; Subscribe to emailer" name="email" type="email" id="footer-email">
+<input class="subscriber-button" value=">" type="submit">
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="lower">
+<div class="container2">
+<div class="lower-footer">
+<p>© Copyright 2013-2018 Analytics Vidhya.</p>
+<ul class="lower-footer-links">
+<li><a target="_blank" href="https://www.analyticsvidhya.com/privacy-policy/">Privacy Policy</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/terms/">Terms of Use</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/refund-policy/">Refund Policy</a></li>
+</ul>
+</div>
+<div class="sign-up">
+<p>Don't have an account? <a target="_blank" href="https://id.analyticsvidhya.com/accounts/signup/" class="signup-link">Sign up</a> here</p>
+</div>
+</div>
+</div>
+</footer>
+</div>
+
+</div>
+
+<div id="scrolltop">
+<a><i class="tm-go-top"></i></a>
+</div>
+</div>
+<script>
+ $(document).ready(function(){
+	     $.ajax({
+        url: "https://www.analyticsvidhya.com/back-channel/display-image.php",
+        data: {
+            image: '3'
+        },
+        type: "GET",
+				cache: false,
+        dataType: "html",
+        success: function (data) {
+            $('#ban3_av').html(data);
+        },
+        error: function (xhr, status) {
+					console.log("Image Failed!");
+        },
+    });
+});
+</script>
+
+
+<script type='text/javascript'>
+/* <![CDATA[ */
+var wpcf7 = {"apiSettings":{"root":"https:\/\/www.analyticsvidhya.com\/wp-json\/contact-form-7\/v1","namespace":"contact-form-7\/v1"},"recaptcha":{"messages":{"empty":"Please verify that you are not a robot."}},"cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=5.0.4' defer='defer'></script>
+<script type='text/javascript' src='https://s0.wp.com/wp-content/js/devicepx-jetpack.js?ver=201842' defer='defer'></script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-content/themes/Curated/static/js/main.js?ver=1.0.0'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var MahaAjax = {"ajaxurl":"https:\/\/www.analyticsvidhya.com\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-content/themes/Curated/static/js/basix.js?ver=1.0.0' defer='defer'></script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-content/themes/Curated/static/js/add_to_cart.js?ver=1.0.0' defer='defer'></script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-includes/js/comment-reply.min.js?ver=4.9.8' defer='defer'></script>
+<!--[if IE 9]>
+<script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js?ver=1' defer='defer'></script>
+<![endif]-->
+<!--[if IE 9]>
+<script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/respond.js/1.3.0/respond.min.js?ver=1' defer='defer'></script>
+<![endif]-->
+<script type='text/javascript'>
+/* <![CDATA[ */
+var q2w3_sidebar_options = [{"sidebar":"blog-sidebar","margin_top":100,"margin_bottom":800,"stop_id":"","screen_max_width":0,"screen_max_height":0,"width_inherit":false,"refresh_interval":1500,"window_load_hook":false,"disable_mo_api":false,"widgets":["text-37","text-42"]}];
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-content/plugins/q2w3-fixed-widget/js/q2w3-fixed-widget.min.js?ver=5.1.4' defer='defer'></script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-includes/js/jquery/ui/effect.min.js?ver=1.11.4' defer='defer'></script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-includes/js/jquery/ui/effect-blind.min.js?ver=1.11.4' defer='defer'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var stbUserOptions = {"mode":"css","cssOptions":{"roundedCorners":true,"mbottom":10,"imgHide":"https:\/\/www.analyticsvidhya.com\/blog\/wp-content\/plugins\/wp-special-textboxes\/images\/minus.png","imgShow":"https:\/\/www.analyticsvidhya.com\/blog\/wp-content\/plugins\/wp-special-textboxes\/images\/plus.png","strHide":"Hide","strShow":"Show"}};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-content/plugins/wp-special-textboxes/js/wstb.min.js?ver=5.9.107' defer='defer'></script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-includes/js/wp-embed.min.js?ver=4.9.8' defer='defer'></script>
+
+<div class="dgd_overlay"></div>
+<div class="dgd_stb_box none" id="dgd_scrollbox-38994"><a class="dgd_stb_box_close dgd_stb_box_x" href="javascript:void(0);"> </a><div class="popup-bg-1"></div>
+<h5 class="h5-popup" style="text-align: center;">Join 150000+ Data Scientists in our Community</h5>
+<p class="h6-popup">Receive awesome tips, guides, infographics and become expert at:</p>
+<ul class="popup-ul">
+<li>R / Python / SAS</li>
+<li>Machine Learning / Deep Learning</li>
+<li>Data Visualization</li>
+</ul>
+<p class="p-popup">Interact with thousands of data science professionals across the globe!</p>
+<form class="stbContactForm" style="margin-top: -35px;" action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow"><input name="uri" type="hidden" value="analyticsvidhya" /><br />
+<input name="loc" type="hidden" value="en_US" /><br />
+<input id="email" class="popup-email" name="email" required="required" type="email" value="" placeholder="Enter Your Email..." /><br />
+<input class="popup-subscribe" type="submit" value="Subscribe" /></p>
+<p style="font-size: 12px;"> P.S. We only publish awesome content. We will never share your information with anyone.</p>
+</form>
+</div>
+<div class="dgd_stb_box none" id="dgd_scrollbox-38994-tab">Subscribe!</div>
+
+<script type='text/javascript' src='https://stats.wp.com/e-201842.js' async='async' defer='defer'></script>
+<script type='text/javascript'>
+	_stq = window._stq || [];
+	_stq.push([ 'view', {v:'ext',j:'1:6.5',blog:'58948004',post:'45293',tz:'5.5',srv:'www.analyticsvidhya.com'} ]);
+	_stq.push([ 'clickTrackerInit', '58948004', '45293' ]);
+</script>
+</body>
+</html>
+
+<div class="dgd_overlay"></div>
+<div class="dgd_stb_box none" id="dgd_scrollbox-38994"><a class="dgd_stb_box_close dgd_stb_box_x" href="javascript:void(0);"> </a><div class="popup-bg-1"></div>
+<h5 class="h5-popup" style="text-align: center;">Join 150000+ Data Scientists in our Community</h5>
+<p class="h6-popup">Receive awesome tips, guides, infographics and become expert at:</p>
+<ul class="popup-ul">
+<li>R / Python / SAS</li>
+<li>Machine Learning / Deep Learning</li>
+<li>Data Visualization</li>
+</ul>
+<p class="p-popup">Interact with thousands of data science professionals across the globe!</p>
+<form class="stbContactForm" style="margin-top: -35px;" action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow"><input name="uri" type="hidden" value="analyticsvidhya" /><br />
+<input name="loc" type="hidden" value="en_US" /><br />
+<input id="email" class="popup-email" name="email" required="required" type="email" value="" placeholder="Enter Your Email..." /><br />
+<input class="popup-subscribe" type="submit" value="Subscribe" /></p>
+<p style="font-size: 12px;"> P.S. We only publish awesome content. We will never share your information with anyone.</p>
+</form>
+</div>
+<div class="dgd_stb_box none" id="dgd_scrollbox-38994-tab">Subscribe!</div>
+
+</body>
+</html>

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html class=" -moz-" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico">
+  <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111">
+  <title>CodePen - construct regular pentagon/ pentagram</title>
+  
+  
+  
+  
+      <style>
+      * {
+  vector-effect: non-scaling-stroke;
+}
+
+body {
+  display: flex;
+  overflow: hidden;
+  margin: 0;
+  height: 100vh;
+}
+
+svg {
+  flex: 1;
+  stroke-width: 2px;
+  font: var(--fs) consolas, monaco, monospace;
+  letter-spacing: calc(var(--fs)*-.05);
+}
+
+path {
+  fill: none;
+}
+
+line {
+  stroke: #b53;
+  stroke-width: 3px;
+}
+
+tspan {
+  font-size: 0.65em;
+}
+
+#e * {
+  fill: #262626;
+}
+
+#axes {
+  marker-end: url(#e);
+  font: italic 1em times new roman, serif;
+}
+#axes [d] {
+  stroke: #262626;
+}
+
+#cc {
+  fill: none;
+  stroke: #d9d9d9;
+}
+
+#arc [d] {
+  fill: #ffeb3b;
+  fill-opacity: .5;
+  stroke: #f90;
+}
+
+#curr {
+  stroke: #95a;
+}
+
+#poly {
+  stroke: #f90;
+  stroke-width: 4px;
+}
+
+#points {
+  text-anchor: middle;
+}
+
+.point [r] {
+  fill: #f90;
+  stroke: #262626;
+}
+
+.name {
+  font-style: italic;
+  font-family: times new roman, serif;
+  font-weight: 600;
+}
+
+form {
+  position: absolute;
+  top: 1em;
+  left: 1em;
+}
+
+[type='radio'] {
+  position: absolute;
+  left: -100vw;
+}
+[type='radio'] + label {
+  display: inline-block;
+  margin-right: .5em;
+  border: solid 2px currentcolor;
+  padding: 0 .5em;
+  opacity: .5;
+  font: 1.25em/2 trebuchet ms, tahoma, sans-serif;
+  cursor: pointer;
+  transition: 0.7s;
+}
+[type='radio'] + label:hover {
+  opacity: 0.999;
+}
+[type='radio']:focus + label, [type='radio']:checked + label {
+  opacity: 0.999;
+}
+[type='radio']:checked + label {
+  background: #e68a00;
+  color: #fff;
+  border-color: #262626;
+}
+
+    </style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+    <script src="../LpqEmJ_data/LpqEmJ_data/prefixfree.js"></script>
+
+  
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+
+
+</head>
+
+<body translate="no">
+
+  
+<svg viewBox="-2500 -2500 5000 5000">
+  <style>svg { --fs: 150px }</style>
+  <marker id="e" markerWidth="50" markerHeight="50" viewBox="0 -4 8 8" orient="auto" refX="7">
+    <path d="M8 0 0-4V4"></path>
+  </marker>
+  <g id="axes">
+    <path d="M-2375 0H2375"></path>
+    <text x="2300" y="-75">x</text>
+    <path d="M0-2375V2375"></path>
+    <text x="60" y="2375">y</text>
+  </g>
+  <circle id="cc" r="1781"></circle>
+  <g id="arc" opacity="0" transform="rotate(0)">
+    <path d=""></path>
+    <text opacity="0"></text>
+  </g>
+  <line id="prev" x2="1781" opacity="0" transform="none"></line>
+  <line id="curr" x2="1781" opacity="0"></line>
+  <path id="poly" d=""></path>
+  <g id="points">
+    <g class="point" transform="translate(1781 0)">
+      <circle r="37.5" transform="scale(.7)"></circle>
+      <g class="lbl" data-pos="translate(262 0)" transform="translate(262 0)">
+        <text class="name" y="-15" font-size="0" opacity="0">V<tspan>0</tspan></text>
+        <text class="adeg" y="120">0·72°</text>
+      </g>
+    </g>
+    <g class="point" transform="translate(550 1694)">
+      <circle r="37.5" transform="scale(.7)"></circle>
+      <g class="lbl" data-pos="translate(81 249)" transform="translate(81 249)">
+        <text class="name" y="-15" font-size="0" opacity="0">V<tspan>1</tspan></text>
+        <text class="adeg" y="120">1·72°</text>
+      </g>
+    </g>
+    <g class="point" transform="translate(-1441 1047)">
+      <circle r="37.5" transform="scale(.7)"></circle>
+      <g class="lbl" data-pos="translate(-212 154)" transform="translate(-212 154)">
+        <text class="name" y="-15" font-size="0" opacity="0">V<tspan>2</tspan></text>
+        <text class="adeg" y="120">2·72°</text>
+      </g>
+    </g>
+    <g class="point" transform="translate(-1441 -1047)">
+      <circle r="37.5" transform="scale(.7)"></circle>
+      <g class="lbl" data-pos="translate(-212 -154)" transform="translate(-212 -154)">
+        <text class="name" y="-15" font-size="0" opacity="0">V<tspan>3</tspan></text>
+        <text class="adeg" y="120">3·72°</text>
+      </g>
+    </g>
+    <g class="point" transform="translate(550 -1694)">
+      <circle r="37.5" transform="scale(.7)"></circle>
+      <g class="lbl" data-pos="translate(81 -249)" transform="translate(81 -249)">
+        <text class="name" y="-15" font-size="0" opacity="0">V<tspan>4</tspan></text>
+        <text class="adeg" y="120">4·72°</text>
+      </g>
+    </g>
+  </g>
+</svg>
+<form>
+  <input id="conv" type="radio" name="poly" data-q="1">
+  <label for="conv">pentagon</label>
+  <input id="star" type="radio" name="poly" data-q="2">
+  <label for="star">pentagram</label>
+</form>
+    <script src="../LpqEmJ_data/LpqEmJ_data/stopExecutionOnTimeout-41c52890748cd7143004e05d3c5f786c66b199.js"></script>
+
+  
+  
+
+    <script>
+      var _slicedToArray = function () {function sliceIterator(arr, i) {var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"]) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}return function (arr, i) {if (Array.isArray(arr)) {return arr;} else if (Symbol.iterator in Object(arr)) {return sliceIterator(arr, i);} else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var DIM = +document.querySelector('svg').getAttribute('viewBox').split(' ')[2],
+R = +document.getElementById('cc').getAttribute('r'),
+RA = .2 * R,
+ABASE = 'M0 0 ' + RA + ' 0A' + RA + ' ' + RA + ' 0 0 1 ',
+P = 5,
+E = 0,
+BA_DEG = 360 / P,BA_RAD = 2 * Math.PI / P,
+TBB = document.querySelector('.adeg').getBBox(),
+TR = .5 * Math.hypot(TBB.width, 2 * TBB.height),
+COORD = [],
+VX = Array.from(document.querySelectorAll('.point')).map(function (c, i) {var _O$lb;
+	var _O = {
+		g: c,
+		pt: c.querySelector('circle'),
+		lb: c.querySelector('.lbl'),
+		nm: c.querySelector('.name'),
+		id: c.querySelector('tspan'),
+		dg: c.querySelector('.adeg') },
+
+	CA_RAD = i * BA_RAD,
+	COS = Math.cos(CA_RAD),
+	SIN = Math.sin(CA_RAD);
+
+	var x = +(R * COS).toFixed(E),
+	y = +(R * SIN).toFixed(E);
+
+	COORD.push([x, y]);
+
+	c.setAttribute.apply(c, [
+	'transform', 'translate(' +
+	COORD[i].join(' ') + ')']);
+
+
+	x = +(TR * COS).toFixed(E);
+	y = +(TR * SIN).toFixed(E);
+
+	_O.lb.dataset.pos = 'translate(' + [x, y].join(' ') + ')';
+	(_O$lb = _O.lb).setAttribute.apply(_O$lb, [
+	'transform',
+	_O.lb.dataset.pos]);
+
+
+	return _O;
+}),
+T = {
+	grow: 32,
+	show: 61,
+	draw: 92 },
+
+_ARC = { g: document.getElementById('arc') },
+_PREV = document.getElementById('prev'),
+_CURR = document.getElementById('curr'),
+_POLY = document.getElementById('poly'),
+TFN = {
+	'linear': function linear(k) {
+		return k;
+	},
+	'ease-in': function easeIn(k) {var e = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1.75;
+		return Math.pow(k, e);
+	},
+	'ease-out': function easeOut(k) {var e = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1.75;
+		return 1 - Math.pow(1 - k, e);
+	},
+	'bounce-fin': function bounceFin(k) {var e = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : .7 * Math.PI;
+		return Math.sin(k * e) / Math.sin(e);
+	},
+	'bounce-xtra': function bounceXtra(k) {
+		return 1 - Math.cos(k * 7.5 * Math.PI) / Math.pow(2, Math.round(k / .4 / 3));
+	} };
+
+
+var q = null,rID = null,prev_rad = void 0,prev_deg = void 0,curr_coord = void 0;
+
+function reset() {
+	prev_deg = prev_rad = 0;
+
+	VX.forEach(function (c) {
+		c.pt.setAttribute('transform', 'scale(.7)');
+		c.nm.setAttribute('font-size', '0');
+		c.nm.setAttribute('opacity', 0);
+	});
+
+	_ARC.g.setAttribute('opacity', 0);
+	_ARC.g.setAttribute('transform', 'rotate(0)');
+	_ARC.path.setAttribute('d', '');
+	_ARC.text.setAttribute('opacity', 0);
+	_PREV.setAttribute('opacity', 0);
+	_PREV.setAttribute('transform', 'none');
+	_CURR.setAttribute('opacity', 0);
+	_POLY.setAttribute('d', '');
+};
+
+function stopAni() {
+	cancelAnimationFrame(rID);
+	rID = null;
+};
+
+function ani() {var step = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : -1;var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : T.grow;
+	var k = void 0,vid = (step + 1) * q % P,j = void 0,x = void 0,y = void 0;
+
+	switch (true) {
+		case t <= T.grow:
+			k = t / T.grow;
+
+			var ca_rad = k * q * BA_RAD;
+
+			_CURR.setAttribute('transform', 'rotate(' + (prev_deg + k * q * BA_DEG) + ')');
+			_ARC.path.setAttribute('d', ABASE + (RA * Math.cos(ca_rad) + ' ' + RA * Math.sin(ca_rad) + 'z'));
+
+			if (t === T.grow) {
+				if (step < 0) _CURR.setAttribute('transform', 'none');
+
+				if (step === P - 1) {t = T.show;} else
+				{VX[vid].id.textContent = step + 1;}
+			}
+			break;
+		case t <= T.show:
+			k = (t - T.grow) / (T.show - T.grow);
+
+			if (step < P - 1) {
+				VX[vid].pt.setAttribute('transform', 'scale(' + (.7 + TFN['bounce-xtra'](k) * .3) + ')');
+				VX[vid].nm.setAttribute('font-size', TFN['bounce-fin'](k) + 'em');
+				VX[vid].nm.setAttribute('opacity', TFN['ease-out'](k));
+			}
+
+			if (step < 0) _CURR.setAttribute('opacity', k);
+
+			if (t === T.show) {
+				if (step < 0) {
+					_PREV.setAttribute('opacity', 1);
+					_ARC.path.setAttribute('d', '');
+					_ARC.g.setAttribute('opacity', 1);
+
+					++step;
+					t = -1;
+				}
+			}
+			break;
+		case t <= T.draw:
+			k = (t - T.show) / (T.draw - T.show);
+			j = 1 - k;var _curr_coord$step$map =
+
+			curr_coord[step].map(function (c, i) {return j * c + k * curr_coord[(step + 1) % P][i];});var _curr_coord$step$map2 = _slicedToArray(_curr_coord$step$map, 2);x = _curr_coord$step$map2[0];y = _curr_coord$step$map2[1];
+
+			_PREV.setAttribute('opacity', TFN['ease-in'](j));
+			_ARC.g.setAttribute('opacity', TFN['ease-in'](j));
+			if (step === P - 1) _CURR.setAttribute('opacity', TFN['ease-in'](j));
+
+			_POLY.setAttribute('d', 'M' + curr_coord.slice(0, step + 1) + ' ' + [x, y]);
+
+			if (t === T.draw) {
+				if (++step === P) {
+					stopAni();
+					return;
+				}
+
+				prev_deg = step * q * BA_DEG;
+				_PREV.setAttribute('transform', 'rotate(' + prev_deg + ')');
+				_ARC.g.setAttribute('transform', 'rotate(' + prev_deg + ')');
+				_PREV.setAttribute('opacity', 1);
+				_ARC.path.setAttribute('d', '');
+				_ARC.g.setAttribute('opacity', 1);
+
+				t = -1;
+			}
+			break;}
+
+
+	rID = requestAnimationFrame(ani.bind(this, step, ++t));
+};
+
+(function init() {
+	_ARC.path = _ARC.g.querySelector('path');
+	_ARC.text = _ARC.g.querySelector('text');
+
+	reset();
+
+	addEventListener('change', function (e) {
+		var _T = e.target;
+
+		if (_T.dataset.q) {
+			if (rID) stopAni();
+			q = +_T.dataset.q;
+			reset();
+
+			curr_coord = Array(P).fill(1).map(function (c, i) {return COORD[q * i % P];});
+
+			ani();
+		}
+	}, false);
+})();
+      //# sourceURL=pen.js
+    </script>
+
+
+
+  
+  
+
+
+
+
+ </body></html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html class=" -moz-" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico">
+  <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111">
+  <title>CodePen - star vs. heart: corresponding cubic Bézier curves (annotated, highlight on click)</title>
+  
+  
+  
+  
+      <style>
+      body {
+  display: flex;
+  margin: 0;
+  height: 100vh;
+}
+
+svg {
+  display: block;
+  width: 100vw;
+  color: #ccc;
+}
+
+path {
+  fill: none;
+}
+
+circle {
+  fill: currentcolor;
+  stroke: #333;
+  stroke-width: 5px;
+}
+
+text {
+  fill: currentcolor;
+  color: #777;
+}
+
+[id='end'] path {
+  fill: #b53;
+}
+
+[id='arc'] * {
+  fill: none;
+}
+[id='arc'] circle {
+  stroke: #ccc;
+}
+[id='arc'] path {
+  stroke: #b53;
+  stroke-width: 7px;
+  marker-end: url(#end);
+}
+
+.curves {
+  stroke: transparent;
+  stroke-width: 98px;
+  cursor: pointer;
+  color: #333;
+}
+.curves use {
+  stroke: currentcolor;
+  stroke-width: 10px;
+  pointer-events: none;
+}
+
+.guides {
+  stroke: #95a;
+  stroke-width: 4px;
+  pointer-events: none;
+}
+.guides path {
+  opacity: 0;
+}
+
+.points .end {
+  cursor: pointer;
+}
+.points .ctrl {
+  opacity: 0;
+}
+
+#demo .hl {
+  opacity: 1;
+  color: #f90;
+  transition: 0.3s;
+}
+
+    </style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+    <script src="../LpqEmJ_data/LpqEmJ_data/prefixfree.js"></script>
+
+  
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+
+
+</head>
+
+<body translate="no">
+
+  
+<svg id="demo" viewBox="-1250 -1250 5000 2500">
+  <style>svg { font: 150px consolas, monaco, monospace }</style>
+  <marker id="end" markerWidth="10" markerHeight="10" viewBox="0 -4 8 8" orient="auto" refX="7">
+    <path d="M8 0 0-4V4"></path>
+  </marker>
+  <g id="arc">
+    <circle r="1075"></circle>
+    <path d="M-1022 -332 A1075 1075 0 0 1 -760 -760"></path>
+  </g>
+  <use xlink:href="#arc" x="2500"></use>
+<g class="shape"><g class="curves"><path id="curve-0-0" d="M180,247
+				 C0,800,0,800,-180,247"></path><use xlink:href="#curve-0-0"></use><path id="curve-0-1" d="M-180,247
+				 C-761,247,-761,247,-291,-94"></path><use xlink:href="#curve-0-1"></use><path id="curve-0-2" d="M-291,-94
+				 C-470,-647,-470,-647,0,-306"></path><use xlink:href="#curve-0-2"></use><path id="curve-0-3" d="M0,-306
+				 C470,-647,470,-647,291,-94"></path><use xlink:href="#curve-0-3"></use><path id="curve-0-4" d="M291,-94
+				 C761,247,761,247,180,247"></path><use xlink:href="#curve-0-4"></use></g><g class="guides"><path d="M180,247
+				  0,800,-180,247"></path><path d="M-180,247
+				  -761,247,-291,-94"></path><path d="M-291,-94
+				  -470,-647,0,-306"></path><path d="M0,-306
+				  470,-647,291,-94"></path><path d="M291,-94
+				  761,247,180,247"></path></g><g class="points"><circle class="ctrl" r="25" cx="0" cy="800"></circle><circle id="point-0-1" class="end" r="50" cx="-180" cy="247"></circle><circle class="ctrl" r="25" cx="-761" cy="247"></circle><circle id="point-0-2" class="end" r="50" cx="-291" cy="-94"></circle><circle class="ctrl" r="25" cx="-470" cy="-647"></circle><circle id="point-0-3" class="end" r="50" cx="0" cy="-306"></circle><circle class="ctrl" r="25" cx="470" cy="-647"></circle><circle id="point-0-4" class="end" r="50" cx="291" cy="-94"></circle><circle class="ctrl" r="25" cx="761" cy="247"></circle><circle id="point-0-0" class="end" r="50" cx="180" cy="247"></circle></g><g class="labels"><text x="-42.5" y="942.5">0</text><text x="-898.625" y="320.375">1</text><text x="-571.25" y="-685.375">2</text><text x="486.25" y="-685.375">3</text><text x="813.625" y="320.375">4</text></g></g><g class="shape" transform="translate(2500 0)"><g class="curves"><path id="curve-1-0" d="M566,247
+				 C0,813,0,813,-566,247"></path><use xlink:href="#curve-1-0"></use><path id="curve-1-1" d="M-566,247
+				 C-722,91,-722,-163,-566,-319"></path><use xlink:href="#curve-1-1"></use><path id="curve-1-2" d="M-566,-319
+				 C-410,-475,-156,-475,0,-319"></path><use xlink:href="#curve-1-2"></use><path id="curve-1-3" d="M0,-319
+				 C156,-475,410,-475,566,-319"></path><use xlink:href="#curve-1-3"></use><path id="curve-1-4" d="M566,-319
+				 C722,-163,722,91,566,247"></path><use xlink:href="#curve-1-4"></use></g><g class="guides"><path d="M566,247
+				  0,813,-566,247"></path><path d="M-566,247
+				  -722,91,-722,-163,-566,-319"></path><path d="M-566,-319
+				  -410,-475,-156,-475,0,-319"></path><path d="M0,-319
+				  156,-475,410,-475,566,-319"></path><path d="M566,-319
+				  722,-163,722,91,566,247"></path></g><g class="points"><circle class="ctrl" r="25" cx="0" cy="813"></circle><circle id="point-1-1" class="end" r="50" cx="-566" cy="247"></circle><circle class="ctrl" r="25" cx="-722" cy="91"></circle><circle class="ctrl" r="25" cx="-722" cy="-163"></circle><circle id="point-1-2" class="end" r="50" cx="-566" cy="-319"></circle><circle class="ctrl" r="25" cx="-410" cy="-475"></circle><circle class="ctrl" r="25" cx="-156" cy="-475"></circle><circle id="point-1-3" class="end" r="50" cx="0" cy="-319"></circle><circle class="ctrl" r="25" cx="156" cy="-475"></circle><circle class="ctrl" r="25" cx="410" cy="-475"></circle><circle id="point-1-4" class="end" r="50" cx="566" cy="-319"></circle><circle class="ctrl" r="25" cx="722" cy="-163"></circle><circle class="ctrl" r="25" cx="722" cy="91"></circle><circle id="point-1-0" class="end" r="50" cx="566" cy="247"></circle></g><g class="labels"><text x="-42.5" y="957.125">0</text><text x="-872.8">1</text><text x="-325.5" y="-551.25">2</text><text x="240.5" y="-551.25">3</text><text x="787.8">4</text></g></g></svg>
+    <script src="../LpqEmJ_data/LpqEmJ_data/stopExecutionOnTimeout-41c52890748cd7143004e05d3c5f786c66b199.js"></script>
+
+  
+  
+
+    <script>
+      var _slicedToArray = function () {function sliceIterator(arr, i) {var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"]) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}return function (arr, i) {if (Array.isArray(arr)) {return arr;} else if (Symbol.iterator in Object(arr)) {return sliceIterator(arr, i);} else {throw new TypeError("Invalid attempt to destructure non-iterable instance");}};}();var _SVG = document.getElementById('demo'),
+D = .5 * _SVG.getAttribute('viewBox').split(' ')[2],
+NS_URI = 'http://www.w3.org/2000/svg',
+XLink_NS = 'http://www.w3.org/1999/xlink',
+S = [],N = 2,
+P = 5,NCUB = 3,NT = P * NCUB,
+PR = .02 * D,PR1 = .5 * PR,
+ACT = ['add', 'remove'],
+BBOX = [];
+
+var hl = null;
+
+function getStarCoord() {var f = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : .32;
+	var RCO = f * D /* outer (pentagram) circumradius*/,
+	BAS = 2 * (2 * Math.PI / P) /* base angle for star poly */,
+	BAC = 2 * Math.PI / P /* base angle for convex poly */,
+	RI = RCO * Math.cos(.5 * BAS) /*pentagram/ inner pentagon inradius */,
+	RCI = RI / Math.cos(.5 * BAC) /* inner pentagon circumradius */,
+	ND = 2 * P /* total number of distinct points we need to get */,
+	BAD = 2 * Math.PI / ND /* base angle for point distribution */,
+	PTS = [] /* array we fill with point coordinates */;
+
+	for (var i = 0; i < ND; i++) {if (window.CP.shouldStopExecution(0)) break;
+		var /* radius at end point (inner)/ control point (outer) */
+		cr = i % 2 ? RCI : RCO,
+		/* angle of radial segment from origin to current point */
+		ca = i * BAD + .5 * Math.PI,
+		x = Math.round(cr * Math.cos(ca)),
+		y = Math.round(cr * Math.sin(ca));
+
+		PTS.push([x, y]);
+		/* for even indices double it, control points coincide here */
+		if (!(i % 2)) PTS.push([x, y]);
+	}window.CP.exitedLoop(0);
+
+	return PTS;
+};
+
+function getHeartCoord() {var f = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : .16;
+	var R = f * D /* helper circle radius  */,
+	RC = Math.round(R / Math.SQRT2) /* circumradius of square of edge R */,
+	XT = 0,YT = -RC /* coords of point T */,
+	XA = 2 * RC,YA = -RC /* coords of A points (x in abs value) */,
+	XB = 2 * RC,YB = RC /* coords of B points (x in abs value) */,
+	XC = 0,YC = 3 * RC /* coords of point C */,
+	XD = RC,YD = -2 * RC /* coords of D points (x in abs value) */,
+	XE = 3 * RC,YE = 0 /* coords of E points (x in abs value) */,
+	/* const for cubic curve approx of quarter circle */
+	C = .551915,
+	CC = 1 - C,
+	/* coords of ctrl points on TD segs */
+	XTD = Math.round(CC * XT + C * XD),YTD = Math.round(CC * YT + C * YD),
+	/* coords of ctrl points on AD segs */
+	XAD = Math.round(CC * XA + C * XD),YAD = Math.round(CC * YA + C * YD),
+	/* coords of ctrl points on AE segs */
+	XAE = Math.round(CC * XA + C * XE),YAE = Math.round(CC * YA + C * YE),
+	/* coords of ctrl points on BE segs */
+	XBE = Math.round(CC * XB + C * XE),YBE = Math.round(CC * YB + C * YE);
+
+	return [
+	[XC, YC], [XC, YC], [-XB, YB],
+	[-XBE, YBE], [-XAE, YAE], [-XA, YA],
+	[-XAD, YAD], [-XTD, YTD], [XT, YT],
+	[XTD, YTD], [XAD, YAD], [XA, YA],
+	[XAE, YAE], [XBE, YBE], [XB, YB]].
+	map(function (_ref) {var _ref2 = _slicedToArray(_ref, 2),x = _ref2[0],y = _ref2[1];return [x, y - .09 * R];});
+};
+
+function createShapes() {
+	var f = document.createDocumentFragment();
+
+	S.push.apply(S, [
+	{ coord: getStarCoord() },
+	{ coord: getHeartCoord() }]);var _loop = function _loop(
+
+
+	i) {if (window.CP.shouldStopExecution(1)) return 'break';
+		var _curves = void 0,_guides = void 0,_points = void 0,_labels = void 0;
+
+		S[i].g = document.createElementNS(NS_URI, 'g');
+		S[i].g.classList.add('shape');
+
+		_curves = document.createElementNS(NS_URI, 'g');
+		_curves.classList.add('curves');
+		S[i].c = [];
+
+		_guides = document.createElementNS(NS_URI, 'g');
+		_guides.classList.add('guides');
+
+		_points = document.createElementNS(NS_URI, 'g');
+		_points.classList.add('points');
+
+		_labels = document.createElementNS(NS_URI, 'g');
+		_labels.classList.add('labels');var _loop2 = function _loop2(
+
+		j) {var _S$i$c$j$curve, _S$i$c$j$ccopy, _S$i$c$j$guide;if (window.CP.shouldStopExecution(2)) return 'break';
+			var sidx = j * NCUB,
+			tmp = S[i].coord.slice(sidx, sidx + NCUB),
+			unique = tmp[0][0] == tmp[1][0] && tmp[0][1] == tmp[1][1] ?
+			tmp.slice(1) : tmp;
+
+			S[i].c.push({
+				curve: document.createElementNS(NS_URI, 'path'),
+				ccopy: document.createElementNS(NS_URI, 'use'),
+				guide: document.createElementNS(NS_URI, 'path'),
+				ends: [
+				j ? S[i].c[j - 1].ends[1] : null,
+				document.createElementNS(NS_URI, 'circle')],
+
+				ctrl: unique.slice(0, unique.length - 1).
+				map(function (_) {return document.createElementNS(NS_URI, 'circle');}),
+				text: document.createElementNS(NS_URI, 'text') });
+
+
+			S[i].c[j].curve.id = 'curve-' + i + '-' + j;
+			(_S$i$c$j$curve = S[i].c[j].curve).setAttribute.apply(_S$i$c$j$curve, [
+			'd', 'M' +
+			S[i].coord[(sidx + NT - 1) % NT] + '\n\t\t\t\t C' +
+			tmp]);
+
+			(_S$i$c$j$ccopy = S[i].c[j].ccopy).setAttributeNS.apply(_S$i$c$j$ccopy, [
+			XLink_NS,
+			'xlink:href', '#' +
+			S[i].c[j].curve.id]);
+
+			_curves.appendChild(S[i].c[j].curve);
+			_curves.appendChild(S[i].c[j].ccopy);
+
+			(_S$i$c$j$guide = S[i].c[j].guide).setAttribute.apply(_S$i$c$j$guide, [
+			'd', 'M' +
+			S[i].coord[(sidx + NT - 1) % NT] + '\n\t\t\t\t  ' +
+			unique]);
+
+			_guides.appendChild(S[i].c[j].guide);
+
+			S[i].c[j].ctrl.forEach(function (c, k) {
+				c.classList.add('ctrl');
+				c.setAttribute('r', PR1);
+				c.setAttribute('cx', S[i].coord[sidx + k][0]);
+				c.setAttribute('cy', S[i].coord[sidx + k][1]);
+				_points.appendChild(c);
+			});
+
+			S[i].c[j].ends[1].id = 'point-' + i + '-' + (j + 1) % P;
+			S[i].c[j].ends[1].classList.add('end');
+			S[i].c[j].ends[1].setAttribute('r', PR);
+			S[i].c[j].ends[1].setAttribute('cx', S[i].coord[sidx + NCUB - 1][0]);
+			S[i].c[j].ends[1].setAttribute('cy', S[i].coord[sidx + NCUB - 1][1]);
+			_points.appendChild(S[i].c[j].ends[1]);
+
+			S[i].c[j].text.textContent = j;
+			if (S[i].c[j].ctrl.length === 1) {var _S$i$c$j$text, _S$i$c$j$text2;
+				(_S$i$c$j$text = S[i].c[j].text).setAttribute.apply(_S$i$c$j$text, [
+				'x',
+				1.125 * S[i].coord[sidx][0] - .5 * BBOX[j][0]]);
+
+				(_S$i$c$j$text2 = S[i].c[j].text).setAttribute.apply(_S$i$c$j$text2, [
+				'y',
+				1.125 * S[i].coord[sidx][1] + .5 * BBOX[j][0]]);
+
+			} else
+			{
+				if (S[i].coord[sidx][0] === S[i].coord[sidx + 1][0]) {var _S$i$c$j$text3;
+					(_S$i$c$j$text3 = S[i].c[j].text).setAttribute.apply(_S$i$c$j$text3, [
+					'x',
+					1.15 * S[i].coord[sidx][0] - .5 * BBOX[j][0]]);
+
+				} else
+				{var _S$i$c$j$text4, _S$i$c$j$text5;
+					(_S$i$c$j$text4 = S[i].c[j].text).setAttribute.apply(_S$i$c$j$text4, [
+					'x',
+					.5 * (S[i].coord[sidx][0] + S[i].coord[sidx + 1][0]) - .5 * BBOX[j][0]]);
+
+					(_S$i$c$j$text5 = S[i].c[j].text).setAttribute.apply(_S$i$c$j$text5, [
+					'y',
+					1.25 * S[i].coord[sidx][1] + .5 * BBOX[j][0]]);
+
+				}
+			}
+			_labels.appendChild(S[i].c[j].text);};for (var j = 0; j < P; j++) {var _ret2 = _loop2(j);if (_ret2 === 'break') break;
+		}window.CP.exitedLoop(2);
+
+		S[i].c[0].ends[0] = S[i].c[P - 1].ends[1];
+
+		S[i].g.appendChild(_curves);
+		S[i].g.appendChild(_guides);
+		S[i].g.appendChild(_points);
+		S[i].g.appendChild(_labels);
+		f.appendChild(S[i].g);};for (var i = 0; i < N; i++) {var _ret = _loop(i);if (_ret === 'break') break;
+	}window.CP.exitedLoop(1);
+
+	S[1].g.setAttribute('transform', 'translate(' + D + ' 0)');
+
+	_SVG.appendChild(f);
+};
+
+function textSize() {
+	var _TT = document.createElementNS(NS_URI, 'text');
+
+	_SVG.appendChild(_TT);
+
+	for (var j = 0; j < P; j++) {if (window.CP.shouldStopExecution(3)) break;
+		_TT.textContent = j;
+
+		var bb = _TT.getBBox();
+
+		BBOX.push([Math.round(bb.width), Math.round(bb.height)]);
+	}window.CP.exitedLoop(3);
+
+	_SVG.removeChild(_TT);
+};
+
+function highlight(hl_obj) {var add = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+	var CURR_ACT = ACT[.5 * (1 - add)];
+
+	for (var i = 0; i < N; i++) {if (window.CP.shouldStopExecution(4)) break;
+		if (hl_obj.typ === 'curve') {
+			S[i].c[hl_obj.idx].ccopy.classList[CURR_ACT]('hl');
+			S[i].c[hl_obj.idx].guide.classList[CURR_ACT]('hl');
+			S[i].c[hl_obj.idx].text.classList[CURR_ACT]('hl');
+			S[i].c[hl_obj.idx].ctrl.forEach(function (c) {return c.classList[CURR_ACT]('hl');});
+			S[i].c[hl_obj.idx].ends[1].classList[CURR_ACT]('hl');
+		}
+	}window.CP.exitedLoop(4);
+
+	hl = add > 0 ? hl_obj : null;
+};
+
+(function init() {
+	textSize();
+
+	createShapes();
+
+	addEventListener('click', function (e) {
+		var _T = e.target;
+
+		if (hl) highlight(hl, -1);
+
+		if (_T.id && /(point)|(curve)/.test(_T.id)) {
+			var DATA = _T.id.split('-');
+
+			highlight({ typ: DATA[0], idx: +DATA[2] });
+		}
+	}, false);
+})();
+      //# sourceURL=pen.js
+    </script>
+
+
+
+  
+  
+
+
+
+
+ </body></html>

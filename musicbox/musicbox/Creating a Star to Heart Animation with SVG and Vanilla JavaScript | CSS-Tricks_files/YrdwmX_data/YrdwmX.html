@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html class=" -moz-" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico">
+  <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111">
+  <title>CodePen - make SVG star shape</title>
+  
+  
+  
+  
+      <style>
+      body {
+  display: flex;
+  margin: 0;
+  height: 100vh;
+}
+
+svg {
+  flex: 1;
+}
+
+    </style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+    <script src="../LpqEmJ_data/LpqEmJ_data/prefixfree.js"></script>
+
+  
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+
+
+</head>
+
+<body translate="no">
+
+  <svg viewBox="-500 -500 1000 1000">
+  <path id="shape" d="M155,-112C500,0 500,0 155,112C155,476 155,476 -59,182C-405,294 -405,294 -191,0C-405,-294 -405,-294 -59,-182C155,-476 155,-476 155,-112"></path>
+</svg>
+    <script src="../LpqEmJ_data/LpqEmJ_data/stopExecutionOnTimeout-41c52890748cd7143004e05d3c5f786c66b199.js"></script>
+
+  
+  
+
+    <script>
+      var _SVG = document.querySelector('svg'),
+_SHAPE = document.getElementById('shape'),
+D = 1000 /* viewBox size */,
+O = {} /* data object */,
+/* number of cubic curves/ polygon vertices */
+P = 5;
+
+function getStarPoints() {var f = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : .5;
+	var RCO = f * D /* outer (pentagram) circumradius*/,
+	BAS = 2 * (2 * Math.PI / P) /* base angle for star poly */,
+	BAC = 2 * Math.PI / P /* base angle for convex poly */,
+	RI = RCO * Math.cos(.5 * BAS) /*pentagram/ inner pentagon inradius */,
+	RCI = RI / Math.cos(.5 * BAC) /* inner pentagon circumradius */,
+	ND = 2 * P /* total number of distinct points we need to get */,
+	BAD = 2 * Math.PI / ND /* base angle for point distribution */,
+	PTS = [] /* array we fill with point coordinates */;
+
+	for (var i = 0; i < ND; i++) {if (window.CP.shouldStopExecution(0)) break;
+		var /* radius at end point (inner)/ control point (outer) */
+		cr = i % 2 ? RCI : RCO,
+		/* angle of radial segment from origin to current point */
+		ca = i * BAD,
+		x = Math.round(cr * Math.cos(ca)),
+		y = Math.round(cr * Math.sin(ca));
+
+		PTS.push([x, y]);
+		if (!(i % 2)) PTS.push([x, y]); /* double it, control points coincide here */
+	}window.CP.exitedLoop(0);
+
+	return PTS;
+};
+
+(function init() {
+	_SVG.setAttribute('viewBox', [-.5 * D, -.5 * D, D, D].join(' '));
+
+	O.d = {
+		ini: getStarPoints(),
+		afn: function afn(pts) {
+			return pts.reduce(function (a, c, i) {
+				return a + (i % 3 ? ' ' : 'C') + c;
+			}, 'M' + pts[pts.length - 1]);
+		} };
+
+
+	for (var p in O) {_SHAPE.setAttribute(p, O[p].afn(O[p].ini));}
+})();
+      //# sourceURL=pen.js
+    </script>
+
+
+
+  
+  
+
+
+
+
+ </body></html>

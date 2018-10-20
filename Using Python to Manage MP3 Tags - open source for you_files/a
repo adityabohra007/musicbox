@@ -1,0 +1,16 @@
+/**/ WPCOMSharing.update_facebook_count({
+   "https://opensourceforu.com/2018/05/using-python-to-manage-mp3-tags/": {
+      "share": {
+         "comment_count": 0,
+         "share_count": 19
+      },
+      "og_object": {
+         "id": "1539103736200600",
+         "description": "The author loves to play around and experiment with software and share the results of his work with readers. He has wide and varied tastes and MP3 music is one of them.",
+         "title": "Using Python to Manage MP3 Tags - open source for you",
+         "type": "website",
+         "updated_time": "2018-05-23T09:33:30+0000"
+      },
+      "id": "https://opensourceforu.com/2018/05/using-python-to-manage-mp3-tags/"
+   }
+});
